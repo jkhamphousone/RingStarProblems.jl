@@ -8,7 +8,6 @@ function sp_optimize_poly(x̂, ŷ, inst)
     n = inst.n
     F = inst.F
 
-
     β = Dict{Tuple{Int,Int,Int},Float64}()
     δ = Dict{Tuple{Int,Int,Int},Float64}()
     γ = Dict{Tuple{Int,Int},Float64}()
@@ -64,7 +63,6 @@ function sp_optimize_poly(x̂, ŷ, inst)
     end
    
 
-
     for j in setdiff(tildeV, j★)
         for i in setdiff(V, j)
             γ[i, j] = 0
@@ -105,6 +103,7 @@ function debug_RRSP(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ
             println()
         end
     end
+    # TODO determine if following commented code should be kept or deleted
     # for i in V
     #     for j in tildeV
     #         for k in i+1:n+1

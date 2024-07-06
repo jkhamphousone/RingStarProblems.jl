@@ -18,7 +18,7 @@ function benders_st_optimize_explore!(m, x, y, f, F, B, str_lmr, inst, pars, sta
     nblossom = 0
     nblossom_pair_inequality = 0
 
-    total_time, sp_time, sp_obj, t_two_opt_time, blossom_time = start_time, 0.0, 0.0, 0.0, 0.0
+    total_time, sp_time, t_two_opt_time, blossom_time = start_time, 0.0, 0.0, 0.0
 
     x̂ = Dict{Tuple{Int,Int},Bool}()
     ŷ = Dict{Tuple{Int,Int},Bool}()

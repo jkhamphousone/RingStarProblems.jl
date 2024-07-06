@@ -28,7 +28,7 @@
     post_procedure::Bool = true
     F_interval::Tuple{Float64,Float64} = (0.0,183)
     redirect_stdio::Bool = true ; # link to redirect stdio https://stackoverflow.com/a/69059106/10094437
-    use_blossom::Bool = true ;
+    use_blossom::Bool = true ; # use_blossom inequalities TODO not working yet
     gFreuse_lazycons::Bool = true ;
     """
     "y_ij <= y_jj no constraint on the fly"
@@ -56,6 +56,9 @@ end
     
 
 @with_kw mutable struct BDtable @deftype Float64
+    """
+        Class for B&BC results
+    """
     t_time = .0 ; @assert t_time >= .0
     m_time = .0 ; @assert m_time >= .0
     s_time = .0 ; @assert s_time >= .0
@@ -79,6 +82,9 @@ end
 end
 
 @with_kw mutable struct ILPtable @deftype Float64
+    """
+        Class for ILP results
+    """
     t_time = .0 ; @assert t_time >= .0
     two_opt_time = .0 ; @assert two_opt_time >= .0
     blossom_time = .0 ; @assert blossom_time >= .0

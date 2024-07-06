@@ -2,7 +2,6 @@ a = time()
 
 @info "Loading packages... [1/3]"
 
-
 using JuMP
 using Gurobi
 using MathOptInterface
@@ -54,10 +53,7 @@ export MainPar, main, t
 
 solve_m = parse(Int64, ARGS[1]) == 1 ? "ILP" : "Ben"
 
-# pars = MainPar(solve_mod="ILP", plot_run=true, write_res = "html",  n_rand = 80, o_i = "1:1000", s_ij="l_ij", r_ij="l_ij", nb_run_rand=(parse(Int, ARGS[1]),parse(Int, ARGS[1])), two_opt=2)
-# pars = MainPar(solve_mod="Benders", write_res = "local",  n_rand = parse(Int, ARGS[1]), o_i = "1:1000", s_ij="l_ij", r_ij="l_ij", nb_run_rand=(parse(Int, ARGS[2]),parse(Int, ARGS[2])), two_opt=0)
-# pars = MainPar(solve_mod="Ben", write_res="local", o_i="0", s_ij="", r_ij="", backup_factor=0.01, do_plot=true, two_opt=0, tildeV=100, time_limit=3600, log_level=1, alphas=[3], sp_solve="poly", F=183, redirect_stdio=false)
-# tildeV_0 = parse(Int64, ARGS[4]) == 0.0 ? 0 : 100
+
 pars = MainPar(solve_mod="g(F)exploreonly$solve_m",
                write_res="html", 
                o_i="0", 
@@ -78,22 +74,5 @@ pars = MainPar(solve_mod="g(F)exploreonly$solve_m",
                nthreads=4,
                uc_strat=4)
 
-# pars = MainPar(solve_mod="g(F)", 
-#                sp_solve="poly", 
-#                 alphas=[parse(Int64, ARGS[3])], 
-#                 write_res="local", 
-#                 log_level=1, 
-#                 time_limit=172000, 
-#                 tildeV=100, 
-#                 html_user_notes=("seperate y_ij <= y_jj - x_ij on lazy constraints", "seperate y_ij <= y_jj - x_ij on lazy constraints"), 
-#                 two_opt=0, 
-#                 redirect_stdio=false, 
-#                 do_plot=true, 
-#                 F_interval = (0.0,10000),
-#                 F = 0, 
-#                 backup_factor=0.01, 
-#                 use_blossom=false, 
-#                 nthreads=4, 
-#                 gFreuse_lazycons=true)
 main(pars, parse(Int64, ARGS[2]))
 exit()
