@@ -1,0 +1,30 @@
+------------------------------------------------------------
+              α=3.0 —— tiny_instance_12_2 —— 12 nodes       
+------------------------------------------------------------
+
+——————— Mon, 12 Feb 2024 19:05:10 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Mon, 12 Feb 2024 19:14:34 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Mon, 12 Feb 2024 23:52:04 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 13 Feb 2024 00:03:18 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Wed, 14 Feb 2024 15:14:41 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:10:22 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:19:43 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:24:30 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:30:05 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:35:50 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Fri, 16 Feb 2024 17:52:17 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sun, 18 Feb 2024 06:22:14 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sun, 18 Feb 2024 06:34:34 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sat, 24 Feb 2024 15:02:20 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sat, 24 Feb 2024 15:08:43 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sat, 24 Feb 2024 15:14:46 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sat, 24 Feb 2024 15:22:01 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Mon, 26 Feb 2024 15:41:02 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Mon, 26 Feb 2024 16:01:39 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 10:59:38 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 11:32:22 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 11:43:50 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 12:11:38 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 12:24:07 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Tue, 27 Feb 2024 12:36:11 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom = false
+

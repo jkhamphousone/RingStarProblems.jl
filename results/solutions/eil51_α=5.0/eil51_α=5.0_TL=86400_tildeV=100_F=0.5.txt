@@ -1,0 +1,10 @@
+------------------------------------------------------------
+                           α=5.0 —— eil51 —— 51 nodes       
+------------------------------------------------------------
+
+——————— Wed, 28 Feb 2024 10:59:21 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Wed, 28 Feb 2024 14:44:15 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Wed, 28 Feb 2024 14:49:01 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Wed, 28 Feb 2024 15:01:15 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Wed, 28 Feb 2024 15:10:08 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom = false
+

@@ -1,0 +1,170 @@
+<body><meta charset="utf-8"></body><pre>------------------------------------------------------------
+                        α=7.0 —— berlin52 —— 52 nodes       
+------------------------------------------------------------
+
+——————— Thu, 04 Jan 2024 00:49:37 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom = false
+ILP ——— 16 hubs —— 1—18—19—38—48—24—15—4—51—28—52—13—16—50—23—53
+total time           3604.98 (TL 3600)    gap                  0.313                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             31401<=45698         subtour              56768.0              
+connectivity cuts    2000.0               uc strategy          4                    
+uc tolerance         0.01                 tildeV               empty                
+2-opt strategy       0                                                              
+explored_nodes       15590                n lazycuts edges     0.0                  
+F                    0.0                  post procedure       true                 
+o_i                  0                                                                                                                                                  <details><summary>Found solution</summary>
+RING NODES
+1—18—19—38—48—24—15—4—51—28—52—13—16—50—23—53
+
+RING
+1  --- 18 | cost [1134.0]
+4  --- 15 | cost [700.0]
+4  --- 51 | cost [2779.0]
+13 --- 16 | cost [5313.0]
+13 --- 52 | cost [1953.0]
+15 --- 24 | cost [392.0]
+16 --- 50 | cost [910.0]
+18 --- 19 | cost [1806.0]
+19 --- 38 | cost [2562.0]
+23 --- 50 | cost [889.0]
+23 --- 53 | cost [1267.0]
+24 --- 48 | cost [112.0]
+28 --- 51 | cost [2359.0]
+28 --- 52 | cost [3598.0]
+38 --- 48 | cost [343.0]
+
+STAR
+2  --> 23 | cost [1530.0]
+3  --> 18 | cost [405.0]
+5  --> 15 | cost [75.0]
+6  --> 15 | cost [120.0]
+7  --> 23 | cost [1473.0]
+8  --> 19 | cost [378.0]
+9  --> 19 | cost [924.0]
+10 --> 19 | cost [873.0]
+11 --> 51 | cost [855.0]
+12 --> 28 | cost [546.0]
+14 --> 13 | cost [618.0]
+17 --> 18 | cost [816.0]
+20 --> 50 | cost [105.0]
+21 --> 23 | cost [561.0]
+22 -->  1 | cost [138.0]
+25 -->  4 | cost [327.0]
+26 --> 28 | cost [477.0]
+27 --> 28 | cost [330.0]
+29 --> 50 | cost [573.0]
+30 --> 23 | cost [537.0]
+31 --> 18 | cost [240.0]
+32 -->  1 | cost [273.0]
+33 --> 51 | cost [1425.0]
+34 --> 38 | cost [345.0]
+35 --> 38 | cost [363.0]
+36 --> 38 | cost [345.0]
+37 --> 38 | cost [129.0]
+39 --> 38 | cost [228.0]
+40 --> 38 | cost [105.0]
+41 --> 19 | cost [276.0]
+42 --> 23 | cost [1245.0]
+43 --> 15 | cost [726.0]
+44 --> 16 | cost [396.0]
+45 --> 19 | cost [225.0]
+46 --> 48 | cost [375.0]
+47 --> 28 | cost [1032.0]
+49 -->  1 | cost [192.0]
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 1
+j★ = 1
+k★ = 1
+</details>
+</details>       
+——————— Thu, 04 Jan 2024 01:50:15 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom = false
+BD  —— 25 hubs —— 1-22-31-21-23-20-50-16-46-26-13-27-28-12-4-6-5-38-40-39-35-36-45-32-53-1
+total time           3604.93 (TL 3600)    gap                  0.146                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             33056<=38685         Master/SP costs      38685/0              
+Master time          3604.93              SP time              0.0                  
+subtour              60736.0              connectivity cuts    2000.0               
+uc strategy          4                    uc tolerance         0.01                 
+opt. cuts            0.0                  SP method            poly                 
+tildeV               empty                inst transformation  2                    
+2-opt strategy       0                                                              
+explored nodes       24061                
+F                    0.0                  
+                                          o_i                  0                                                              
+                                          
+<details><summary>Found solution</summary>
+RING NODES
+1—22—31—21—23—20—50—16—46—26—13—27—28—12—4—6—5—38—40—39—35—36—45—32—53
+
+RING
+1  --- 22 | cost [322.0]
+4  ---  6 | cost [490.0]
+4  --- 12 | cost [2058.0]
+5  ---  6 | cost [245.0]
+5  --- 38 | cost [357.0]
+12 --- 28 | cost [1274.0]
+13 --- 26 | cost [1778.0]
+13 --- 27 | cost [1295.0]
+16 --- 46 | cost [1092.0]
+16 --- 50 | cost [910.0]
+20 --- 23 | cost [658.0]
+20 --- 50 | cost [245.0]
+21 --- 23 | cost [1309.0]
+21 --- 31 | cost [1050.0]
+22 --- 31 | cost [728.0]
+26 --- 46 | cost [3178.0]
+27 --- 28 | cost [770.0]
+32 --- 45 | cost [1057.0]
+32 --- 53 | cost [637.0]
+35 --- 36 | cost [105.0]
+35 --- 39 | cost [371.0]
+36 --- 45 | cost [1701.0]
+38 --- 40 | cost [245.0]
+39 --- 40 | cost [301.0]
+
+STAR
+2  --> 21 | cost [1176.0]
+3  --> 31 | cost [627.0]
+7  --> 21 | cost [1086.0]
+8  --> 45 | cost [561.0]
+9  --> 45 | cost [1083.0]
+10 --> 45 | cost [987.0]
+11 --> 12 | cost [1161.0]
+14 --> 13 | cost [618.0]
+15 -->  5 | cost [75.0]
+17 --> 21 | cost [759.0]
+18 --> 31 | cost [240.0]
+19 --> 45 | cost [225.0]
+24 -->  5 | cost [96.0]
+25 -->  4 | cost [327.0]
+29 --> 50 | cost [573.0]
+30 --> 23 | cost [537.0]
+33 -->  4 | cost [1551.0]
+34 --> 35 | cost [63.0]
+37 --> 40 | cost [123.0]
+41 --> 45 | cost [498.0]
+42 --> 21 | cost [870.0]
+43 -->  4 | cost [735.0]
+44 --> 35 | cost [288.0]
+47 --> 26 | cost [558.0]
+48 -->  5 | cost [141.0]
+49 --> 32 | cost [150.0]
+51 --> 12 | cost [564.0]
+52 --> 13 | cost [837.0]
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 1
+j★ = 1
+k★ = 1
+</details>
+</details>
+</pre>

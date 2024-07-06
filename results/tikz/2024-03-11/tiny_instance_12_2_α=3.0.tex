@@ -1,0 +1,70 @@
+\documentclass{article}
+
+     \usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+     \usepackage{amsfonts,amsmath,amssymb}
+     \usepackage{color}
+     \usepackage{url}
+     \usepackage{tikz}
+     \usetikzlibrary{patterns,shapes}
+
+     \begin{document}
+
+     \title{Solving RRSP$(F)$ when $F$ belongs to an interval}
+     \author{Julien Khamphousone, Fabi\'an Casta\~no, Andr\'e Rossi, Sonia Toubaline}
+     \date{2024-03-11}
+     \maketitle
+     \def\F{{0.0,1.5833333,7.3030303,18.2222222,18.9814815,20.8796296}}
+\def\gF{{10.46999999999999999999999999999999999999999999999999999999999999999999999999998,14.17500000000000000000000000000000000000000000000000000000000000000000000000003,25.5,39.91333329999999999999999999999999999999999999999999999999999999999999999999991,40.71055560000000000000000000000000000000000000000000000000000000000000000000015,3112.680555555555555455717722081856288653099165722725904273089983509414935269888}}
+\begin{figure}[ht!]
+    \begin{center}
+    \begin{tikzpicture}[scale=.2, xscale=2]
+    \tikzset{axe/.style={->,>=stealth,draw,color=black}}
+    \tikzset{g/.style={draw,color=red,line width=1pt}}
+    \tikzset{convX/.style={fill=yellow}}
+    \draw[axe](0,0) -- (4.74537037037037,0);
+     \draw[axe](0,0) -- (0,44.7816111600000036158236937922083598095923662185668945312500000000000000000001477);\draw (\F[0],0) -- (\F[0],-.2);
+        \draw (\F[0],0pt) -- (\F[0],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_0$}};
+        \draw[thick, dashed](\F[0],0) -- (\F[0], \gF[0]);
+\draw (\F[1],0) -- (\F[1],-.2);
+        \draw (\F[1],0pt) -- (\F[1],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_1$}};
+        \draw[thick, dashed](\F[1],0) -- (\F[1], \gF[1]);
+\draw (\F[2],0) -- (\F[2],-.2);
+        \draw (\F[2],0pt) -- (\F[2],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_2$}};
+        \draw[thick, dashed](\F[2],0) -- (\F[2], \gF[2]);
+\draw (\F[3],0) -- (\F[3],-.2);
+        \draw (\F[3],0pt) -- (\F[3],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_3$}};
+        \draw[thick, dashed](\F[3],0) -- (\F[3], \gF[3]);
+\draw (\F[4],0) -- (\F[4],-.2);
+        \draw (\F[4],0pt) -- (\F[4],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_4$}};
+        \draw[thick, dashed](\F[4],0) -- (\F[4], \gF[4]);
+\draw (0, \gF[0]) -- (-.2, \gF[0]);
+        \draw (0, \gF[0]) -- (-1pt, \gF[0]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_0)$}};
+        \draw[thick, dashed](0,\gF[0]) -- (\F[0],\gF[0]);
+\draw (0, \gF[1]) -- (-.2, \gF[1]);
+        \draw (0, \gF[1]) -- (-1pt, \gF[1]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_1)$}};
+        \draw[thick, dashed](0,\gF[1]) -- (\F[1],\gF[1]);
+\draw (0, \gF[2]) -- (-.2, \gF[2]);
+        \draw (0, \gF[2]) -- (-1pt, \gF[2]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_2)$}};
+        \draw[thick, dashed](0,\gF[2]) -- (\F[2],\gF[2]);
+\draw (0, \gF[3]) -- (-.2, \gF[3]);
+        \draw (0, \gF[3]) -- (-1pt, \gF[3]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_3)$}};
+        \draw[thick, dashed](0,\gF[3]) -- (\F[3],\gF[3]);
+\draw (0, \gF[4]) -- (-.2, \gF[4]);
+        \draw (0, \gF[4]) -- (-1pt, \gF[4]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_4)$}};
+        \draw[thick, dashed](0,\gF[4]) -- (\F[4],\gF[4]);
+\node (F) at (6.74537037037037,2){}; \draw(F) node{$F$};
+    \node (g) at (2,44.78161116000000361582369379220835980959236621856689453125000000000000000000014){}; \draw(g) node{$g(F)$};
+    % Lines
+\draw[g] (\F[0], \gF[0]) -- (\F[1], \gF[1]) -- (\F[2], \gF[2]) -- (\F[3], \gF[3]) -- (\F[4], \gF[4]);% Integer points
+    %\draw[fill=black] (1,2) circle(.05);
+    \end{tikzpicture}
+    \end{center}
+    \vspace*{-2eM}
+    \caption{$g(F)$ for the tiny instance 12 2 instance}\label{fig:1}
+    \end{figure}
+    Here are the $F$, $B$ and $K$ values rounded at 5 digits:
+
+\begin{itemize}
+	\item  $F = [0.0,158.3333333,730.3030303,1822.2222222,1898.1481481]$
+ \item $B = [2.34,1.98,1.32,1.05,0.51]$
+ \item  $K = [1047.0,1104.0,1586.0,2078.0,3103.0]$\item Total execution time is: 254.15s\item Number of times BBC is called: 10\end{itemize}\end{document}

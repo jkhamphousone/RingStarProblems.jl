@@ -1,0 +1,76 @@
+\documentclass{article}
+
+     \usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+     \usepackage{amsfonts,amsmath,amssymb}
+     \usepackage{color}
+     \usepackage{url}
+     \usepackage{tikz}
+     \usetikzlibrary{patterns,shapes}
+
+     \begin{document}
+
+     \title{Solving RRSP$(F)$ when $F$ belongs to an interval}
+     \author{Julien Khamphousone, Fabi\'an Casta\~no, Andr\'e Rossi, Sonia Toubaline}
+     \date{2024-03-02}
+     \maketitle
+     \def\F{{0.0,0.024691358,0.2248522249,0.683046683,1.75,2.2571428571,2.4828571429}}
+\def\gF{{16.35999999999999999999999999999999999999999999999999999999999999999999999999992,16.56617283949999999999999999999999999999999999999999999999999999999999999999995,18.07538551539999999999999999999999999999999999999999999999999999999999999999988,20.75582309579999999999999999999999999999999999999999999999999999999999999999997,22.65499999999999999999999999999999999999999999999999999999999999999999999999988,23.43599999999999999999999999999999999999999999999999999999999999999999999999996,2077.685999999999999849517199176521640558912733709653050348677540484776393725497}}
+\begin{figure}[ht!]
+    \begin{center}
+    \begin{tikzpicture}[scale=.2, xscale=2]
+    \tikzset{axe/.style={->,>=stealth,draw,color=black}}
+    \tikzset{g/.style={draw,color=red,line width=1pt}}
+    \tikzset{convX/.style={fill=yellow}}
+    \draw[axe](0,0) -- (0.5642857142857143,0);
+     \draw[axe](0,0) -- (0,25.7796000000000020815349444092134945094585418701171874999999999999999999999998577);\draw (\F[0],0) -- (\F[0],-.2);
+        \draw (\F[0],0pt) -- (\F[0],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_0$}};
+        \draw[thick, dashed](\F[0],0) -- (\F[0], \gF[0]);
+\draw (\F[1],0) -- (\F[1],-.2);
+        \draw (\F[1],0pt) -- (\F[1],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_1$}};
+        \draw[thick, dashed](\F[1],0) -- (\F[1], \gF[1]);
+\draw (\F[2],0) -- (\F[2],-.2);
+        \draw (\F[2],0pt) -- (\F[2],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_2$}};
+        \draw[thick, dashed](\F[2],0) -- (\F[2], \gF[2]);
+\draw (\F[3],0) -- (\F[3],-.2);
+        \draw (\F[3],0pt) -- (\F[3],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_3$}};
+        \draw[thick, dashed](\F[3],0) -- (\F[3], \gF[3]);
+\draw (\F[4],0) -- (\F[4],-.2);
+        \draw (\F[4],0pt) -- (\F[4],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_4$}};
+        \draw[thick, dashed](\F[4],0) -- (\F[4], \gF[4]);
+\draw (\F[5],0) -- (\F[5],-.2);
+        \draw (\F[5],0pt) -- (\F[5],-1pt) node[anchor=north,inner sep = 8pt] {\scriptsize{$F_5$}};
+        \draw[thick, dashed](\F[5],0) -- (\F[5], \gF[5]);
+\draw (0, \gF[0]) -- (-.2, \gF[0]);
+        \draw (0, \gF[0]) -- (-1pt, \gF[0]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_0)$}};
+        \draw[thick, dashed](0,\gF[0]) -- (\F[0],\gF[0]);
+\draw (0, \gF[1]) -- (-.2, \gF[1]);
+        \draw (0, \gF[1]) -- (-1pt, \gF[1]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_1)$}};
+        \draw[thick, dashed](0,\gF[1]) -- (\F[1],\gF[1]);
+\draw (0, \gF[2]) -- (-.2, \gF[2]);
+        \draw (0, \gF[2]) -- (-1pt, \gF[2]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_2)$}};
+        \draw[thick, dashed](0,\gF[2]) -- (\F[2],\gF[2]);
+\draw (0, \gF[3]) -- (-.2, \gF[3]);
+        \draw (0, \gF[3]) -- (-1pt, \gF[3]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_3)$}};
+        \draw[thick, dashed](0,\gF[3]) -- (\F[3],\gF[3]);
+\draw (0, \gF[4]) -- (-.2, \gF[4]);
+        \draw (0, \gF[4]) -- (-1pt, \gF[4]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_4)$}};
+        \draw[thick, dashed](0,\gF[4]) -- (\F[4],\gF[4]);
+\draw (0, \gF[5]) -- (-.2, \gF[5]);
+        \draw (0, \gF[5]) -- (-1pt, \gF[5]) node[anchor=east,inner sep = 8pt] {\scriptsize{$g(F_5)$}};
+        \draw[thick, dashed](0,\gF[5]) -- (\F[5],\gF[5]);
+\node (F) at (2.564285714285714,2){}; \draw(F) node{$F$};
+    \node (g) at (2,25.77960000000000208153494440921349450945854187011718749999999999999999999999985){}; \draw(g) node{$g(F)$};
+    % Lines
+\draw[g] (\F[0], \gF[0]) -- (\F[1], \gF[1]) -- (\F[2], \gF[2]) -- (\F[3], \gF[3]) -- (\F[4], \gF[4]) -- (\F[5], \gF[5]);% Integer points
+    %\draw[fill=black] (1,2) circle(.05);
+    \end{tikzpicture}
+    \end{center}
+    \vspace*{-2eM}
+    \caption{$g(F)$ for the Instance 15 1.0 3 1 instance}\label{fig:1}
+    \end{figure}
+    Here are the $F$, $B$ and $K$ values rounded at 5 digits:
+
+\begin{itemize}
+	\item  $F = [0.0,2.4691358025,22.4852224852,68.3046683047,175.0,225.7142857143]$
+ \item $B = [8.35,7.54,5.85,1.78,1.54,1.19]$
+ \item  $K = [1636.0,1638.0,1676.0,1954.0,1996.0,2075.0]$\item Total execution time is: 201.26s\item Number of times BBC is called: 12\end{itemize}\end{document}
