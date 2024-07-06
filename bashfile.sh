@@ -23,3 +23,8 @@ do
 	julia -J 1-R-RSPSysImageEnv/1-R-RSPSysimage.so -t 4 src/RRSP_script.jl 1 13 3 $F |& tee -a ./debug/blossom/SaveConsole_alpha3_ILP.txt
 	julia -J 1-R-RSPSysImageEnv/1-R-RSPSysimage.so -t 4 src/RRSP_script.jl 2 13 3 $F |& tee -a ./debug/blossom/SaveConsole_alpha3_BBC.txt
 done
+
+Scripting:
+
+for i in 0 1 2 4; do j7 src/RhoRSP_script.jl 1 5 $i 500; done ; for i in 2000 10000; do j7 src/RhoRSP_script.jl 1 5 4 $i ; done
+
