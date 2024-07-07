@@ -6,8 +6,9 @@ The package can solve 1-R-RSP thanks to:
  - An Integer Linear Programming model
  - A Branch-and-Benders-cut algorithm
 
-Usage:
-```julia> pars = MainPar(solve_mod="Both",
+# Usage
+```
+julia> pars = MainPar(solve_mod="Both",
                       write_res="", 
                       o_i="0", 
                       s_ij="", 
@@ -28,6 +29,7 @@ Usage:
                       uc_strat=4)
 ```
 Then:
-```julia>id_instance = 3
-   julia> main(pars, instance_id)
+```
+julia> id_instance = 3
+julia> main(pars, instance_id)
 ```
