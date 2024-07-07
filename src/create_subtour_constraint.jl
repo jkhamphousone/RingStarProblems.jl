@@ -26,6 +26,10 @@ function create_subtour_constraint_lazy_Labbe(m::Model, cb_data, x, y, n, ring_e
         chain_complete = true
     end
     while chain_complete == false
+<<<<<<< HEAD
+        #println("i=$(i), visited(i)=$(visited[i])")
+=======
+>>>>>>> main
         if visited[N[i][1]] == false
             i = N[i][1]
             visited[i] = true

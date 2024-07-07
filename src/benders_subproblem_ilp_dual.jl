@@ -1,3 +1,4 @@
+# function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env)
 function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env, α_poly, β_poly, γ_poly, δ_poly, ζ_poly)
     n = length(inst.V)
 
@@ -10,7 +11,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env, α_poly, β
 
     gurobi_model = Gurobi.Optimizer(gurobi_env)
     sp_m = direct_model(gurobi_model)
-    set_optimizer_attribute(sp_m, "OutputFlag", 0) # Disables output for subproblems
+    set_optimizer_attribute(sp_m, "OutputFlag", 0)
 
     log_level <= 1 && set_silent(sp_m)
 

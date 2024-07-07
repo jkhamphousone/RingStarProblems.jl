@@ -16,10 +16,39 @@
     o_i = "" ; @assert o_i in String["", "0", "1", "random", "1:1000"]
     s_ij = ""; @assert s_ij in String["", "l_ij", "random"]
     r_ij = ""; @assert r_ij in String["", "l_ij", "n"]
-    backup_factor::Float64 = 0.01; @assert 0 <= backup_factor <= 1 # Will be used to determine factor between c, c′, d and d′. c′ = backup_factor*c and d′ = backup_factor*d
-    nb_run_rand::Tuple{Int,Int} = (1,1); @assert nb_run_rand[2] in 1:10 || n_rand == 0 && 1 <= nb_run_rand[1] <= nb_run_rand[2]
-    two_opt::Int = 0 ; @assert two_opt in [0, 1, 2]
-    do_plot::Bool = true ;
+    backup_factor::Float64 = 0.01; @assert 0 <= backup_factor <= 1 # Will be used to determine factor between c, c′, d and d′. c′ = backup_factor*c and d′ = backup_factor*d    #     end
+    # end
+    for i in V
+        for j in setdiff(V, i)
+            if ζ[i,j] > 0 || ζ_poly[i,j] > 0
+                println("ζ[$i, $j] = $(ζ[i,j]), ζ_poly[$i,$j] = $(ζ_poly[i,j])")
+            end
+        end
+    end
+end
+
+function compute_sims(i, ŷ, s, V, tildeV)
+    sim_i = Inf
+    m_i = 0
+    for j in tildeV
+        if j != i && ŷ[j] && sim_i > s[i, j]
+            sim_i = s[i, j]
+            m_i = j
+        end
+    end
+    sim_i′ = Inf
+    m_i′ = 0
+
+    for j in tildeV
+        if j != i && j != m_i && ŷ[j]
+            if sim_i′ > s[i, j]
+                sim_i′ = s[i, j]
+                m_i′ = j
+            end
+        end
+    end
+    sim_istar = Inf
+   
     log_level::Int = 1; @assert log_level in Int[0, 1, 2]
     lp_relaxation::Bool = false ;
     assert::Bool = true
@@ -28,7 +57,7 @@
     post_procedure::Bool = true
     F_interval::Tuple{Float64,Float64} = (0.0,183)
     redirect_stdio::Bool = true ; # link to redirect stdio https://stackoverflow.com/a/69059106/10094437
-    use_blossom::Bool = true ; # use_blossom inequalities TODO not working yet
+    use_blossom::Bool = true ;
     gFreuse_lazycons::Bool = true ;
     """
     "y_ij <= y_jj no constraint on the fly"
@@ -56,9 +85,12 @@ end
     
 
 @with_kw mutable struct BDtable @deftype Float64
+<<<<<<< HEAD
+=======
     """
         Class for B&BC results
     """
+>>>>>>> main
     t_time = .0 ; @assert t_time >= .0
     m_time = .0 ; @assert m_time >= .0
     s_time = .0 ; @assert s_time >= .0
@@ -82,9 +114,12 @@ end
 end
 
 @with_kw mutable struct ILPtable @deftype Float64
+<<<<<<< HEAD
+=======
     """
         Class for ILP results
     """
+>>>>>>> main
     t_time = .0 ; @assert t_time >= .0
     two_opt_time = .0 ; @assert two_opt_time >= .0
     blossom_time = .0 ; @assert blossom_time >= .0

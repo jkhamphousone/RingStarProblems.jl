@@ -103,7 +103,6 @@ function debug_RRSP(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ
             println()
         end
     end
-    # TODO determine if following commented code should be kept or deleted
     # for i in V
     #     for j in tildeV
     #         for k in i+1:n+1
