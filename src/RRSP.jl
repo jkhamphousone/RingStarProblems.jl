@@ -6,7 +6,7 @@ module RRSP
     using Aqua
     using JET
     using JuMP
-    using Gurobi
+    using Gurobiac
     using MathOptInterface
     
     using Combinatorics, DelimitedFiles, Dates, Random
@@ -15,7 +15,7 @@ module RRSP
     using Graphs, GraphsFlows, GraphPlot, Plots
     
     using Parameters #https://stackoverflow.com/a/58022378/10094437
-    using Cairo, Suppressor, Compose, Profile
+    using Cairo, Suppressor, Fontconfig, Profile
     @info "Loading packages... [3/3] DONE"
     @info "Loading .jl files $(lpad("0%",4))"
     
