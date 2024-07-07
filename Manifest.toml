@@ -1,10 +1,5 @@
 # This file is machine-generated - editing it directly is not advised
 
-<<<<<<< HEAD
-julia_version = "1.10.0"
-manifest_format = "2.0"
-project_hash = "e89d4d91d3aa0a2815d90e707ab99e7925282cc5"
-=======
 julia_version = "1.10.4"
 manifest_format = "2.0"
 project_hash = "085ff5ab07440a4e035f49fd3c6e8f08a1233c08"
@@ -20,7 +15,6 @@ deps = ["Compat", "Pkg", "Test"]
 path = "/home/lamsade/jkhamphousone/juliapkg/dev/Aqua"
 uuid = "4c88cf16-eb10-579e-8560-4a9242c79595"
 version = "0.8.7"
->>>>>>> main
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"

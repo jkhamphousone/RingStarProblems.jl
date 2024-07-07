@@ -18,11 +18,7 @@ function benders_st_optimize_explore!(m, x, y, f, F, B, str_lmr, inst, pars, sta
     nblossom = 0
     nblossom_pair_inequality = 0
 
-<<<<<<< HEAD
-    total_time, sp_time, sp_obj, t_two_opt_time, blossom_time = start_time, 0.0, 0.0, 0.0, 0.0
-=======
     total_time, sp_time, t_two_opt_time, blossom_time = start_time, 0.0, 0.0, 0.0
->>>>>>> main
 
     x̂ = Dict{Tuple{Int,Int},Bool}()
     ŷ = Dict{Tuple{Int,Int},Bool}()
@@ -358,42 +354,6 @@ function debug_RRSP(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ
     end
 end
 
-<<<<<<< HEAD
-function compute_sims(i, ŷ, s, V, tildeV)
-    sim_i = Inf
-    m_i = 0
-    for j in tildeV
-        if j != i && ŷ[j] && sim_i > s[i, j]
-            sim_i = s[i, j]
-            m_i = j
-        end
-    end
-    sim_i′ = Inf
-    m_i′ = 0
-
-    for j in tildeV
-        if j != i && j != m_i && ŷ[j]
-            if sim_i′ > s[i, j]
-                sim_i′ = s[i, j]
-                m_i′ = j
-            end
-        end
-    end
-    sim_istar = Inf
-    m_istar = 0
-
-    for j in V
-        if j != i && j in setdiff(V, tildeV) && ŷ[j]
-            if sim_istar > s[i, j]
-                sim_istar = s[i, j]
-                m_istar = j
-            end
-        end
-    end
-    return sim_i, m_i, sim_i′, m_i′, sim_istar, m_istar
-end
-=======
->>>>>>> main
 
 function post_optimization_procedure(inst, ŷ, ŷ′)
     θ = Dict{Tuple{Int,Int},Float64}()

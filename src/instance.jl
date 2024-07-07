@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-@with_kw mutable struct Instance
-=======
 @with_kw mutable struct RRSPInstance
->>>>>>> main
     n::Int
     V::UnitRange{Int} = 1:n
     tildeV::Vector{Int} = 2:n
@@ -18,11 +14,7 @@
     y::Vector{Float64}
 end
 
-<<<<<<< HEAD
-function print_inst(inst::Instance, pars)
-=======
 function print_inst(inst::RRSPInstance, pars)
->>>>>>> main
     V = inst.V
     str = "F = $(inst.F)\ntildeV = $(inst.tildeV)\n"
     str *= "opening hub costs\n"
@@ -140,11 +132,7 @@ function create_instance_robust_journal_article(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-<<<<<<< HEAD
-        return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
 
     elseif pars.n_rand == 0
 
@@ -189,11 +177,7 @@ function create_instance_robust_journal_article(filename, α, pars)
             for kv in d
                 d′[kv[1]] = d[kv[1]] * pars.backup_factor
             end
-<<<<<<< HEAD
-            return Instance(n, V, 2:Int(ceil(n * pars.tildeV / 100)), pars.F, o, α, c, c′, d, d′, zeros(Int, n), zeros(Int, n))
-=======
             return RRSPInstance(n, V, 2:Int(ceil(n * pars.tildeV / 100)), pars.F, o, α, c, c′, d, d′, zeros(Int, n), zeros(Int, n))
->>>>>>> main
         else
             shift_n = 0
             if filename[end-7:end] == "120.tsp2"
@@ -224,11 +208,7 @@ function create_instance_robust_journal_article(filename, α, pars)
             for kv in d
                 d′[kv[1]] = d[kv[1]] * pars.backup_factor
             end
-<<<<<<< HEAD
-            return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
             return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
         end
 
     else
@@ -263,11 +243,7 @@ function create_instance_robust_journal_article(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-<<<<<<< HEAD
-        return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
     end
 end
 
@@ -335,11 +311,7 @@ function create_instance_robust(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-<<<<<<< HEAD
-        return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
     elseif pars.n_rand == 0
         data = readdlm(filename[2])
         n = Int64(data[1, 1])
@@ -376,11 +348,7 @@ function create_instance_robust(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-<<<<<<< HEAD
-        return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
     else
         data = readdlm(random_filepath)
         @show random_filepath
@@ -416,11 +384,7 @@ function create_instance_robust(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-<<<<<<< HEAD
-        return Instance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-=======
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
->>>>>>> main
     end
 end
 

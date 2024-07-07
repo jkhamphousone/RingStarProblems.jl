@@ -1,10 +1,5 @@
 function create_G(cb_data, x, n)
-<<<<<<< HEAD
-    # ε = 1e-6
-    x_m = zeros(Float64, n + 1, n + 1) # x_m[i,j] est la valeur callback fractionnaire de l'arête ij
-=======
     x_m = zeros(Float64, n + 1, n + 1) # x_m[i,j] is the fractional callback value of edge (i,j)
->>>>>>> main
     G = DiGraph(n + 1)
     c_m = zeros(Float64, n + 1, n + 1)
     c′_m = zeros(Float64, n + 1, n + 1)

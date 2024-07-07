@@ -50,11 +50,8 @@ module RRSP
     include("create_blossom_ineaqulities.jl")
 
     @info "Loading .jl files $(lpad("100%",4))"
-    export MainPar, main, t
     @info time()-a
 
-    # pars = MainPar(solve_mod="Both", alphas=[parse(Int, ARGS[2])], time_limit=60*60, write_res="html", log_level=1, plot_run=true, html_usernotes=ARGS[3])
-    # main(pars, parse(Int, ARGS[1]))
-    # exit()
+
 
 end

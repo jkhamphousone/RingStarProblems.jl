@@ -85,12 +85,9 @@ end
     
 
 @with_kw mutable struct BDtable @deftype Float64
-<<<<<<< HEAD
-=======
     """
         Class for B&BC results
     """
->>>>>>> main
     t_time = .0 ; @assert t_time >= .0
     m_time = .0 ; @assert m_time >= .0
     s_time = .0 ; @assert s_time >= .0
@@ -114,12 +111,9 @@ end
 end
 
 @with_kw mutable struct ILPtable @deftype Float64
-<<<<<<< HEAD
-=======
     """
         Class for ILP results
     """
->>>>>>> main
     t_time = .0 ; @assert t_time >= .0
     two_opt_time = .0 ; @assert two_opt_time >= .0
     blossom_time = .0 ; @assert blossom_time >= .0
