@@ -8,6 +8,7 @@ The package can solve 1-R-RSP thanks to:
 
 # Usage
 ```
+julia> using RRSP
 julia> pars = MainPar(solve_mod="Both",
                       write_res="", 
                       o_i="0", 
