@@ -1,0 +1,40 @@
+\documentclass{article}
+
+     \usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+     \usepackage{amsfonts,amsmath,amssymb}
+     \usepackage{color}
+     \usepackage{url}
+     \usepackage{tikz}
+     \usetikzlibrary{patterns,shapes}
+
+     \begin{document}
+
+     \title{Solving RRSP$(F)$ when $F$ belongs to an interval}
+     \author{Julien Khamphousone, Fabi\'an Casta\~no, Andr\'e Rossi, Sonia Toubaline}
+     \date{2024-02-28}
+     \maketitle
+     \def\F{{0.0,0.0}}
+\def\gF{{12.75,1275.0}}
+\begin{figure}[ht!]
+    \begin{center}
+    \begin{tikzpicture}[scale=.2, xscale=2]
+    \tikzset{axe/.style={->,>=stealth,draw,color=black}}
+    \tikzset{g/.style={draw,color=red,line width=1pt}}
+    \tikzset{convX/.style={fill=yellow}}
+    \draw[axe](0,0) -- (0.0,0);
+     \draw[axe](0,0) -- (0,14.02577);\node (F) at (2.0,2){}; \draw(F) node{$F$};
+    \node (g) at (2,14.025){}; \draw(g) node{$g(F)$};
+    % Lines
+\draw[g] (\F[0], \gF[0]);% Integer points
+    %\draw[fill=black] (1,2) circle(.05);
+    \end{tikzpicture}
+    \end{center}
+    \vspace*{-2eM}
+    \caption{$g(F)$ for the Instance 15 1.0 3 1 instance}\label{fig:1}
+    \end{figure}
+    Here are the $F$, $B$ and $K$ values rounded at 5 digits:
+
+\begin{itemize}
+	\item  $F = [0.0]$
+ \item $B = [0.33]$
+ \item  $K = [1275.0]$\item Total execution time is: 12.31s\item Number of times BBC is called: 2\end{itemize}\end{document}

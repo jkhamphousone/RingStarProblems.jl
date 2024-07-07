@@ -1,0 +1,7 @@
+------------------------------------------------------------
+             α=7.0 —— Instance_15_1.0_3_1 —— 15 nodes       
+------------------------------------------------------------
+
+——————— Wed, 28 Feb 2024 19:42:52 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom =        
+——————— Sat, 02 Mar 2024 23:33:43 ————————— seperate y_ij <= y_jj - x_ij on lazy constraints ————————— use blossom = false
+

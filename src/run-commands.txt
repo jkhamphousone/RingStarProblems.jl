@@ -1,0 +1,141 @@
+06.06.24
+mkdir ./debug/explore_F/$(date +%b)/$(date +%F) ; for a in 3; do julia -J 1-R-RSPSysImageEnv/1-R-RSPSysimage.so -t 4 src/RRSP_script.jl 2 2 $a | tee ./debug/explore_F/$(date +%b)/$(date +%F)/tiny_instance12_alpha=$a.txt; done
+
+
+16.03.22
+poly & ILP inst_trans 2 alpha 3 strategy 0 NO rand  TL 3600
+rboth([3], "poly", 2, 0, 3600, "html") ; GC.gc()
+
+11.03.22
+poly & ILP inst_trans 2 alpha 3-5-7 strategy 0 NO rand 100  TL 3600
+rboth([3], "poly", 2, 0, 15, "") ; rboth([3], "poly", 2, 0, 3600, "html") ; GC.gc() ; rboth([5], "poly", 2, 0, 15, "") ; rboth([5], "poly", 2, 0, 3600, "html") ; GC.gc() ; rboth([7], "poly", 2, 0, 15, "") ; rboth([7], "poly", 2, 0, 3600, "html") ; GC.gc()
+
+16.02.22
+rboth([3], "poly", 0, 0, 30, "") ; rboth([3], "poly", 0, 0, 3600, "html") ; GC.gc() ;
+rboth([5], "poly", 0, 0, 30, "") ; rboth([5], "poly", 0, 0, 3600, "html") ; GC.gc() ;
+rboth([7], "poly", 0, 0, 30, "") ; rboth([7], "poly", 0, 0, 3600, "html") ; GC.gc() ;
+
+15.02.22
+rben hybrid, poly and poly+ inst_trans 2 alpha 3 strategy 0-4 rand 100  TL 7200
+rben([3], "hybrid", 2, 0, 30, "", 100, "1") ; rben([3], "hybrid", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "hybrid", 2, 1, 30, "", 100, "1") ; rben([3], "hybrid", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "hybrid", 2, 2, 30, "", 100, "1") ; rben([3], "hybrid", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "hybrid", 2, 3, 30, "", 100, "1") ; rben([3], "hybrid", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "hybrid", 2, 4, 30, "", 100, "1") ; rben([3], "hybrid", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+rben([3], "poly", 2, 0, 30, "", 100, "1") ; rben([3], "poly", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly", 2, 1, 30, "", 100, "1") ; rben([3], "poly", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly", 2, 2, 30, "", 100, "1") ; rben([3], "poly", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly", 2, 3, 30, "", 100, "1") ; rben([3], "poly", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly", 2, 4, 30, "", 100, "1") ; rben([3], "poly", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+rben([3], "poly+", 2, 0, 30, "", 100, "1") ; rben([3], "poly+", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly+", 2, 1, 30, "", 100, "1") ; rben([3], "poly+", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly+", 2, 2, 30, "", 100, "1") ; rben([3], "poly+", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly+", 2, 3, 30, "", 100, "1") ; rben([3], "poly+", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([3], "poly+", 2, 4, 30, "", 100, "1") ; rben([3], "poly+", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+
+rben hybrid, poly and poly+ inst_trans 2 alpha 7 strategy 0-4 rand 100  TL 7200
+rben([7], "hybrid", 2, 0, 30, "", 100, "1") ; rben([7], "hybrid", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "hybrid", 2, 1, 30, "", 100, "1") ; rben([7], "hybrid", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "hybrid", 2, 2, 30, "", 100, "1") ; rben([7], "hybrid", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "hybrid", 2, 3, 30, "", 100, "1") ; rben([7], "hybrid", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "hybrid", 2, 4, 30, "", 100, "1") ; rben([7], "hybrid", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+rben([7], "poly", 2, 0, 30, "", 100, "1") ; rben([7], "poly", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly", 2, 1, 30, "", 100, "1") ; rben([7], "poly", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly", 2, 2, 30, "", 100, "1") ; rben([7], "poly", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly", 2, 3, 30, "", 100, "1") ; rben([7], "poly", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly", 2, 4, 30, "", 100, "1") ; rben([7], "poly", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+rben([7], "poly+", 2, 0, 30, "", 100, "1") ; rben([7], "poly+", 2, 0, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly+", 2, 1, 30, "", 100, "1") ; rben([7], "poly+", 2, 1, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly+", 2, 2, 30, "", 100, "1") ; rben([7], "poly+", 2, 2, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly+", 2, 3, 30, "", 100, "1") ; rben([7], "poly+", 2, 3, 7200, "html", 100, "1", 10) ; GC.gc() ; rben([7], "poly+", 2, 4, 30, "", 100, "1") ; rben([7], "poly+", 2, 4, 7200, "html", 100, "1", 10) ; GC.gc() ;
+
+04.02.22
+rben hybrid inst_trans 2 alpha 3 strategy 0-1-4 NO rand
+rben([3], "hybrid", 2, 0, 30, "") ; rben([3], "hybrid", 2, 0, 3600, "html") ; rben([3], "hybrid", 2, 1, 30, "") ; rben([3], "hybrid", 2, 1, 3600, "html") ; rben([3], "hybrid", 2, 2, 30, "") ; rben([3], "hybrid", 2, 2, 3600, "html") ; rben([3], "hybrid", 2, 3, 30, "") ; rben([3], "hybrid", 2, 3, 3600, "html") ; rben([3], "hybrid", 2, 4, 30, "") ; rben([3], "hybrid", 2, 4, 3600, "html")
+
+rben hybrid inst_trans 2 alpha 5 strategy 0-1-4 NO rand
+rben([5], "hybrid", 2, 0, 30, "") ; rben([5], "hybrid", 2, 0, 3600, "html") ; rben([5], "hybrid", 2, 1, 30, "") ; rben([5], "hybrid", 2, 1, 3600, "html") ; rben([5], "hybrid", 2, 2, 30, "") ; rben([5], "hybrid", 2, 2, 3600, "html") ; rben([5], "hybrid", 2, 3, 30, "") ; rben([5], "hybrid", 2, 3, 3600, "html") ; rben([5], "hybrid", 2, 4, 30, "") ; rben([5], "hybrid", 2, 4, 3600, "html")
+
+rben hybrid inst_trans 2 alpha 7 strategy 0-1-4 NO rand
+rben([7], "hybrid", 2, 0, 30, "") ; rben([7], "hybrid", 2, 0, 3600, "html") ; rben([7], "hybrid", 2, 1, 30, "") ; rben([7], "hybrid", 2, 1, 3600, "html") ; rben([7], "hybrid", 2, 2, 30, "") ; rben([7], "hybrid", 2, 2, 3600, "html") ; rben([7], "hybrid", 2, 3, 30, "") ; rben([7], "hybrid", 2, 3, 3600, "html") ; rben([7], "hybrid", 2, 4, 30, "") ; rben([7], "hybrid", 2, 4, 3600, "html")
+
+02.02.22
+rbenpoly inst_trans 2 alpha 3 strategy 0-1-4 NO rand
+rbenpoly([3], 2, 0, 30, "") ; rbenpoly([3], 2, 0, 3600, "html") ; rbenpoly([3], 2, 1, 30, "") ; rbenpoly([3], 2, 1, 3600, "html") ; rbenpoly([3], 2, 2, 30, "") ; rbenpoly([3], 2, 2, 3600, "html") ; rbenpoly([3], 2, 3, 30, "") ; rbenpoly([3], 2, 3, 3600, "html") ; rbenpoly([3], 2, 4, 30, "") ; rbenpoly([3], 2, 4, 3600, "html")
+
+
+31.01.21
+rbenpoly inst_trans 2 alpha 3 strategy 0-1-4 NO rand
+rbenpoly([3], 2, 0, 30, "") ; rbenpoly([3], 2, 0, 3600, "html") ; rbenpoly([3], 2, 1, 30, "") ; rbenpoly([3], 2, 1, 3600, "html") ; rbenpoly([3], 2, 2, 30, "") ; rbenpoly([3], 2, 2, 3600, "html") ; rbenpoly([3], 2, 3, 30, "") ; rbenpoly([3], 2, 3, 3600, "html") ; rbenpoly([3], 2, 4, 30, "") ; rbenpoly([3], 2, 4, 3600, "html")
+
+rbenpoly inst_trans 2 alpha 5 strategy 0-1-4 NO rand
+rbenpoly([5], 2, 0, 30, "") ; rbenpoly([5], 2, 0, 3600, "html") ; rbenpoly([5], 2, 1, 30, "") ; rbenpoly([5], 2, 1, 3600, "html") ; rbenpoly([5], 2, 2, 30, "") ; rbenpoly([5], 2, 2, 3600, "html") ; rbenpoly([5], 2, 3, 30, "") ; rbenpoly([5], 2, 3, 3600, "html") ; rbenpoly([5], 2, 4, 30, "") ; rbenpoly([5], 2, 4, 3600, "html")
+
+rbenpoly inst_trans 2 alpha 7 strategy 0-1-4 NO rand
+rbenpoly([7], 2, 0, 30, "") ; rbenpoly([7], 2, 0, 3600, "html") ; rbenpoly([7], 2, 1, 30, "") ; rbenpoly([7], 2, 1, 3600, "html") ; rbenpoly([7], 2, 2, 30, "") ; rbenpoly([7], 2, 2, 3600, "html") ; rbenpoly([7], 2, 3, 30, "") ; rbenpoly([7], 2, 3, 3600, "html") ; rbenpoly([7], 2, 4, 30, "") ; rbenpoly([7], 2, 4, 3600, "html")
+
+rben (hybrid) inst_trans 2 alpha 5 strategy 0-1-4 NO rand
+rben([5], 2, 0, 30, "") ; rben([5], 2, 0, 3600, "html") ; rben([5], 2, 1, 30, "") ; rben([5], 2, 1, 3600, "html") ; rben([5], 2, 2, 30, "") ; rben([5], 2, 2, 3600, "html") ; rben([5], 2, 3, 30, "") ; rben([5], 2, 3, 3600, "html") ; rben([5], 2, 4, 30, "") ; rben([5], 2, 4, 3600, "html")
+
+rben (hybrid) inst_trans 2 alpha 3 strategy 0-1-4 rand instances 100 nodes
+rben([3], 2, 1, 30, "", 100, "1") ; rben([3], 2, 1, 3600, "html", 100, "1") ; rben([3], 2, 2, 30, "", 100, "1") ; rben([3], 2, 2, 3600, "html", 100, "1") ; rben([3], 2, 3, 30, "", 100, "1") ; rben([3], 2, 3, 3600, "html", 100, "1") ; rben([3], 2, 4, 30, "", 100, "1") ; rben([3], 2, 4, 3600, "html", 100, "1") ; rben([3], 2, 0, 30, "", 100, "1") ; rben([3], 2, 0, 3600, "html", 100, "1") ;
+
+rben (hybrid) inst_trans 2 alpha 7 strategy 0-1-4 rand instances 100 nodes
+rben([7], 2, 1, 30, "", 100, "1") ; rben([7], 2, 1, 3600, "html", 100, "1") ; rben([7], 2, 2, 30, "", 100, "1") ; rben([7], 2, 2, 3600, "html", 100, "1") ; rben([7], 2, 3, 30, "", 100, "1") ; rben([7], 2, 3, 3600, "html", 100, "1") ; rben([7], 2, 4, 30, "", 100, "1") ; rben([7], 2, 4, 3600, "html", 100, "1") ; rben([7], 2, 0, 30, "", 100, "1") ; rben([7], 2, 0, 3600, "html", 100, "1") ;
+
+rben (hybrid) inst_trans 2 alpha 3 strategy 0-1-4 rand instances 200 nodes
+rben([3], 2, 1, 30, "", 200, "1") ; rben([3], 2, 1, 3600, "html", 200, "1") ; rben([3], 2, 2, 30, "", 200, "1") ; rben([3], 2, 2, 3600, "html", 200, "1") ; rben([3], 2, 3, 30, "", 200, "1") ; rben([3], 2, 3, 3600, "html", 200, "1") ; rben([3], 2, 4, 30, "", 200, "1") ; rben([3], 2, 4, 3600, "html", 200, "1") ; rben([3], 2, 0, 30, "", 200, "1") ; rben([3], 2, 0, 3600, "html", 200, "1") ;
+
+rben (hybrid) inst_trans 2 alpha 7 strategy 0-1-4 rand instances 200 nodes
+rben([7], 2, 1, 30, "", 200, "1") ; rben([7], 2, 1, 3600, "html", 200, "1") ; rben([7], 2, 2, 30, "", 200, "1") ; rben([7], 2, 2, 3600, "html", 200, "1") ; rben([7], 2, 3, 30, "", 200, "1") ; rben([7], 2, 3, 3600, "html", 200, "1") ; rben([7], 2, 4, 30, "", 200, "1") ; rben([7], 2, 4, 3600, "html", 200, "1") ; rben([7], 2, 0, 30, "", 200, "1") ; rben([7], 2, 0, 3600, "html", 200, "1") ;
+
+rben (hybrid) inst_trans 2 alpha 3 strategy 0-1-4 rand instances 300 nodes
+rben([3], 2, 1, 30, "", 300, "1") ; rben([3], 2, 1, 3600, "html", 300, "1") ; rben([3], 2, 2, 30, "", 300, "1") ; rben([3], 2, 2, 3600, "html", 300, "1") ; rben([3], 2, 3, 30, "", 300, "1") ; rben([3], 2, 3, 3600, "html", 300, "1") ; rben([3], 2, 4, 30, "", 300, "1") ; rben([3], 2, 4, 3600, "html", 300, "1") ; rben([3], 2, 0, 30, "", 300, "1") ; rben([3], 2, 0, 3600, "html", 300, "1") ;
+
+rben (hybrid) inst_trans 2 alpha 7 strategy 0-1-4 rand instances 300 nodes
+rben([7], 2, 1, 30, "", 300, "1") ; rben([7], 2, 1, 3600, "html", 300, "1") ; rben([7], 2, 2, 30, "", 300, "1") ; rben([7], 2, 2, 3600, "html", 300, "1") ; rben([7], 2, 3, 30, "", 300, "1") ; rben([7], 2, 3, 3600, "html", 300, "1") ; rben([7], 2, 4, 30, "", 300, "1") ; rben([7], 2, 4, 3600, "html", 300, "1") ; rben([7], 2, 0, 30, "", 300, "1") ; rben([7], 2, 0, 3600, "html", 300, "1") ;
+
+25.01.21
+rben (hybrid) inst_trans 2 alpha 3 strategy 0-1-4 NO rand
+
+24.01.21
+rilp & rbenpoly inst_trans 2 alpha 3 strategy 0-1-4 rand instances 100 nodes
+rilp([3], 0, 30, "", 100, "1") ; rilp([3], 0, 3600, "html", 100, "1") ; rbenpoly([3], 2, 1, 30, "", 100, "1") ; rbenpoly([3], 2, 1, 3600, "html", 100, "1") ; rbenpoly([3], 2, 2, 30, "", 100, "1") ; rbenpoly([3], 2, 2, 3600, "html", 100, "1") ; rbenpoly([3], 2, 3, 30, "", 100, "1") ; rbenpoly([3], 2, 3, 3600, "html", 100, "1") ; rbenpoly([3], 2, 4, 30, "", 100, "1") ; rbenpoly([3], 2, 4, 3600, "html", 100, "1") ; rbenpoly([3], 2, 0, 30, "", 100, "1") ; rbenpoly([3], 2, 0, 3600, "html", 100, "1") ;
+
+rilp & rbenpoly inst_trans 2 alpha 7 strategy 0-1-4 rand instances 100 nodes
+rilp([7], 0, 30, "", 100, "1") ; rilp([7], 0, 3600, "html", 100, "1") ; rbenpoly([7], 2, 1, 30, "", 100, "1") ; rbenpoly([7], 2, 1, 3600, "html", 100, "1") ; rbenpoly([7], 2, 2, 30, "", 100, "1") ; rbenpoly([7], 2, 2, 3600, "html", 100, "1") ; rbenpoly([7], 2, 3, 30, "", 100, "1") ; rbenpoly([7], 2, 3, 3600, "html", 100, "1") ; rbenpoly([7], 2, 4, 30, "", 100, "1") ; rbenpoly([7], 2, 4, 3600, "html", 100, "1") ; rbenpoly([7], 2, 0, 30, "", 100, "1") ; rbenpoly([7], 2, 0, 3600, "html", 100, "1") ;
+
+rilp & rbenpoly inst_trans 2 alpha 3 strategy 0-1-4 rand instances 200 nodes
+rilp([3], 0, 30, "", 200, "1") ; rilp([3], 0, 3600, "html", 200, "1") ; rbenpoly([3], 2, 1, 30, "", 200, "1") ; rbenpoly([3], 2, 1, 3600, "html", 200, "1") ; rbenpoly([3], 2, 2, 30, "", 200, "1") ; rbenpoly([3], 2, 2, 3600, "html", 200, "1") ; rbenpoly([3], 2, 3, 30, "", 200, "1") ; rbenpoly([3], 2, 3, 3600, "html", 200, "1") ; rbenpoly([3], 2, 4, 30, "", 200, "1") ; rbenpoly([3], 2, 4, 3600, "html", 200, "1") ; rbenpoly([3], 2, 0, 30, "", 200, "1") ; rbenpoly([3], 2, 0, 3600, "html", 200, "1") ;
+
+rilp & rbenpoly inst_trans 2 alpha 7 strategy 0-1-4 rand instances 200 nodes
+rilp([7], 0, 30, "", 200, "1") ; rilp([7], 0, 3600, "html", 200, "1") ; rbenpoly([7], 2, 1, 30, "", 200, "1") ; rbenpoly([7], 2, 1, 3600, "html", 200, "1") ; rbenpoly([7], 2, 2, 30, "", 200, "1") ; rbenpoly([7], 2, 2, 3600, "html", 200, "1") ; rbenpoly([7], 2, 3, 30, "", 200, "1") ; rbenpoly([7], 2, 3, 3600, "html", 200, "1") ; rbenpoly([7], 2, 4, 30, "", 200, "1") ; rbenpoly([7], 2, 4, 3600, "html", 200, "1") ; rbenpoly([7], 2, 0, 30, "", 200, "1") ; rbenpoly([7], 2, 0, 3600, "html", 200, "1") ;
+
+rilp & rbenpoly inst_trans 2 alpha 3 strategy 0-1-4 rand instances 300 nodes
+rilp([3], 0, 30, "", 300, "1") ; rilp([3], 0, 3600, "html", 300, "1") ; rbenpoly([3], 2, 1, 30, "", 300, "1") ; rbenpoly([3], 2, 1, 3600, "html", 300, "1") ; rbenpoly([3], 2, 2, 30, "", 300, "1") ; rbenpoly([3], 2, 2, 3600, "html", 300, "1") ; rbenpoly([3], 2, 3, 30, "", 300, "1") ; rbenpoly([3], 2, 3, 3600, "html", 300, "1") ; rbenpoly([3], 2, 4, 30, "", 300, "1") ; rbenpoly([3], 2, 4, 3600, "html", 300, "1") ; rbenpoly([3], 2, 0, 30, "", 300, "1") ; rbenpoly([3], 2, 0, 3600, "html", 300, "1") ;
+
+rilp & rbenpoly inst_trans 2 alpha 7 strategy 0-1-4 rand instances 300 nodes
+rilp([7], 0, 30, "", 300, "1") ; rilp([7], 0, 3600, "html", 300, "1") ; rbenpoly([7], 2, 1, 30, "", 300, "1") ; rbenpoly([7], 2, 1, 3600, "html", 300, "1") ; rbenpoly([7], 2, 2, 30, "", 300, "1") ; rbenpoly([7], 2, 2, 3600, "html", 300, "1") ; rbenpoly([7], 2, 3, 30, "", 300, "1") ; rbenpoly([7], 2, 3, 3600, "html", 300, "1") ; rbenpoly([7], 2, 4, 30, "", 300, "1") ; rbenpoly([7], 2, 4, 3600, "html", 300, "1") ; rbenpoly([7], 2, 0, 30, "", 300, "1") ; rbenpoly([7], 2, 0, 3600, "html", 300, "1") ;
+
+20.01.21
+rilp & rbenpoly inst_trans 0-2 alpha 3 strategy 1-4-0 NO rand Instances
+rilp([3], 0, 20, "") ; rilp([3], 0, 3600, "html") ; rbenpoly([3], 0, 1, 20, "") ; rbenpoly([3], 0, 1, 3600, "html") ; rbenpoly([3], 2, 1, 20, "") ; rbenpoly([3], 2, 1, 3600, "html") ; rbenpoly([3], 0, 2, 20, "") ; rbenpoly([3], 0, 2, 3600, "html") ; rbenpoly([3], 2, 2, 20, "") ; rbenpoly([3], 2, 2, 3600, "html") ; rbenpoly([3], 0, 3, 20, "") ; rbenpoly([3], 0, 3, 3600, "html") ; rbenpoly([3], 2, 3, 20, "") ; rbenpoly([3], 2, 3, 3600, "html") ; rbenpoly([3], 0, 4, 20, "") ; rbenpoly([3], 0, 4, 3600, "html") ; rbenpoly([3], 2, 4, 20, "") ; rbenpoly([3], 2, 4, 3600, "html") ; rbenpoly([3], 0, 0, 20, "") ; rbenpoly([3], 0, 0, 3600, "html") ; rbenpoly([3], 2, 0, 20, "") ; rbenpoly([3], 2, 0, 3600, "html") ;
+
+19.01.21
+rilp & rbenpoly inst_trans 0-2 alpha 7 strategy 1-4-0 NO rand Instances
+rilp([7], 0, 20, "") ; rilp([7], 0, 3600, "html") ; rbenpoly([7], 0, 1, 20, "") ; rbenpoly([7], 0, 1, 3600, "html") ; rbenpoly([7], 2, 1, 20, "") ; rbenpoly([7], 2, 1, 3600, "html") ; rbenpoly([7], 0, 2, 20, "") ; rbenpoly([7], 0, 2, 3600, "html") ; rbenpoly([7], 2, 2, 20, "") ; rbenpoly([7], 2, 2, 3600, "html") ; rbenpoly([7], 0, 3, 20, "") ; rbenpoly([7], 0, 3, 3600, "html") ; rbenpoly([7], 2, 3, 20, "") ; rbenpoly([7], 2, 3, 3600, "html") ; rbenpoly([7], 0, 4, 20, "") ; rbenpoly([7], 0, 4, 3600, "html") ; rbenpoly([7], 2, 4, 20, "") ; rbenpoly([7], 2, 4, 3600, "html") ; rbenpoly([7], 0, 0, 20, "") ; rbenpoly([7], 0, 0, 3600, "html") ; rbenpoly([7], 2, 0, 20, "") ; rbenpoly([7], 2, 0, 3600, "html") ;
+
+rilp & rbenpoly inst_trans 0-2 alpha 7 strategy 1-4-0 random 100
+rilp([7], 0, 20, "", 100, "1") ; rilp([7], 0, 3600, "html", 100, "1") ; rbenpoly([7], 0, 1, 20, "", 100, "1") ; rbenpoly([7], 0, 1, 3600, "html", 100, "1") ; rbenpoly([7], 2, 1, 20, "", 100, "1") ; rbenpoly([7], 2, 1, 3600, "html", 100, "1") ; rbenpoly([7], 0, 2, 20, "", 100, "1") ; rbenpoly([7], 0, 2, 3600, "html", 100, "1") ; rbenpoly([7], 2, 2, 20, "", 100, "1") ; rbenpoly([7], 2, 2, 3600, "html", 100, "1") ; rbenpoly([7], 0, 3, 20, "", 100, "1") ; rbenpoly([7], 0, 3, 3600, "html", 100, "1") ; rbenpoly([7], 2, 3, 20, "", 100, "1") ; rbenpoly([7], 2, 3, 3600, "html", 100, "1") ; rbenpoly([7], 0, 4, 20, "", 100, "1") ; rbenpoly([7], 0, 4, 3600, "html", 100, "1") ; rbenpoly([7], 2, 4, 20, "", 100, "1") ; rbenpoly([7], 2, 4, 3600, "html", 100, "1") ;
+rbenpoly([7], 0, 0, 20, "", 100, "1") ; rbenpoly([7], 0, 0, 3600, "html", 100, "1") ;
+rbenpoly([7], 2, 0, 20, "", 100, "1") ; rbenpoly([7], 2, 0, 3600, "html", 100, "1") ;
+
+TODO
+rbenpoly([7], 2, 0, 20, "", 100, "1") ; rbenpoly([7], 2, 0, 3600, "html", 100, "1") ; rbenpoly([7], 0, 1, 20, "", 100, "1") ; rbenpoly([7], 0, 1, 3600, "html", 100, "1") ;
+
+
+rbenpoly(0, [3], 0, 0, 25, "") ; rbenpoly(0, [3], 0, 0, 3600, "html") ; rbenpoly(0, [3], 2, 0, 25, "") ; rbenpoly(0, [3], 2, 0, 3600, "html") ;
+
+rbenpoly(0, [5], 0, 0, 25, "") ; rbenpoly(0, [5], 0, 0, 3600, "html") ; rbenpoly(0, [5], 2, 0, 25, "") ; rbenpoly(0, [5], 2, 0, 3600, "html") ;
+
+rilp(0, [7], 0, 25, "") ; rilp(0, [7], 0, 604800, "html") ;
+
+
+18.01.21
+# DONE rilp(0, [3], 0, 25, "") ; rilp(0, [3], 0, 3600, "html") ; rbenpoly(0, [3], 0, 1, 25, "") ; rbenpoly(0, [3], 0, 1, 3600, "html") ; rbenpoly(0, [3], 2, 1, 25, "") ; rbenpoly(0, [3], 2, 1, 3600, "html") ; rbenpoly(0, [3], 0, 2, 25, "") ; rbenpoly(0, [3], 0, 2, 3600, "html") ; rbenpoly(0, [3], 2, 2, 25, "") ; rbenpoly(0, [3], 2, 2, 3600, "html") ; rbenpoly(0, [3], 0, 3, 25, "") ; rbenpoly(0, [3], 0, 3, 3600, "html") ; rbenpoly(0, [3], 2, 3, 25, "") ; rbenpoly(0, [3], 2, 3, 3600, "html") ; rbenpoly(0, [3], 0, 4, 25, "") ; rbenpoly(0, [3], 0, 4, 3600, "html") ; rbenpoly(0, [3], 2, 4, 25, "") ; rbenpoly(0, [3], 2, 4, 3600, "html") ;
+
+
+# DONE rilp(0, [5], 0, 25, "") ; rilp(0, [5], 0, 3600, "html") ; rbenpoly(0, [5], 0, 1, 25, "") ; rbenpoly(0, [5], 0, 1, 3600, "html") ; rbenpoly(0, [5], 2, 1, 25, "") ; rbenpoly(0, [5], 2, 1, 3600, "html") ; rbenpoly(0, [5], 0, 2, 25, "") ; rbenpoly(0, [5], 0, 2, 3600, "html") ;
+# DONE rbenpoly(0, [5], 2, 2, 25, "") ; rbenpoly(0, [5], 2, 2, 3600, "html") ; rbenpoly(0, [5], 0, 3, 25, "") ; rbenpoly(0, [5], 0, 3, 3600, "html") ; rbenpoly(0, [5], 2, 3, 25, "") ; rbenpoly(0, [5], 2, 3, 3600, "html") ; rbenpoly(0, [5], 0, 4, 25, "") ; rbenpoly(0, [5], 0, 4, 3600, "html") ; rbenpoly(0, [5], 2, 4, 25, "") ; rbenpoly(0, [5], 2, 4, 3600, "html") ;
+
+ # DONE rilp(0, [7], 0, 25, "") ; rilp(0, [7], 0, 3600, "html") ; rbenpoly(0, [7], 0, 1, 25, "") ; rbenpoly(0, [7], 0, 1, 3600, "html") ; rbenpoly(0, [7], 2, 1, 25, "") ; rbenpoly(0, [7], 2, 1, 3600, "html") ; rbenpoly(0, [7], 0, 2, 25, "") ; rbenpoly(0, [7], 0, 2, 3600, "html") ;rbenpoly(0, [7], 2, 2, 25, "") ; rbenpoly(0, [7], 2, 2, 3600, "html") ; rbenpoly(0, [7], 0, 3, 25, "") ; rbenpoly(0, [7], 0, 3, 3600, "html") ; rbenpoly(0, [7], 2, 3, 25, "") ; rbenpoly(0, [7], 2, 3, 3600, "html") ; rbenpoly(0, [7], 0, 4, 25, "") ; rbenpoly(0, [7], 0, 4, 3600, "html") ; rbenpoly(0, [7], 2, 4, 25, "") ; rbenpoly(0, [7], 2, 4, 3600, "html") ; rbenpoly(0, [7], 0, 0, 25, "") ; rbenpoly(0, [7], 0, 0, 3600, "html") ; rbenpoly(0, [7], 2, 0, 25, "") ; rbenpoly(0, [7], 2, 0, 3600, "html") ;
+
+rilp(0, [3], 0, 25, "") ; rilp(0, [3], 0, 3600, "html") ;
+
+17.01.21 BIS
+
+
+rilp(0, [3], 0, 25, "") ; rilp(0, [3], 0, 3600, "html") ; rbenpoly(0, [3], 0, 1, 25, "") ; rbenpoly(0, [3], 0, 1, 3600, "html") ; rbenpoly(0, [3], 2, 1, 25, "") ; rbenpoly(0, [3], 2, 1, 3600, "html") ; rbenpoly(0, [3], 0, 2, 25, "") ; rbenpoly(0, [3], 0, 2, 3600, "html") ; rbenpoly(0, [3], 2, 2, 25, "") ; rbenpoly(0, [3], 2, 2, 3600, "html") ; rbenpoly(0, [3], 0, 3, 25, "") ; rbenpoly(0, [3], 0, 3, 3600, "html") ; rbenpoly(0, [3], 2, 3, 25, "") ; rbenpoly(0, [3], 2, 3, 3600, "html") ; rbenpoly(0, [3], 0, 4, 25, "") ; rbenpoly(0, [3], 0, 4, 3600, "html") ; rbenpoly(0, [3], 2, 4, 25, "") ; rbenpoly(0, [3], 2, 4, 3600, "html") ;
+
+rilp(0, [5], 0, 25, "") ; rilp(0, [5], 0, 3600, "html") ; rbenpoly(0, [5], 0, 1, 25, "") ; rbenpoly(0, [5], 0, 1, 3600, "html") ; rbenpoly(0, [5], 2, 1, 25, "") ; rbenpoly(0, [5], 2, 1, 3600, "html") ; rbenpoly(0, [5], 0, 2, 25, "") ; rbenpoly(0, [5], 0, 2, 3600, "html") ; rbenpoly(0, [5], 2, 2, 25, "") ; rbenpoly(0, [5], 2, 2, 3600, "html") ; rbenpoly(0, [5], 0, 3, 25, "") ; rbenpoly(0, [5], 0, 3, 3600, "html") ; rbenpoly(0, [5], 2, 3, 25, "") ; rbenpoly(0, [5], 2, 3, 3600, "html") ; rbenpoly(0, [5], 0, 4, 25, "") ; rbenpoly(0, [5], 0, 4, 3600, "html") ; rbenpoly(0, [5], 2, 4, 25, "") ; rbenpoly(0, [5], 2, 4, 3600, "html") ;
+
+rilp(0, [7], 0, 25, "") ; rilp(0, [7], 0, 3600, "html") ; rbenpoly(0, [7], 0, 1, 25, "") ; rbenpoly(0, [7], 0, 1, 3600, "html") ; rbenpoly(0, [7], 2, 1, 25, "") ; rbenpoly(0, [7], 2, 1, 3600, "html") ; rbenpoly(0, [7], 0, 2, 25, "") ; rbenpoly(0, [7], 0, 2, 3600, "html") ; rbenpoly(0, [7], 2, 2, 25, "") ; rbenpoly(0, [7], 2, 2, 3600, "html") ; rbenpoly(0, [7], 0, 3, 25, "") ; rbenpoly(0, [7], 0, 3, 3600, "html") ; rbenpoly(0, [7], 2, 3, 25, "") ; rbenpoly(0, [7], 2, 3, 3600, "html") ; rbenpoly(0, [7], 0, 4, 25, "") ; rbenpoly(0, [7], 0, 4, 3600, "html") ; rbenpoly(0, [7], 2, 4, 25, "") ; rbenpoly(0, [7], 2, 4, 3600, "html") ;
+
+rbenpoly(0, [3], 2, 1, 25, "") ; rbenpoly(0, [3], 2, 1, 604800, "html") ;
