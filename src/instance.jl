@@ -60,13 +60,13 @@ function print_inst(inst::RRSPInstance, pars)
     end
     str *= "\nc'=$(pars.backup_factor)c and d'=$(pars.backup_factor)d"
 
-    open("./debug/instance_$(today()).txt", "w") do io
+    open(eval(@__DIR__) * "/debug/instance_$(today()).txt", "w") do io
         write(io, str)
     end
 end
 
 function create_instance_robust_journal_article(filename, α, pars)
-    random_filepath = "./instances/Instances_journal_article/RAND/$filename.dat"
+    random_filepath = eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$filename.dat"
     if pars.n_rand > 0 && !isfile(random_filepath)
         n = pars.n_rand
         data = [1:1000 rand(1:1000, 1000) rand(1:1000, 1000)]
@@ -248,7 +248,7 @@ function create_instance_robust_journal_article(filename, α, pars)
 end
 
 function create_instance_robust(filename, α, pars)
-    random_filepath = "./instances/Instances_random/$(filename[2]).dat"
+    random_filepath = eval(@__DIR__) * "/instances/Instances_random/$(filename[2]).dat"
 
     if filename[1] == "tiny_instance_7_2"
         tildeV = [4, 5, 6, 7]

@@ -72,7 +72,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env)
     @show "test 3 b.4"
     @constraint(sp_m, θ_ij[i=V, j=setdiff(tildeV,i)], γ[i,j] - sum(δ[(q,j,k)] for q in V, k in V′ if q != j && k != j && q < k && !(q == 1 && k == n+1)) <= 0)
 
-    open("./debug/DUAL_$(today()).txt", "w") do io
+    open(eval(@__DIR__) * "/debug/DUAL_$(today()).txt", "w") do io
         write(io, "DUAL MODEL LP\n")
         write(io, "$(all_constraints(sp_m, AffExpr, MOI.LessThan{Float64}))")
     end

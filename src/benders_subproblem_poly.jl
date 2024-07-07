@@ -77,7 +77,7 @@ function sp_optimize_poly(x̂, ŷ, inst)
     return obj, α, β, γ, δ, ζ
 end
 
-function debug_ResilientRSPSolver(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ, ζ_poly, j★, ŷ, x̂)
+function debug_RingStarProblems(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ, ζ_poly, j★, ŷ, x̂)
     println("test")
     V = inst.V
     n = length(V)

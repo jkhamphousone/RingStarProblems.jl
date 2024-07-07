@@ -124,7 +124,7 @@ function benders_st_optimize_explore!(m, x, y, f, F, B, str_lmr, inst, pars, sta
     MOI.set(m, MOI.UserCutCallback(), call_back_user_cuts)
 
 
-    pathdebug = "./debug/explore_F/$(today())/"
+    pathdebug = eval(@__DIR__) * "/debug/explore_F/$(today())/"
     mkpath(pathdebug)
     open("$(pathdebug)$(length(ncall_bbc))_nbnodes=$(inst.n)_alpha=$(inst.α)_F=$(str_lmr == Inf ? "NoF-CompteKSInf" : F)_total_number_of_lazycons_generated=$info_nlazycons.lp", "w") do f
         println(f, m)
@@ -705,7 +705,7 @@ function ilp_st_optimize_lazyexplore!(m_ilp, x_milp, y_milp, x′_milp, y′_mil
 
 
 
-    pathdebug = "./debug/explore_F/ILP/march/$(today())/"
+    pathdebug = eval(@__DIR__) * "/debug/explore_F/ILP/march/$(today())/"
     mkpath(pathdebug)
     open("$(pathdebug)nbnodes=$(n)_F=NoF-CompteKSInf.lp", "w") do f
         println(f, m_ilp)

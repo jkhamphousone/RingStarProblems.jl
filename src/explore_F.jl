@@ -231,8 +231,8 @@ function write_tikz_list_Fm_Sm(list_Fm_Sm::Fm_Sm, filename, exploreplustime, nca
     str *= raw"\end{document}"
 
 
-    mkpath("./Results/tikz/$now_folder/")
-    open("./Results/tikz/$now_folder/$(filename)_α=$(inst.α).tex", "w") do file
+    mkpath(eval(@__DIR__) * "/results/tikz/$now_folder/")
+    open(eval(@__DIR__) * "/results/tikz/$now_folder/$(filename)_α=$(inst.α).tex", "w") do file
         write(file, str)
     end
 end

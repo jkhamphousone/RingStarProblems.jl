@@ -34,7 +34,7 @@ function sp_optimize_ilp_primal(x̂, ŷ, inst, log_level, gurobi_env)
     optimize!(sp_m)
 
     dual_model = dualize(sp_m; dual_names = DualNames("dual", ""))
-    open("./debug/PRIMAL_$(today()).txt", "w") do io
+    open(eval(@__DIR__) * "/debug/PRIMAL_$(today()).txt", "w") do io
         write(io, "DUAL MODEL Dualization.jl\n")
         write(io, "$(all_constraints(dual_model, AffExpr, MOI.GreaterThan{Float64}))")
     end
