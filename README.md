@@ -1,7 +1,7 @@
 # Resilient Ring Star Problem Solver
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-This is a my [julia](https://julialang.org/) project started during my PhD thesis to solve the Resilient Ring Star Problem also named 1-R-RSP.
+This is a my [julia](https://julialang.org/) project started during my PhD thesis to solve the Resilient Ring Star Problem also named 1-R-RSP. [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443) as well as [Khamphousone, 2021]([https://doi.org/10.5281/zenodo.6476040](https://www.researchgate.net/profile/Fabian-Castano/publication/351117932_Introducing_the_Resilient_Ring_Star_Problem/links/60886e808ea909241e2c5ee0/Introducing-the-Resilient-Ring-Star-Problem.pdf)) and [Khamphousone 2023](https://hal.science/hal-04286851) introduce the Resilient Ring Star Problem.
 
 The package can solve 1-R-RSP thanks to:
  - An Integer Linear Programming model
