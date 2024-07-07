@@ -6,6 +6,7 @@ This is a my [julia](https://julialang.org/) project started during my PhD thesi
 The package can solve 1-R-RSP thanks to:
  - An Integer Linear Programming model
  - A Branch-and-Benders-cut algorithm
+ - (Or both)
 
 # Usage
 ```
