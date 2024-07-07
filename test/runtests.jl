@@ -6,7 +6,7 @@ using Aqua
     # Write your tests here.
     include("aqua.jl")
 
-    pars = RingStarProblems.MainPar(solve_mod="Both",
+    pars = RingStarProblems.OptimizeParameters(solve_mod="Both",
                       write_res="", 
                       o_i="0", 
                       s_ij="", 
@@ -25,7 +25,7 @@ using Aqua
                       alphas=[3], 
                       nthreads=4,
                       uc_strat=4)
-    @test optmize(pars, 1) == 0
-    @test optmize(pars, 3) == 0
+    @test RingStarProblems.rspoptimize(pars, 1) == 0
+    @test RingStarProblems.rspoptimize(pars, 3) == 0
 
 end

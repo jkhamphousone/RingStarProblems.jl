@@ -1,0 +1,178 @@
+\documentclass[tikz]{standalone}
+\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\begin{document}
+\begin{tikzpicture}[scale=1.0, x=3cm, y=3cm]
+\tikzset{linkH/.style={draw, line width=10pt, color=green}}
+\tikzset{linkHrobust/.style={draw, line width=2pt, color=blue}}
+\tikzset{linkC/.style={draw, line width=2pt, color=orange}}
+\tikzset{backupH/.style={draw, dotted, line width=2pt, color=red}}
+\tikzset{backupC/.style={draw, dashed, line width=2pt, color=blue}}
+\tikzset{city/.style={fill=yellow,minimum height=20pt}}
+\tikzset{base/.style={diamond,fill=black,minimum height=70pt}}
+
+\tikzset{hub/.style={circle,fill=blue,minimum height=20pt}}
+
+\tikzset{active_hub/.style={circle,fill=red,minimum height=20pt}}
+
+ % Hubs
+\node[base] (1) at (43.0, 16.0) {1};
+\node[active_hub] (2) at (83.0, 58.0) {2};
+\node[active_hub] (3) at (23.0, 1.0) {3};
+\node[active_hub] (4) at (76.0, 44.0) {4};
+\node[active_hub] (5) at (27.0, 9.0) {5};
+\node[active_hub] (6) at (31.0, 1.0) {6};
+\node[active_hub] (7) at (45.0, 63.0) {7};
+\node[active_hub] (8) at (71.0, 40.0) {8};
+\node[active_hub] (9) at (78.0, 89.0) {9};
+\node[active_hub] (10) at (23.0, 74.0) {10};
+\node[active_hub] (11) at (57.0, 70.0) {11};
+\node[active_hub] (12) at (40.0, 59.0) {12};
+\node[active_hub] (13) at (45.0, 95.0) {13};
+\node[active_hub] (14) at (35.0, 45.0) {14};
+\node[active_hub] (15) at (79.0, 80.0) {15};
+\node[active_hub] (16) at (85.0, 46.0) {16};
+\node[active_hub] (17) at (21.0, 88.0) {17};
+\node[active_hub] (18) at (30.0, 90.0) {18};
+\node[active_hub] (19) at (30.0, 98.0) {19};
+\node[active_hub] (20) at (75.0, 32.0) {20};
+\node[active_hub] (21) at (90.0, 72.0) {21};
+\node[active_hub] (22) at (59.0, 40.0) {22};
+\node[active_hub] (23) at (44.0, 12.0) {23};
+\node[active_hub] (24) at (53.0, 16.0) {24};
+\node[active_hub] (25) at (9.0, 34.0) {25};
+\node[active_hub] (26) at (9.0, 57.0) {26};
+\node[active_hub] (27) at (69.0, 94.0) {27};
+\node[active_hub] (28) at (21.0, 36.0) {28};
+\node[active_hub] (29) at (60.0, 90.0) {29};
+\node[active_hub] (30) at (59.0, 35.0) {30};
+\node[active_hub] (31) at (81.0, 9.0) {31};
+\node[active_hub] (32) at (31.0, 66.0) {32};
+\node[active_hub] (33) at (19.0, 41.0) {33};
+\node[active_hub] (34) at (86.0, 36.0) {34};
+\node[active_hub] (35) at (47.0, 17.0) {35};
+\node[active_hub] (36) at (92.0, 32.0) {36};
+\node[active_hub] (37) at (22.0, 22.0) {37};
+\node[active_hub] (38) at (51.0, 28.0) {38};
+\node[active_hub] (39) at (73.0, 78.0) {39};
+\node[active_hub] (40) at (60.0, 86.0) {40};
+\node[active_hub] (41) at (6.0, 31.0) {41};
+\node[active_hub] (42) at (29.0, 25.0) {42};
+\node[active_hub] (43) at (76.0, 69.0) {43};
+\node[active_hub] (44) at (37.0, 76.0) {44};
+\node[active_hub] (45) at (24.0, 48.0) {45};
+\node[active_hub] (46) at (22.0, 90.0) {46};
+\node[active_hub] (47) at (70.0, 46.0) {47};
+\node[active_hub] (48) at (18.0, 43.0) {48};
+\node[active_hub] (49) at (11.0, 31.0) {49};
+\node[active_hub] (50) at (46.0, 95.0) {50};
+ 
+ 
+% Solution (regular edges of E_C)
+\draw[linkH] (3) -- (5);
+\draw[linkH] (5) -- (6);
+\draw[linkH] (4) -- (8);
+\draw[linkH] (7) -- (11);
+\draw[linkH] (7) -- (12);
+\draw[linkH] (12) -- (14);
+\draw[linkH] (2) -- (16);
+\draw[linkH] (10) -- (17);
+\draw[linkH] (13) -- (19);
+\draw[linkH] (18) -- (19);
+\draw[linkH] (4) -- (20);
+\draw[linkH] (2) -- (21);
+\draw[linkH] (1) -- (23);
+\draw[linkH] (6) -- (23);
+\draw[linkH] (9) -- (27);
+\draw[linkH] (25) -- (28);
+\draw[linkH] (22) -- (30);
+\draw[linkH] (20) -- (31);
+\draw[linkH] (11) -- (32);
+\draw[linkH] (28) -- (33);
+\draw[linkH] (16) -- (34);
+\draw[linkH] (1) -- (35);
+\draw[linkH] (24) -- (35);
+\draw[linkH] (31) -- (36);
+\draw[linkH] (34) -- (36);
+\draw[linkH] (24) -- (38);
+\draw[linkH] (30) -- (38);
+\draw[linkH] (9) -- (39);
+\draw[linkH] (15) -- (39);
+\draw[linkH] (27) -- (40);
+\draw[linkH] (29) -- (40);
+\draw[linkH] (25) -- (41);
+\draw[linkH] (3) -- (42);
+\draw[linkH] (37) -- (42);
+\draw[linkH] (15) -- (43);
+\draw[linkH] (21) -- (43);
+\draw[linkH] (10) -- (44);
+\draw[linkH] (32) -- (44);
+\draw[linkH] (14) -- (45);
+\draw[linkH] (26) -- (45);
+\draw[linkH] (17) -- (46);
+\draw[linkH] (18) -- (46);
+\draw[linkH] (8) -- (47);
+\draw[linkH] (22) -- (47);
+\draw[linkH] (26) -- (48);
+\draw[linkH] (33) -- (48);
+\draw[linkH] (37) -- (49);
+\draw[linkH] (41) -- (49);
+\draw[linkH] (13) -- (50);
+\draw[linkH] (29) -- (50);
+ 
+% Solution (regular edges of E_C)
+\draw[linkHrobust] (1) -- (6);
+\draw[linkHrobust] (3) -- (6);
+\draw[linkHrobust] (11) -- (12);
+\draw[linkHrobust] (7) -- (14);
+\draw[linkHrobust] (9) -- (15);
+\draw[linkHrobust] (13) -- (18);
+\draw[linkHrobust] (17) -- (18);
+\draw[linkHrobust] (8) -- (20);
+\draw[linkHrobust] (15) -- (21);
+\draw[linkHrobust] (16) -- (21);
+\draw[linkHrobust] (8) -- (22);
+\draw[linkHrobust] (5) -- (23);
+\draw[linkHrobust] (1) -- (24);
+\draw[linkHrobust] (14) -- (26);
+\draw[linkHrobust] (13) -- (29);
+\draw[linkHrobust] (27) -- (29);
+\draw[linkHrobust] (24) -- (30);
+\draw[linkHrobust] (4) -- (31);
+\draw[linkHrobust] (7) -- (32);
+\draw[linkHrobust] (10) -- (32);
+\draw[linkHrobust] (25) -- (33);
+\draw[linkHrobust] (26) -- (33);
+\draw[linkHrobust] (2) -- (34);
+\draw[linkHrobust] (31) -- (34);
+\draw[linkHrobust] (23) -- (35);
+\draw[linkHrobust] (16) -- (36);
+\draw[linkHrobust] (20) -- (36);
+\draw[linkHrobust] (3) -- (37);
+\draw[linkHrobust] (22) -- (38);
+\draw[linkHrobust] (35) -- (38);
+\draw[linkHrobust] (27) -- (39);
+\draw[linkHrobust] (9) -- (40);
+\draw[linkHrobust] (28) -- (41);
+\draw[linkHrobust] (37) -- (41);
+\draw[linkHrobust] (5) -- (42);
+\draw[linkHrobust] (2) -- (43);
+\draw[linkHrobust] (39) -- (43);
+\draw[linkHrobust] (11) -- (44);
+\draw[linkHrobust] (17) -- (44);
+\draw[linkHrobust] (12) -- (45);
+\draw[linkHrobust] (10) -- (46);
+\draw[linkHrobust] (19) -- (46);
+\draw[linkHrobust] (4) -- (47);
+\draw[linkHrobust] (30) -- (47);
+\draw[linkHrobust] (28) -- (48);
+\draw[linkHrobust] (45) -- (48);
+\draw[linkHrobust] (25) -- (49);
+\draw[linkHrobust] (42) -- (49);
+\draw[linkHrobust] (19) -- (50);
+\draw[linkHrobust] (40) -- (50);
+ 
+% Solution (regular edges of E_C)
+\end{tikzpicture}
+\end{document}

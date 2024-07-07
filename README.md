@@ -16,8 +16,8 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Usage
 ```julia
-julia> using ResilientRSPSolver
-julia> pars = ResilientRSPSolver.MainPar(
+julia> using RingStarProblems
+julia> pars = RingStarProblems.OptimizeParameters(
                         solve_mod="Both",     # ILP, B&BC or Both
                         write_res="",         # output results locally, html or no output ""
                         o_i="0",              # opening costs
@@ -41,5 +41,5 @@ julia> pars = ResilientRSPSolver.MainPar(
 Then:
 ```julia
 julia> id_instance = 3
-julia> ResilientRSPSolver.optimize(pars, instance_id)
+julia> RingStarProblems.rspoptimize(pars, instance_id)
 ```

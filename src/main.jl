@@ -1,11 +1,14 @@
-function optimize(pars::MainPar, id_instance::Int=0)
+function rspoptimize(pars::OptimizeParameters, id_instance::Int=0)
 
-    fd_small = eval(@__DIR__) * "/instances/Instances_small"
-    fd_15 = eval(@__DIR__) * "/instances/Instances_15"
-    fd_25 = eval(@__DIR__) * "/instances/Instances_25"
-    fd_40 = eval(@__DIR__) * "/instances/Instances_40"
-    fd_50 = eval(@__DIR__) * "/instances/Instances_50"
-    fd_article = eval(@__DIR__) * "/instances/Instances_journal_article/journal"
+
+    @show joinpath(@__DIR__, "instances", "Instances_small")
+    @show @__DIR__
+    fd_small = joinpath(@__DIR__, "instances", "Instances_small")
+    fd_15 = joinpath(@__DIR__, "instances", "Instances_15")
+    fd_25 = joinpath(@__DIR__, "instances", "Instances_25")
+    fd_40 = joinpath(@__DIR__, "instances", "Instances_40")
+    fd_50 = joinpath(@__DIR__, "instances", "Instances_50")
+    fd_article = joinpath(@__DIR__, "instances", "Instances_journal_article/journal")
 
     filenames_arg = Vector{String}[
 
@@ -70,8 +73,8 @@ function optimize(pars::MainPar, id_instance::Int=0)
         # redirect terminal outputs/stdio to file
         now_file = Dates.format(Dates.now(), "yyyy-mm-dd_HHhMM")
         now_folder = Dates.format(Dates.now(), "yyyy-mm-dd")
-        output_path = eval(@__DIR__) * "/debug/stdio/$now_folder/"
-        mkpath(output_path)
+        output_path = joinpath(@__DIR__, "debug", "stdio", "$now_folder")
+        mkpath(output_path)mkpath
         redirect_stdio(stdout="$output_path/stdout_$(filename[1])_$now_file.txt", stderr="$output_path/stderr_$(filename[1])_$now_file.txt") do
             main_inside(pars, filename)
             GC.gc()
@@ -85,15 +88,15 @@ end
 
 
 
-function main_inside(pars::MainPar, filename::Vector{String})
+function main_inside(pars::OptimizeParameters, filename::Vector{String})
     journal_article_instances_str = ["random_instance", "berlin52", "bier127", "brazil58", "ch130", "ch150", "d198", "eil51", "eil76", "eil101", "gr96", "gr120", "gr137", "kroA100", "kroA150", "kroA200", "kroB100", "kroB150", "kroB200", "kroC100", "kroD100", "kroE100", "lin105", "pr76", "pr107", "pr124", "pr136", "pr144", "pr152", "rat99", "rat195", "rd100", "st70", "u159"]
-    output_folder = eval(@__DIR__) * "/results/solutions/"
+    output_folder = joinpath(@__DIR__, "results", "solutions")
     extension = ".txt"
     if pars.write_res == "html"
         if filename[1] in journal_article_instances_str
-            output_folder = eval(@__DIR__) * "/results/html/solutions/journal_article_2023/"
+            output_folder = joinpath(@__DIR__, "results", "html", "solutions", "journal_article_2023")
         else
-            output_folder = eval(@__DIR__) * "/results/html/solutions/experiments_2023/"
+            output_folder = joinpath(@__DIR__, "results", "html", "solutions", "experiments_2023")
         end
         extension = ".html"
     end

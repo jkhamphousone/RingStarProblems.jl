@@ -13,7 +13,7 @@ module RingStarProblems
         using Combinatorics, DelimitedFiles, Dates, Random
         @info "Loading Distributions, Graphs, GraphsFlows and Plots"
         using Distributions
-        using Graphs, GraphsFlows, GraphPlot, Plots
+        using Graphs, GraphsFlows, Plots
         @info "Loading Parameters and Formatting"
         using Parameters
         @info "Loading, Cairo and Suppressor"

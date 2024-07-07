@@ -1,4 +1,4 @@
-@with_kw mutable struct MainPar @deftype String
+@with_kw mutable struct OptimizeParameters @deftype String
     solve_mod = "Both" ; @assert solve_mod in ["Ben", "ILP", "Both", "No_optimize", "g(F)", "g(F)exploreonlyILP", "g(F)exploreonlyBen"]
     sp_solve = "poly" ; @assert sp_solve in ["poly", "hybrid", "LP"]
     tildeV::Int = 0 ; @assert 0 <= tildeV <= 100
