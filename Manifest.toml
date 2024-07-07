@@ -2,7 +2,7 @@
 
 julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "c830146188241a01aab0fd80342ad16bcb0219e8"
+project_hash = "51bb0174beaf397a9098959d8883f8ad52663566"
 
 [[deps.Aqua]]
 deps = ["Compat", "Pkg", "Test"]
@@ -276,12 +276,6 @@ deps = ["Statistics"]
 git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.4"
-
-[[deps.Fontconfig]]
-deps = ["Fontconfig_jll", "Libdl", "Printf"]
-git-tree-sha1 = "e560c896d8081472db0c3f6d4bd2aa540ec176b1"
-uuid = "186bb1d3-e1f7-5a2c-a377-96d770f13627"
-version = "0.4.1"
 
 [[deps.Fontconfig_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Expat_jll", "FreeType2_jll", "JLLWrappers", "Libdl", "Libuuid_jll", "Pkg", "Zlib_jll"]
