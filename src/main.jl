@@ -1,4 +1,4 @@
-function main(pars::MainPar, id_instance::Int=0)
+function optimize(pars::MainPar, id_instance::Int=0)
 
     fd_small = "./instances/Instances_small"
     fd_15 = "./instances/Instances_15"

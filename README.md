@@ -11,7 +11,7 @@ The package can solve 1-R-RSP thanks to:
 # Usage
 ```
 julia> using RRSP
-julia> pars = MainPar(solve_mod="Both",
+julia> pars = RRSP.MainPar(solve_mod="Both",
                       write_res="", 
                       o_i="0", 
                       s_ij="", 
@@ -34,5 +34,5 @@ julia> pars = MainPar(solve_mod="Both",
 Then:
 ```
 julia> id_instance = 3
-julia> main(pars, instance_id)
+julia> RRSP.optimize(pars, instance_id)
 ```

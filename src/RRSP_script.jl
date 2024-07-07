@@ -46,7 +46,7 @@ include("create_blossom_ineaqulities.jl")
 @info "Loading .jl files $(lpad("100%",4))"
 @info "took $(round(time() - a,digits=1))s to load packages and .jl files"
 
-export MainPar, main, t
+export MainPar, optimize, t
 
 
 
@@ -73,5 +73,5 @@ pars = MainPar(solve_mod="g(F)exploreonly$solve_m",
                nthreads=4,
                uc_strat=4)
 
-main(pars, parse(Int64, ARGS[2]))
+optimize(pars, parse(Int64, ARGS[2]))
 exit()
