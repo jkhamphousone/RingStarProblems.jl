@@ -148,7 +148,7 @@ function html_to_tex_both_TL_all(writef = true)
     file = open("html_to_tex.txt","w")
     instances_arr = String[]
     for dir in readdir("./html/solutions/journal_article_2023")
-        if !(dir in ["RAND_article",
+        if !(dir in ["random_instance",
                      "clearhtml.jl",
                      ]) && dir[1:3] != "old" # REMOVE kroA150 and 200
             push!(instances_arr, dir)

@@ -33,10 +33,10 @@ end
 # for i in {1..10}; do for j in 3 5 7; do j7 src/RhoRSP_script.jl $i $j; done; done
 declare -a arr=("y_ij <= y_jj no constraint on the fly" "y_ij <= y_jj - x_ij no constraint on the fly" "seperate y_ij <= y_jj - x_ij on lazy constraints")
 
-for i in "${arr[@]}"; do j7 src/RRSP_script.jl $i; done
+for i in "${arr[@]}"; do j7 src/ResilientRSPSolver_script.jl $i; done
 
-for i in {1..10}; do for j in 0.1 0.5 1 2 5 10; do j7 src/RRSP_script.jl $j $i; done ; done
-for i in 1 2 8 10; do for j in 0.1 0.5 1 2 5; do j7 src/RRSP_script.jl $j $i; done ; done
-for i in 11 12; do for j in 0.5 1 2 5 10 100; do echo "Running for i=$i and j=$j" ; j7 src/RRSP_script.jl $i $j; done ; done
+for i in {1..10}; do for j in 0.1 0.5 1 2 5 10; do j7 src/ResilientRSPSolver_script.jl $j $i; done ; done
+for i in 1 2 8 10; do for j in 0.1 0.5 1 2 5; do j7 src/ResilientRSPSolver_script.jl $j $i; done ; done
+for i in 11 12; do for j in 0.5 1 2 5 10 100; do echo "Running for i=$i and j=$j" ; j7 src/ResilientRSPSolver_script.jl $i $j; done ; done
 
 

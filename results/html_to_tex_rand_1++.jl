@@ -88,7 +88,7 @@ function html_to_tex_both_TL_all_rand(writef = true)
     rm("html_to_tex_rand_ClassII.txt")
     output_file_ClassIII = open("html_to_tex_rand_ClassII.txt","w")
     instances_arr_ClassIII = String[]
-    for file in readdir("./html/journal_article/RAND_article")
+    for file in readdir("./html/journal_article/random_instance")
         if file != "not_journal" && length(split(file,"_")[3]) > 2
             push!(instances_arr_ClassIII, file)
         end
@@ -97,7 +97,7 @@ function html_to_tex_both_TL_all_rand(writef = true)
     i = 0
     no_rule = 1
     for file in instances_arr_ClassIII
-        str = chop(read("./html/journal_article/RAND_article/$file", String), head=40)
+        str = chop(read("./html/journal_article/random_instance/$file", String), head=40)
         if writef
             if split(file,"_")[3] == "100"
                 write(output_file_ClassIII, html_to_tex_both_TL(str, file[end-22], "ClassII", true))

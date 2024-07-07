@@ -93,7 +93,7 @@ function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_
     elseif pars.two_opt == 2
         two_opt_string = "_intense_2-opt"
     end
-    alpha_or_n_rand = filename[1] == "RAND_article" ? "RAND_article_$(pars.n_rand)_$solving_met" : "$(rpad(filename[1],20,"_"))_α-$(inst.α)_$solving_met"
+    alpha_or_n_rand = filename[1] == "random_instance" ? "random_instance_$(pars.n_rand)_$solving_met" : "$(rpad(filename[1],20,"_"))_α-$(inst.α)_$solving_met"
     mkpath("./Results/html/plots/journal_2023/$(alpha_or_n_rand)")
     draw(PDF("./Results/html/plots/journal_2023/$alpha_or_n_rand/$(alpha_or_n_rand)_$(rpad(plot_backup_edge ? "backup-ring" : "ring_",5,"_"))TL-$(pars.time_limit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))$(pars.html_user_notes[2] == "" ? "" : "___$(pars.html_user_notes[2])__").pdf"), gplot(inst_graph, inst.x, inst.y, nodesize=nodesize, nodefillc=nodefillc, edgestrokec=edge_colors, nodelabel=nodelabels, nodelabelsize=nodesize, nodelabelc=nodelabel_colors, EDGELINEWIDTH=1.1, edgelinewidth=1.1))
 

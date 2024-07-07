@@ -1,4 +1,4 @@
-name = "RRSP"
+name = "ResilientRSPSolver"
 uuid = "13500265-d5a0-4e05-b6d0-938e8c8d2e4f"
 authors = ["julien"]
 version = "0.1.0"

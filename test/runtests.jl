@@ -1,8 +1,8 @@
-using RRSP
+using ResilientRSPSolver
 using Test
 using Aqua
 
-@testset "RRSP.jl" begin
+@testset "ResilientRSPSolver.jl" begin
     # Write your tests here.
     include("aqua.jl")
 end

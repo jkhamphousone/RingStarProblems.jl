@@ -252,7 +252,7 @@ function create_instance_robust(filename, α, pars)
 
     if filename[1] == "tiny_instance_7_2"
         tildeV = [4, 5, 6, 7]
-    elseif filename[1] in ["random", "RAND_article"]
+    elseif filename[1] in ["random", "random_instance"]
         tildeV = 2:pars.n_rand
     elseif filename[1] == "tiny_instance_11_inoc2022"
         # WARNING please use α = 2

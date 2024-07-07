@@ -1,2 +1,2 @@
 using Aqua
-Aqua.test_all(RRSP)
+Aqua.test_all(ResilientRSPSolver)

@@ -21,94 +21,42 @@ function optimize(pars::MainPar, id_instance::Int=0)
         ["Instance_25_9.0_9_5", "$fd_25/Instance_25_9.0_9_5.dat"], 
         ["Instance_40_1.0_9_1", "$fd_40/Instance_40_1.0_9_1.dat"], #11
         ["Instance_50_4.0_5_1", "$fd_50/Instance_50_4.0_5_1.dat"], 
-   
-        
+
         String["eil51", "$fd_article/eil51.tsp"], #13
         String["berlin52", "$fd_article/berlin52.tsp"], 
         String["brazil58", "$fd_article/brazil58.tsp2"], #15
         String["st70", "$fd_article/st70.tsp"],
-        String["pr76", "$fd_article/pr76.tsp"], #17
-        String["gr96", "$fd_article/gr96.tsp"], #18
+        String["eil76", "$fd_article/eil76.tsp"], #17
+        String["pr76", "$fd_article/pr76.tsp"],
+        String["gr96", "$fd_article/gr96.tsp"], #19
         String["rat99", "$fd_article/rat99.tsp"], 
-        String["kroA100", "$fd_article/kroA100.tsp"], #20
-        String["kroC100", "$fd_article/kroC100.tsp"], #21
+        String["kroA100", "$fd_article/kroA100.tsp"], #21
+        String["kroB100", "$fd_article/kroB100.tsp"], 
+        String["kroC100", "$fd_article/kroC100.tsp"], #23
         String["kroD100", "$fd_article/kroD100.tsp"],
+        String["kroE100", "$fd_article/kroE100.tsp"], #25
         String["rd100", "$fd_article/rd100.tsp"], 
+        String["eil101", "$fd_article/eil101.tsp"], #27
         String["lin105", "$fd_article/lin105.tsp"], 
-        String["u159", "$fd_article/u159.tsp"], #25
+        String["pr107", "$fd_article/pr107.tsp"], #29
+        String["gr120", "$fd_article/gr120.tsp2"], 
+        String["pr124", "$fd_article/pr124.tsp"], #31
+        String["bier127", "$fd_article/bier127.tsp"],
+        String["ch130", "$fd_article/ch130.tsp"], #33
+        String["pr136", "$fd_article/pr136.tsp"],
+        String["gr137", "$fd_article/gr137.tsp"], #35
+        String["pr144", "$fd_article/pr144.tsp"], 
+        String["ch150", "$fd_article/ch150.tsp"], #37
+        String["kroA150", "$fd_article/kroA150.tsp"],
+        String["kroB150", "$fd_article/kroB150.tsp"], #39
+        String["pr152", "$fd_article/pr152.tsp"],
+        String["u159", "$fd_article/u159.tsp"], #41
         String["rat195", "$fd_article/rat195.tsp"],
-        String["d198", "$fd_article/d198.tsp"], #27
-        String["kroA200", "$fd_article/kroA200.tsp"], #28
+        String["d198", "$fd_article/d198.tsp"], #43
+        String["kroA200", "$fd_article/kroA200.tsp"], 
+        String["kroB200", "$fd_article/kroB200.tsp"], #45
 
-        
-        # String["eil51", "$fd_article/eil51.tsp"], #13
-        # String["berlin52", "$fd_article/berlin52.tsp"], 
-        # String["brazil58", "$fd_article/brazil58.tsp2"], #15
-        # String["st70", "$fd_article/st70.tsp"],
-        # String["eil76", "$fd_article/eil76.tsp"], #17
-        # String["pr76", "$fd_article/pr76.tsp"],
-        # String["gr96", "$fd_article/gr96.tsp"], #19
-        # String["rat99", "$fd_article/rat99.tsp"], 
-        # String["kroA100", "$fd_article/kroA100.tsp"], #21
-        # String["kroB100", "$fd_article/kroB100.tsp"], 
-        # String["kroC100", "$fd_article/kroC100.tsp"], #23
-        # String["kroD100", "$fd_article/kroD100.tsp"],
-        # String["kroE100", "$fd_article/kroE100.tsp"], #25
-        # String["rd100", "$fd_article/rd100.tsp"], 
-        # String["eil101", "$fd_article/eil101.tsp"], #27
-        # String["lin105", "$fd_article/lin105.tsp"], 
-        # String["pr107", "$fd_article/pr107.tsp"], #29
-        # String["gr120", "$fd_article/gr120.tsp2"], 
-        # String["pr124", "$fd_article/pr124.tsp"], #31
-        # String["bier127", "$fd_article/bier127.tsp"],
-        # String["ch130", "$fd_article/ch130.tsp"], #33
-        # String["pr136", "$fd_article/pr136.tsp"],
-        # String["gr137", "$fd_article/gr137.tsp"], #35
-        # String["pr144", "$fd_article/pr144.tsp"], 
-        # String["ch150", "$fd_article/ch150.tsp"], #37
-        # String["kroA150", "$fd_article/kroA150.tsp"],
-        # String["kroB150", "$fd_article/kroB150.tsp"], #39
-        # String["pr152", "$fd_article/pr152.tsp"],
-        # String["u159", "$fd_article/u159.tsp"], #41
-        # String["rat195", "$fd_article/rat195.tsp"],
-        # String["d198", "$fd_article/d198.tsp"], #43
-        # String["kroA200", "$fd_article/kroA200.tsp"], 
-        # String["kroB200", "$fd_article/kroB200.tsp"], #45
-
-        # String["berlin52", "$fd_article/berlin52.tsp"], #13
-        # String["bier127", "$fd_article/bier127.tsp"],
-        # String["brazil58", "$fd_article/brazil58.tsp2"], #15
-        # String["ch130", "$fd_article/ch130.tsp"], 
-        # String["ch150", "$fd_article/ch150.tsp"], #17
-        # String["d198", "$fd_article/d198.tsp"], 
-        # String["eil51", "$fd_article/eil51.tsp"], #19
-        # String["eil76", "$fd_article/eil76.tsp"],
-        # String["eil101", "$fd_article/eil101.tsp"], #21
-        # String["gr96", "$fd_article/gr96.tsp"], 
-        # String["gr120", "$fd_article/gr120.tsp2"], #23
-        # String["gr137", "$fd_article/gr137.tsp"],
-        # String["kroA100", "$fd_article/kroA100.tsp"], #25
-        # String["kroA150", "$fd_article/kroA150.tsp"],
-        # String["kroA200", "$fd_article/kroA200.tsp"], #27
-        # String["kroB100", "$fd_article/kroB100.tsp"], 
-        # String["kroB150", "$fd_article/kroB150.tsp"], #29
-        # String["kroB200", "$fd_article/kroB200.tsp"], 
-        # String["kroC100", "$fd_article/kroC100.tsp"], #31
-        # String["kroD100", "$fd_article/kroD100.tsp"],
-        # String["kroE100", "$fd_article/kroE100.tsp"], #33
-        # String["pr76", "$fd_article/pr76.tsp"],
-        # String["lin105", "$fd_article/lin105.tsp"], #35
-        # String["pr107", "$fd_article/pr107.tsp"],
-        # String["pr124", "$fd_article/pr124.tsp"], #37
-        # String["pr136", "$fd_article/pr136.tsp"],
-        # String["pr144", "$fd_article/pr144.tsp"], #39
-        # String["pr152", "$fd_article/pr152.tsp"],
-        # String["rat99", "$fd_article/rat99.tsp"], #41
-        # String["rat195", "$fd_article/rat195.tsp"],
-        # String["rd100", "$fd_article/rd100.tsp"], #43
-        # String["st70", "$fd_article/st70.tsp"],
-        # String["u159", "$fd_article/u159.tsp"], #45
-        ["RAND_article", ""], #46
+        ["random_instance", ""], #46
         ]
         
         filename = String[]
@@ -137,7 +85,7 @@ end
 
 
 function main_inside(pars::MainPar, filename::Vector{String})
-    journal_article_instances_str = ["RAND_article", "berlin52", "bier127", "brazil58", "ch130", "ch150", "d198", "eil51", "eil76", "eil101", "gr96", "gr120", "gr137", "kroA100", "kroA150", "kroA200", "kroB100", "kroB150", "kroB200", "kroC100", "kroD100", "kroE100", "lin105", "pr76", "pr107", "pr124", "pr136", "pr144", "pr152", "rat99", "rat195", "rd100", "st70", "u159"]
+    journal_article_instances_str = ["random_instance", "berlin52", "bier127", "brazil58", "ch130", "ch150", "d198", "eil51", "eil76", "eil101", "gr96", "gr120", "gr137", "kroA100", "kroA150", "kroA200", "kroB100", "kroB150", "kroB200", "kroC100", "kroD100", "kroE100", "lin105", "pr76", "pr107", "pr124", "pr136", "pr144", "pr152", "rat99", "rat195", "rd100", "st70", "u159"]
     output_folder = "./Results/solutions/"
     extension = ".txt"
     if pars.write_res == "html"
@@ -159,7 +107,7 @@ function main_inside(pars::MainPar, filename::Vector{String})
             if filename[1] == "random"
                 filename[2] = "$(filename[1])$(nstr_random)_α=$(α)_oi-$(pars.o_i)_$(rand_inst_id)"
             end
-            if filename[1] == "RAND_article"
+            if filename[1] == "random_instance"
                 filename[2] = "$(filename[1])$(nstr_random)_o($(pars.o_i))_r($(pars.r_ij))_s($(pars.s_ij))_ID$(rand_inst_id)"
                 if pars.r_ij == pars.s_ij
                     filename[2] = "$(filename[1])$(nstr_random)_o($(pars.o_i))_rs(l_ij)_ID$(rand_inst_id)"
@@ -172,7 +120,7 @@ function main_inside(pars::MainPar, filename::Vector{String})
                 inst = create_instance_robust(filename, α, pars)
             end
             println("\nInstance: ", "$(filename[1])")
-            pars.log_level > 0 && filename[1] != "RAND_article" && @info "α=$α"
+            pars.log_level > 0 && filename[1] != "random_instance" && @info "α=$α"
 
             
             print_inst(inst, pars)

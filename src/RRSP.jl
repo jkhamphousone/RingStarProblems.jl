@@ -1,4 +1,4 @@
-module RRSP
+module ResilientRSPSolver
     if !("JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV)) || ENV["JULIA_REGISTRYCI_AUTOMERGE"]
         exit()
     end
