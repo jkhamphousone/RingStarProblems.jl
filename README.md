@@ -1,29 +1,16 @@
-<<<<<<< HEAD
-Scripting:
-
-for i in 0 1 2 4; do j7 src/RhoRSP_script.jl 1 5 $i 500; done ; for i in 2000 10000; do j7 src/RhoRSP_script.jl 1 5 4 $i ; done
-
-rsync
-
-# LONGCHAMP
-dTCode ; rsync -avr --rsh='ssh -p 5022' RhoRSP/ jkhamphousone@ssh.lamsade.dauphine.fr:mnt/RhoRSP/RhoRSP
-dTCode ; rsync -avr --rsh='ssh -p 5022' RRSP/ jkhamphousone@ssh.lamsade.dauphine.fr:mnt/RRSP/RRSP
-
-# VM
-dTCode ; rsync -avr --rsh='ssh -p 5022' RhoRSP/ jkhamphousone@ssh.lamsade.dauphine.fr:mnt/RhoRSP
-dTCode ; rsync -avr --rsh='ssh -p 5022' RRSP/ jkhamphousone@ssh.lamsade.dauphine.fr:mnt/RRSP
-=======
-# Resilient Ring Star Problem
-
+# Resilient Ring Star Problem Solver
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
 This is a my [julia](https://julialang.org/) project started during my PhD thesis to solve the Resilient Ring Star Problem also named 1-R-RSP.
 
 The package can solve 1-R-RSP thanks to:
  - An Integer Linear Programming model
  - A Branch-and-Benders-cut algorithm
 
-Usage:
-```julia> pars = MainPar(solve_mod="Both",
+# Usage
+```
+julia> using RRSP
+julia> pars = MainPar(solve_mod="Both",
                       write_res="", 
                       o_i="0", 
                       s_ij="", 
@@ -44,9 +31,7 @@ Usage:
                       uc_strat=4)
 ```
 Then:
-```julia>id_instance = 3
-   julia> main(pars, instance_id)
 ```
-
-
->>>>>>> main
+julia> id_instance = 3
+julia> main(pars, instance_id)
+```
