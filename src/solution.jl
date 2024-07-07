@@ -11,7 +11,7 @@
     k★::Int = 0; @assert k★ >= 0
 end
 
-function print_solution(file, sol::Solution, inst::Instance)
+function print_solution(file, sol::Solution, inst::RRSPInstance)
     backup = true
     print_term = false
     print(file, print_hubs(sol.hubs, print_term))
