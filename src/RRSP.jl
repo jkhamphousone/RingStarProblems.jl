@@ -1,5 +1,5 @@
 module RRSP
-    if "JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV) && ENV["JULIA_REGISTRYCI_AUTOMERGE"]
+    if !("JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV)) && ENV["JULIA_REGISTRYCI_AUTOMERGE"]
         exit()
     end
     a = time()
