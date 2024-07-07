@@ -1,6 +1,8 @@
-using RhoRSP
+using RRSP
 using Test
+using Aqua
 
-@testset "RhoRSP.jl" begin
+@testset "RRSP.jl" begin
     # Write your tests here.
+    include("aqua.jl")
 end

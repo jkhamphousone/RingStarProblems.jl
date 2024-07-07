@@ -3,10 +3,7 @@ module RRSP
     a = time()
     @info "Loading Revise"
     using Revise
-    using Aqua
-    @static if v"1.9" >= Base.VERSION >= v"1.7"
-        using JET
-    end
+
         
     using JuMP
     using Gurobi
@@ -54,7 +51,6 @@ module RRSP
     
 
     @info "Loading .jl files $(lpad("100%",4))"
-    export MainPar, main, t
 
     # pars = MainPar(solve_mod="Both", alphas=[parse(Int, ARGS[2])], time_limit=60*60, write_res="html", log_level=1, plot_run=true, html_usernotes=ARGS[3])
     # main(pars, parse(Int, ARGS[1]))

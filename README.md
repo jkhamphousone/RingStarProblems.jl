@@ -1,5 +1,6 @@
 # Resilient Ring Star Problem
 
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 This is a my [julia](https://julialang.org/) project started during my PhD thesis to solve the Resilient Ring Star Problem also named 1-R-RSP.
 
 The package can solve 1-R-RSP thanks to:
@@ -31,3 +32,5 @@ Then:
 ```julia>id_instance = 3
    julia> main(pars, instance_id)
 ```
+
+
