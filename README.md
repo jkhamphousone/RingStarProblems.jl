@@ -1,4 +1,4 @@
-# Ring Star Problem variants Solver
+# [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 ## Resilient Ring Star Problem
