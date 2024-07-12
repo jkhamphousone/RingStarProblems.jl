@@ -41,5 +41,5 @@ julia> pars = RingStarProblems.OptimizeParameters(
 Then:
 ```julia
 julia> id_instance = 3
-julia> RingStarProblems.rspoptimize(pars, instance_id)
+julia> RingStarProblems.rspoptimize(pars, id_instance)
 ```
