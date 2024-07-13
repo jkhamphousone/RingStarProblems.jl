@@ -1,3 +1,4 @@
+import .SPSolve
 
 function rrsp_create_benders_model_lazy(filename, inst, pars)
     """
@@ -270,7 +271,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
             if nsubtour_cons == nsubtour_cons_before
                 B_cb = callback_value(cb_data, B) * inst.F
                 start_time_sp = time()
-                if pars.sp_solve == "poly"
+                if pars.sp_solve == SPSolve.Poly()
                     B_val, α, β, γ, δ, ζ = sp_optimize_poly(x̂, ŷ, inst)
                     B_val *= inst.F
 
@@ -315,7 +316,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
                     B_computed, i★, j★, k★ = compute_B_critical_triple(inst, x̂, ŷ)
                     tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
 
-                    if pars.sp_solve == "LP"
+                    if pars.sp_solve == SPSolve.LP()
 
                         con = @build_constraint(inst.F * B >=
                                                 sum((1 - y[i, i] - sum(y[i, j] for j in setdiff(V, tildeV, i); init=0))α[i] for i in V) +

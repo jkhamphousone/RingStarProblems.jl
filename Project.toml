@@ -1,9 +1,10 @@
 name = "RingStarProblems"
 uuid = "bed4ad48-c7de-4cc5-bbc0-d98473e6c0f4"
-authors = ["jkhamphousone <jkhamphousone@gmail.com>"]
+authors = ["jkhamphousone <research.khamphousone@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
 Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -19,8 +20,10 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
+Aqua = "0.4.2, 0.5, 0.6, 0.7, 0.8"
 Cairo = "1"
 Combinatorics = "1"
 Dates = "1.10.4"
@@ -36,10 +39,12 @@ Plots = "1"
 Random = "1.10.4"
 Revise = "3.5"
 Suppressor = "0.2"
+Test = "1.7, 1.8, 1.9, 1.10"
 julia = "1.10"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Aqua", "Test"]

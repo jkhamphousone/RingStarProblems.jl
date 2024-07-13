@@ -1,6 +1,4 @@
 using RingStarProblems
-using Test
-using Aqua
 
 @testset "RingStarProblems.jl" begin
     # Write your tests here.

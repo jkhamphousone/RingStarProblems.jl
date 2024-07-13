@@ -10,12 +10,19 @@ module SolveMod
     const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
 end
 
-using .SolveMod
+module SPSolve
+    struct Poly end  # public interface
+    struct Hybrid end  # public interface
+    struct LP end  # public interface
+    const USPSolve = Union{Poly,Hybrid,LP}  # not part of the public interface
+end
 
+using .SolveMod: USolveMod
+using .SPSolve: USPSolve
 
 @with_kw mutable struct OptimizeParameters @deftype String
-    solve_mod::SolveMod.USolveMod
-    sp_solve = "poly" ; @assert sp_solve in ["poly", "hybrid", "LP"]
+    solve_mod::USolveMod = USolveMod.Both()
+    sp_solve::USPSolve = SPSolve.Poly()
     tildeV::Int = 0 ; @assert 0 <= tildeV <= 100
     alphas::Vector{Int} = Int[5]
     F::Float64 = 0.0 ; @assert 0 <= F
