@@ -1,6 +1,6 @@
 module RingStarProblems
-    if "JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV) && ENV["JULIA_REGISTRYCI_AUTOMERGE"]
-        
+    if "JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV) && ENV["JULIA_REGISTRYCI_AUTOMERGE"] == "JULIA_REGISTRYCI_AUTOMERGE"
+          
     else
         a = time()
         @info "Loading Revise"
