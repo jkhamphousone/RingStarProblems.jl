@@ -1,5 +1,7 @@
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
+![Ring Star Problem Solution](https://en.wikipedia.org/wiki/Ring_star_problem#/media/File:Ring_Star_Problem_solution.svg)
+
 # Installation
 ```julia
 julia> import Pkg ; Pkg.add("RingStarProblems.jl")
