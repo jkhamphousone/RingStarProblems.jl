@@ -1,6 +1,7 @@
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-![Ring Star Problem Solution](https://en.wikipedia.org/wiki/Ring_star_problem#/media/File:Ring_Star_Problem_solution.svg)
+
+![Ring Star Problem network](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ring_Star_Problem_solution.svg/360px-Ring_Star_Problem_solution.svg.png?20240712195658)
 
 # Installation
 ```julia
