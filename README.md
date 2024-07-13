@@ -13,6 +13,10 @@ The package can solve 1-R-RSP thanks to:
 
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
+# Installation
+
+julia> import Pkg ; Pkg.add("RingStarProblems.jl")
+
 
 # Usage
 ```julia
