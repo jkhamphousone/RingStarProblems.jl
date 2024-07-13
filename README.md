@@ -1,4 +1,4 @@
-# Ring Star Problem variants Solver
+# [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 ## Resilient Ring Star Problem
@@ -41,5 +41,5 @@ julia> pars = RingStarProblems.OptimizeParameters(
 Then:
 ```julia
 julia> id_instance = 3
-julia> RingStarProblems.rspoptimize(pars, instance_id)
+julia> RingStarProblems.rspoptimize(pars, id_instance)
 ```
