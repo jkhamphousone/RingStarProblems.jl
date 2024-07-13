@@ -18,7 +18,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-Both Gurobi.jl and JuMP.jl must be correctely installed. Support for all JuMP solvers is in development.
+Both Gurobi.jl and JuMP.jl must be correctely installed. Using MathOptInterface.jl instead in development.
 
 # Installation
 ```julia
