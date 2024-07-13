@@ -1,10 +1,5 @@
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-# Installation
-```julia
-julia> import Pkg ; Pkg.add("RingStarProblems.jl")
-```
-
 # [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 
 ## Resilient Ring Star Problem
@@ -21,6 +16,14 @@ The package can solve 1-R-RSP thanks to:
 
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
+# Requirements
+
+Both Gurobi.jl and JuMP.jl must be correctely installed. Support for all JuMP solvers is in development.
+
+# Installation
+```julia
+julia> import Pkg ; Pkg.add("RingStarProblems.jl")
+```
 
 # Usage
 ```julia
