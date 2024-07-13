@@ -2,7 +2,7 @@ function get_input_filepath(output_folder, filename, extension, inst, pars, nstr
     α_str = pars.n_rand == 0 ? "_α=$(inst.α)" : ""
     main_folder_path = "$(output_folder)$(filename[1])$α_str/"
     mkpath(main_folder_path)
-    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.time_limit)$(pars.o_i == "" ? "" : "_oi-$(pars.o_i)_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
+    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.time_limit)$(pars.o_i == "" ? "" : "_oi=$(replace(pars.o_i),":"=>"-")_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
 end
 
 function write_solution_to_file(output_filepath, filename, inst, pars, nstr_random, rand_inst_id, n, benders_table, ilp_table)

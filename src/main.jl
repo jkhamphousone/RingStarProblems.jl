@@ -109,12 +109,12 @@ function main_inside(pars::OptimizeParameters, filename::Vector{String})
             nstr_random = pars.n_rand > 0 ? "_" * "$(pars.n_rand)" : ""
 
             if filename[1] == "random"
-                filename[2] = "$(filename[1])$(nstr_random)_α=$(α)_oi-$(pars.o_i)_$(rand_inst_id)"
+                filename[2] = "$(filename[1])$(nstr_random)_α=$(α)_o=$(replace(pars.o_i),":"=>"-")_$(rand_inst_id)"
             end
             if filename[1] == "random_instance"
-                filename[2] = "$(filename[1])$(nstr_random)_o($(pars.o_i))_r($(pars.r_ij))_s($(pars.s_ij))_ID$(rand_inst_id)"
+                filename[2] = "$(filename[1])$(nstr_random)_o=$(replace(pars.o_i),":"=>"-")_$(pars.r_ij)_s($(pars.s_ij))_ID$(rand_inst_id)"
                 if pars.r_ij == pars.s_ij
-                    filename[2] = "$(filename[1])$(nstr_random)_o($(pars.o_i))_rs(l_ij)_ID$(rand_inst_id)"
+                    filename[2] = "$(filename[1])$(nstr_random)_o$(replace(pars.o_i),":"=>"-")_rs=l_ij_ID$(rand_inst_id)"
                 end
             end
 
