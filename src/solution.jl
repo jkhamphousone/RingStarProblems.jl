@@ -1,3 +1,4 @@
+
 @with_kw mutable struct Solution @deftype Dict{Tuple{Int,Int},Bool}
     n::Int = 0 ;
     hubs::Vector{Int} = Int[] # Vector of size |H|. n+1 doesn't appear

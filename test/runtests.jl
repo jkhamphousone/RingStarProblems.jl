@@ -1,12 +1,13 @@
 using RingStarProblems
 using Test
 using Aqua
+using 
 
 @testset "RingStarProblems.jl" begin
     # Write your tests here.
     include("aqua.jl")
 
-    pars = RingStarProblems.OptimizeParameters(solve_mod="Both",
+    pars = RingStarProblems.OptimizeParameters(solve_mod=Both(),
                       write_res="", 
                       o_i="0", 
                       s_ij="", 

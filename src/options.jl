@@ -1,5 +1,20 @@
+
+module SolveMod
+    struct Both end  # public interface
+    struct BranchBendersCut end  # public interface
+    struct ILP end  # public interface
+    struct NoOptimize end  # public interface
+    struct gF end  # public interface
+    struct gFexploreonlyILP end  # public interface
+    struct gFexploreonlyben end  # public interface
+    const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
+end
+
+using .SolveMod
+
+
 @with_kw mutable struct OptimizeParameters @deftype String
-    solve_mod = "Both" ; @assert solve_mod in ["Ben", "ILP", "Both", "No_optimize", "g(F)", "g(F)exploreonlyILP", "g(F)exploreonlyBen"]
+    solve_mod::SolveMod.USolveMod
     sp_solve = "poly" ; @assert sp_solve in ["poly", "hybrid", "LP"]
     tildeV::Int = 0 ; @assert 0 <= tildeV <= 100
     alphas::Vector{Int} = Int[5]
@@ -37,23 +52,17 @@
     ("without constraints (10) and (12)", "without(10)&(12)")
     """
     """
-        solve_mod: "Ben" or "ILP"
         poly: "poly" or "hybrid"
         random: 0 if not a random instance
                 number of instance nodes otherwise
         alphas: array of Labbé alphas values to test
         write_res: "html" writing results in html file
-                   "local" writing longchapars folder
-                   "" not writing results
+                    "local" writing longchapars folder
+                    "" not writing results
         n_rand: Number of nodes in random instances
         o_i: "1", "0", "random" or "1:1000"
     """
 end
-
-
-
-
-    
 
 @with_kw mutable struct BDtable @deftype Float64
     t_time = .0 ; @assert t_time >= .0
@@ -96,6 +105,9 @@ end
     """
     """
 end
+    
+
+
 
 
 
@@ -112,3 +124,8 @@ function round!(ilp::ILPtable)
     setfield!.(Ref(ilp), 6:12, round.(getfield.(Ref(ilp), 6:12), digits=2))
     return ilp
 end
+
+
+
+
+

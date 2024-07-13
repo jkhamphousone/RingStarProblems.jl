@@ -1,6 +1,6 @@
 module RingStarProblems
     if "JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV) && ENV["JULIA_REGISTRYCI_AUTOMERGE"] == "JULIA_REGISTRYCI_AUTOMERGE"
-          
+
     else
         a = time()
         @info "Loading Revise"
@@ -16,14 +16,16 @@ module RingStarProblems
         using Graphs, GraphsFlows, Plots
         @info "Loading Parameters and Formatting"
         using Parameters
-        @info "Loading, Cairo and Suppressor"
+        @info "Loading, Cairo, Suppressor and Options"
         using Cairo, Suppressor
         using Dualization
+        
         @info "Loading .jl files $(lpad("0%",4))"
 
         include("instance.jl")
         include("solution.jl")
-        include("with_kw_mutable_structures.jl")
+        include("options.jl")
+
         include("solution_checker.jl")
         @info "Loading .jl files $(lpad("25%",4))"
         include("create_subtour_constraint.jl")
@@ -46,8 +48,9 @@ module RingStarProblems
         include("../debug/debug.jl")
         include("create_blossom_ineaqulities.jl")
 
+        
+
         @info "Loading .jl files $(lpad("100%",4))"
         @info time()-a
     end
-
 end

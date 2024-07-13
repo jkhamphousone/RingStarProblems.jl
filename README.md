@@ -29,7 +29,7 @@ julia> import Pkg ; Pkg.add("RingStarProblems.jl")
 ```julia
 julia> using RingStarProblems
 julia> pars = RingStarProblems.OptimizeParameters(
-                        solve_mod="Both",     # ILP, B&BC or Both
+                        solve_mod=SolveMod.Both(),     # ILP(), BranchBendersCut() or Both()
                         write_res="",         # output results locally, html or no output ""
                         o_i="0",              # opening costs
                         s_ij="",              # star costs

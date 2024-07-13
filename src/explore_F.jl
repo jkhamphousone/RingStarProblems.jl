@@ -218,7 +218,7 @@ function write_tikz_list_Fm_Sm(list_Fm_Sm::Fm_Sm, filename, exploreplustime, nca
     str *= raw"]$"
     str *= raw"\item Total execution time is: "
     str *= "$(round(time()-exploreplustime,digits=2))s"
-    if pars.solve_mod == "Ben"
+    if pars.solve_mod == BBC
         str *= raw"\item Number of times BBC is called: "
     else
         str *= raw"\item Number of times ILP is called: "
@@ -283,13 +283,13 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
 
     @variable(m, x[i=V, j=i+1:n+1], Bin)
     @variable(m, y[i=V′, j=V′], Bin)
-    if pars.solve_mod == "g(F)exploreonlyILP"
+    if pars.solve_mod == gFexploreonlyILP
         @variable(m, x′[i=V, j=i+1:n+1], Bin)
         @variable(m, y′[i=V, j=V; i != j], Bin)
         @variable(m, θ[i=V, j=setdiff(tildeV, i)] >= 0)
     end
     
-    if pars.solve_mod == "g(F)"
+    if pars.solve_mod == gF
         time_BSInf = time()
         BSInf, hub1, hub2, hub3 = computeBSInf(inst)
         time_BSInf = round(time() - time_BSInf,digits=5)
@@ -322,7 +322,7 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
     function f(x, y)
         sum(sum(c[i,j]*x[i,j] for j in V if i < j; init=0) for i in V) + sum(c[1,i]*x[i,n+1] for i in 2:n) + sum(sum(d[i,j]*y[i,j] for j in V if i != j) for i in V) + sum(o[i]*y[i,i] for i in V)
     end
-    if pars.solve_mod == "g(F)exploreonlyILP"
+    if pars.solve_mod == gFexploreonlyILP
         for i in V
             for k in i+1:n+1
                 for j in tildeV
@@ -373,7 +373,7 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
 
 
 
-    if pars.solve_mod == "g(F)exploreonlyBen"
+    if pars.solve_mod == gFexploreonlyben
         Sl, Slobj, x̂, ŷ, B_computed, explore_time = create_S(m, x, y, Fl, B, "l", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons)
     else
         Sl, Slobj, x̂, ŷ, B_computed, explore_time = create_S(m, x, y, Fl, B, "l", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons, x′, y′)
@@ -391,10 +391,10 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
         end
     end
     set_start_value(B, B_computed)
-    if pars.solve_mod == "g(F)exploreonlyBen"
+    if pars.solve_mod == gFexploreonlyben
         Sr, Srobj, x̂, ŷ, B_computed, explore_time = create_S(m, x, y, Fr, B, "r", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons)
         explore(Fl, Sl, Fr, Sr, list_Fm_Sm, m, f, const_term_K, const_term_B, inst, gurobi_env, x̂, ŷ, B_computed, x, y, B, ε, explore_time, ncall_bbc, subtourlazy_cons, nsubtour_cons)
-    elseif pars.solve_mod == "g(F)exploreonlyILP"
+    elseif pars.solve_mod == gFexploreonlyILP
         Sr, Srobj, x̂, ŷ, B_computed, explore_time = create_S(m, x, y, Fr, B, "r", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons, x′, y′)
         explore(Fl, Sl, Fr, Sr, list_Fm_Sm, m, f, const_term_K, const_term_B, inst, gurobi_env, x̂, ŷ, B_computed, x, y, B, ε, explore_time, ncall_bbc, subtourlazy_cons, nsubtour_cons, x′, y′)
     else
@@ -438,7 +438,7 @@ function create_S(m, x, y, Fm, B, str_lmr, f, inst, pars, gurobi_env, ε, ncall_
     c = inst.c
 
 
-    if pars.solve_mod == "g(F)exploreonlyBen"
+    if pars.solve_mod == gFexploreonlyben
         m, explore_time, m_time, s_time, blossom_time, t_two_opexplore_time, TL_reached, gap, UB, LB, x̂, ŷ, nopt_cons, nsubtour_cons, nconnectivity_cuts, ntwo_opt, nblossom, explored_nodes = benders_st_optimize_explore!(m, x, y, f, Fm, B, str_lmr, inst, pars, time(), gurobi_env, subtourlazy_cons, nsubtour_cons, ncall_bbc)
     else
 
@@ -545,7 +545,7 @@ function explore(Fl, Sl, Fr, Sr, list_Fm_Sm, m, f, const_term_K, const_term_B, i
 
     fix(const_term_K, KSl)
     fix(const_term_B, BSr)
-    if pars.solve_mod == "g(F)exploreonlyBen"
+    if pars.solve_mod == gFexploreonlyben
         Sm, Smobj, x̂, ŷ, B_computed, bc_time = create_S(m, x, y, Fm, B, "m", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons)
     else
         Sm, Smobj, x̂, ŷ, B_computed, bc_time = create_S(m, x, y, Fm, B, "m", f, inst, pars, gurobi_env, ε, ncall_bbc, subtourlazy_cons, nsubtour_cons, x′, y′)
@@ -558,7 +558,7 @@ function explore(Fl, Sl, Fr, Sr, list_Fm_Sm, m, f, const_term_K, const_term_B, i
         push!(list_Fm_Sm, (Fm, Sr, explore_time), pars.backup_factor)
         return
     end
-    if pars.solve_mod == "g(F)exploreonlyBen"
+    if pars.solve_mod == gFexploreonlyben
         explore(Fl, Sl, Fm, Sm, list_Fm_Sm, m, f, const_term_K, const_term_B, inst, gurobi_env, x̂, ŷ, B_computed, x, y, B, ε, explore_time, ncall_bbc, subtourlazy_cons, nsubtour_cons)
         explore(Fm, Sm, Fr, Sr, list_Fm_Sm, m, f, const_term_K, const_term_B, inst, gurobi_env, x̂, ŷ, B_computed, x, y, B, ε, explore_time, ncall_bbc, subtourlazy_cons, nsubtour_cons)
     else
