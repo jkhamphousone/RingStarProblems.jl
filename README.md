@@ -1,8 +1,5 @@
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-
-![Ring Star Problem network](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ring_Star_Problem_solution.svg/360px-Ring_Star_Problem_solution.svg.png?20240712195658)
-
 # Installation
 ```julia
 julia> import Pkg ; Pkg.add("RingStarProblems.jl")
@@ -19,6 +16,9 @@ The package can solve 1-R-RSP thanks to:
  - Both, sequentially
 
 ## Ring Star Problem
+
+![Ring Star Problem network](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ring_Star_Problem_solution.svg/360px-Ring_Star_Problem_solution.svg.png?20240712195658)
+
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 
