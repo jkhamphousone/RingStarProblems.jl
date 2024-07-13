@@ -15,8 +15,9 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Installation
 
+```julia
 julia> import Pkg ; Pkg.add("RingStarProblems.jl")
-
+```
 
 # Usage
 ```julia
