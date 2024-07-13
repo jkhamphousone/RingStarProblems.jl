@@ -1,5 +1,11 @@
-# [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
+# Installation
+```julia
+julia> import Pkg ; Pkg.add("RingStarProblems.jl")
+```
+
+# [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 
 ## Resilient Ring Star Problem
 The [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443) as well as [Khamphousone et al., 2021](https://www.researchgate.net/profile/Fabian-Castano/publication/351117932_Introducing_the_Resilient_Ring_Star_Problem/links/60886e808ea909241e2c5ee0/Introducing-the-Resilient-Ring-Star-Problem.pdf) and [Khamphousone et al., 2023](https://hal.science/hal-04286851) introduce the Resilient Ring Star Problem (called 1-R-RSP).
@@ -10,6 +16,8 @@ The package can solve 1-R-RSP thanks to:
  - Both, sequentially
 
 ## Ring Star Problem
+
+![Ring Star Problem network](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ring_Star_Problem_solution.svg/360px-Ring_Star_Problem_solution.svg.png?20240712195658)
 
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
