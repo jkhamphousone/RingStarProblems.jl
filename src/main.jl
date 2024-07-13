@@ -171,4 +171,5 @@ function main_inside(pars::OptimizeParameters, filename::Vector{String})
         end
         GC.gc()
     end
+    return 0
 end
