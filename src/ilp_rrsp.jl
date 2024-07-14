@@ -35,7 +35,7 @@ function round!(ilp::ILPtable)
 end
 
 
-function rrsp_create_ilp_lazy(filename, inst, pars)
+function rrsp_create_ilp_lazy(filename, inst, pars; solutionchecker = false)
     println()
     two_opt_string = ""
     if pars.two_opt >= 1
@@ -300,7 +300,7 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
 
 
         @show LB, UB
-        if pars.timelimit > 20 && pars.assert
+        if solutionchecker
             resilient_checker(
                 filename,
                 inst,

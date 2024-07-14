@@ -237,5 +237,197 @@ i★ = 5
 j★ = 10
 k★ = 6
 </details>
+</details>       ILP ——— 11 hubs —— 1—7—2—9—3—8—4—6—10—5—11
+total time           4.64                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1277.32<=1277.32     subtour              20.0                 
+connectivity cuts    12.0                 uc strategy          4                    
+uc tolerance         0.01                 tildeV               2:10                 
+2-opt strategy       0                                                              
+explored_nodes       64                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 RingStarProblems.Options.Costs.Euclidian()
+s_ij                 RingStarProblems.Options.Costs.Euclidian()
+                                          <details><summary>Found solution</summary>
+RING NODES
+1—7—2—9—3—8—4—6—10—5—11
+
+RING
+1  ---  7 | cost [108.0]
+1  --- 11 | cost [0.0]
+2  ---  7 | cost [72.0]
+2  ---  9 | cost [48.0]
+3  ---  8 | cost [45.0]
+3  ---  9 | cost [24.0]
+4  ---  6 | cost [123.0]
+4  ---  8 | cost [132.0]
+5  --- 10 | cost [69.0]
+5  --- 11 | cost [45.0]
+6  --- 10 | cost [138.0]
+
+STAR
+
+BACKUP RING
+1  ---  2 | cost [1.71]
+2  ---  3 | cost [0.6900000000000001]
+3  ---  4 | cost [1.71]
+4  --- 10 | cost [1.77]
+5  ---  6 | cost [2.04]
+6  ---  8 | cost [1.86]
+7  ---  9 | cost [0.81]
+8  ---  9 | cost [0.6900000000000001]
+10 --- 11 | cost [0.93]
+
+BACKUP STAR
+
+B = 2.04
+i★ = 5
+j★ = 10
+k★ = 6
+</details>
+</details>       ILP ——— 11 hubs —— 1—7—2—9—3—8—4—6—10—5—11
+total time           4.23                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1277.32<=1277.32     subtour              20.0                 
+connectivity cuts    12.0                 uc strategy          4                    
+uc tolerance         0.01                 tildeV               2:10                 
+2-opt strategy       0                                                              
+explored_nodes       64                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 Euclidian()
+          s_ij                 Euclidian()
+                                                    <details><summary>Found solution</summary>
+RING NODES
+1—7—2—9—3—8—4—6—10—5—11
+
+RING
+1  ---  7 | cost [108.0]
+1  --- 11 | cost [0.0]
+2  ---  7 | cost [72.0]
+2  ---  9 | cost [48.0]
+3  ---  8 | cost [45.0]
+3  ---  9 | cost [24.0]
+4  ---  6 | cost [123.0]
+4  ---  8 | cost [132.0]
+5  --- 10 | cost [69.0]
+5  --- 11 | cost [45.0]
+6  --- 10 | cost [138.0]
+
+STAR
+
+BACKUP RING
+1  ---  2 | cost [1.71]
+2  ---  3 | cost [0.6900000000000001]
+3  ---  4 | cost [1.71]
+4  --- 10 | cost [1.77]
+5  ---  6 | cost [2.04]
+6  ---  8 | cost [1.86]
+7  ---  9 | cost [0.81]
+8  ---  9 | cost [0.6900000000000001]
+10 --- 11 | cost [0.93]
+
+BACKUP STAR
+
+B = 2.04
+i★ = 5
+j★ = 10
+k★ = 6
+</details>
+</details>       ILP ——— 11 hubs —— 1—7—2—9—3—8—4—6—10—5—11
+total time           4.32                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1277.32<=1277.32     subtour              20.0                 
+connectivity cuts    12.0                 uc strategy          4                    
+uc tolerance         0.01                 tildeV               2:10                 
+2-opt strategy       0                                                              
+explored_nodes       64                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 Euclidian()
+          s_ij                 Euclidian()
+                                                    <details><summary>Found solution</summary>
+RING NODES
+1—7—2—9—3—8—4—6—10—5—11
+
+RING
+1  ---  7 | cost [108.0]
+1  --- 11 | cost [0.0]
+2  ---  7 | cost [72.0]
+2  ---  9 | cost [48.0]
+3  ---  8 | cost [45.0]
+3  ---  9 | cost [24.0]
+4  ---  6 | cost [123.0]
+4  ---  8 | cost [132.0]
+5  --- 10 | cost [69.0]
+5  --- 11 | cost [45.0]
+6  --- 10 | cost [138.0]
+
+STAR
+
+BACKUP RING
+1  ---  2 | cost [1.71]
+2  ---  3 | cost [0.6900000000000001]
+3  ---  4 | cost [1.71]
+4  --- 10 | cost [1.77]
+5  ---  6 | cost [2.04]
+6  ---  8 | cost [1.86]
+7  ---  9 | cost [0.81]
+8  ---  9 | cost [0.6900000000000001]
+10 --- 11 | cost [0.93]
+
+BACKUP STAR
+
+B = 2.04
+i★ = 5
+j★ = 10
+k★ = 6
+</details>
+</details>       ILP ——— 11 hubs —— 1—7—2—9—3—8—4—6—10—5—11
+total time           4.61                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1277.32<=1277.32     subtour              20.0                 
+connectivity cuts    12.0                 uc strategy          4                    
+uc tolerance         0.01                 tildeV               2:10                 
+2-opt strategy       0                                                              
+explored_nodes       64                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 Euclidian()
+          s_ij                 Euclidian()
+                                                    <details><summary>Found solution</summary>
+RING NODES
+1—7—2—9—3—8—4—6—10—5—11
+
+RING
+1  ---  7 | cost [108.0]
+1  --- 11 | cost [0.0]
+2  ---  7 | cost [72.0]
+2  ---  9 | cost [48.0]
+3  ---  8 | cost [45.0]
+3  ---  9 | cost [24.0]
+4  ---  6 | cost [123.0]
+4  ---  8 | cost [132.0]
+5  --- 10 | cost [69.0]
+5  --- 11 | cost [45.0]
+6  --- 10 | cost [138.0]
+
+STAR
+
+BACKUP RING
+1  ---  2 | cost [1.71]
+2  ---  3 | cost [0.6900000000000001]
+3  ---  4 | cost [1.71]
+4  --- 10 | cost [1.77]
+5  ---  6 | cost [2.04]
+6  ---  8 | cost [1.86]
+7  ---  9 | cost [0.81]
+8  ---  9 | cost [0.6900000000000001]
+10 --- 11 | cost [0.93]
+
+BACKUP STAR
+
+B = 2.04
+i★ = 5
+j★ = 10
+k★ = 6
+</details>
 </details>
 </pre>
