@@ -1,8 +1,7 @@
-using .SolveMod
 
 
 
-function rspoptimize(pars::OptimizeParameters, id_instance::Int=0)
+function rspoptimize(pars::SolverParameters, id_instance::Int=0)
 
 
     @show joinpath(@__DIR__, "instances", "Instances_small")
@@ -92,11 +91,11 @@ end
 
 
 
-function main(pars::OptimizeParameters, filename::Vector{String})
+function main(pars::SolverParameters, filename::Vector{String})
     journal_article_instances_str = ["random_instance", "berlin52", "bier127", "brazil58", "ch130", "ch150", "d198", "eil51", "eil76", "eil101", "gr96", "gr120", "gr137", "kroA100", "kroA150", "kroA200", "kroB100", "kroB150", "kroB200", "kroC100", "kroD100", "kroE100", "lin105", "pr76", "pr107", "pr124", "pr136", "pr144", "pr152", "rat99", "rat195", "rd100", "st70", "u159"]
     output_folder = joinpath(@__DIR__, "results", "solutions")
     extension = ".txt"
-    if pars.write_res == "html"
+    if pars.writeresults == HTML()
         if filename[1] in journal_article_instances_str
             output_folder = joinpath(@__DIR__, "results", "html", "solutions", "journal_article_2023")
         else
@@ -133,41 +132,41 @@ function main(pars::OptimizeParameters, filename::Vector{String})
             
             print_inst(inst, pars)
 
-            if pars.solve_mod == SolveMod.gF() || pars.solve_mod in [SolveMod.gFexploreonlyILP(), SolveMod.gFexploreonlyben()]
+            if pars.solve_mod == gF() || pars.solve_mod in [gFexploreonlyILP(), gFexploreonlyben()]
                 rrsp_plot_gF(filename[1], inst, pars, pars.F_interval[1], pars.F_interval[2])
             end
  
-            if pars.solve_mod in [SolveMod.BranchBendersCut(), SolveMod.Both()]
+            if pars.solve_mod in [BranchBendersCut(), Both()]
                 benders_table = round!(rrsp_create_benders_model_lazy(filename[1], inst, pars))
                 
             end
 
             input_filepath = get_input_filepath(output_folder, filename, extension, inst, pars, nstr_random, rand_inst_id)
-            if pars.solve_mod in [SolveMod.ILP(), SolveMod.Both()]
+            if pars.solve_mod in [ILP(), Both()]
 
                 ilp_table = round!(rrsp_create_ilp_lazy(filename[1], inst, pars))
 
 
-            elseif pars.solve_mod == SolveMod.NoOptimize()
+            elseif pars.solve_mod == NoOptimize()
                 @show input_filepath
                 ilp_table = read_ilp_table(input_filepath, pars.plot_id)
             end
 
-            if pars.do_plot && pars.time_limit > 30 && pars.write_res != ""
-                if pars.solve_mod in [SolveMod.ILP(), SolveMod.Both]
+            if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
+                if pars.solve_mod in [ILP(), Both()]
                     plot_results_plan_run(pars, inst, filename, ilp_table, true)
                 end
-                if pars.solve_mod in [SolveMod.BranchBendersCut(), SolveMod.Both]
+                if pars.solve_mod in [BranchBendersCut(), Both()]
                     plot_results_plan_run(pars, inst, filename, benders_table, false)
                 end
             end
-            if pars.write_res != ""
+            if pars.writeresults != ""
                 write_solution_to_file(input_filepath, filename, inst, pars,
                 nstr_random, rand_inst_id, inst.n, benders_table, ilp_table)
             end
 
 
-            if pars.solve_mod == SolveMod.Both && abs(benders_table.UB - ilp_table.UB) > 0.001 && ilp_table.UB != Inf && benders_table.UB != Inf && benders_table.gap < 10e-5 && ilp_table.gap < 10e-5
+            if pars.solve_mod == Both() && abs(benders_table.UB - ilp_table.UB) > 0.001 && ilp_table.UB != Inf && benders_table.UB != Inf && benders_table.gap < 10e-5 && ilp_table.gap < 10e-5
                 println("Benders opt: ", benders_table.UB)
                 println("ILP opt: ", ilp_table.UB)
                 pars.assert && @assert abs(benders_table.UB - ilp_table.UB) < 0.01

@@ -28,9 +28,9 @@ julia> import Pkg ; Pkg.add("RingStarProblems.jl")
 # Usage
 ```julia
 julia> using RingStarProblems
-julia> pars = RingStarProblems.OptimizeParameters(
-                        solve_mod=SolveMod.Both(),     # ILP(), BranchBendersCut() or Both()
-                        write_res="",         # output results locally, html or no output ""
+julia> pars = RingStarProblems.SolverParameters(
+                        solve_mod=Both(),     # ILP(), BranchBendersCut() or Both()
+                        writeresults="",         # output results locally, html or no output ""
                         o_i="0",              # opening costs
                         s_ij="",              # star costs
                         r_ij="",              # ring costs
@@ -38,7 +38,7 @@ julia> pars = RingStarProblems.OptimizeParameters(
                         do_plot=false,        # plot_results (to debug)
                         two_opt=0,            # use two_opt heuristic (not functional yet)
                         tildeV=100,           # uncertain nodes set
-                        time_limit=120,       # Gurobi TL
+                        timelimit=120,       # Gurobi TL
                         log_level=1,          # console output log_level
                         sp_solve="poly",      # solving subproblem method for B&BC
                         redirect_stdio=false, # redirecting_stdio to output file
@@ -46,7 +46,7 @@ julia> pars = RingStarProblems.OptimizeParameters(
                         use_blossom=false,    # use blossom inequalities (not functional yet)
                         alphas=[3],           # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
                         nthreads=4,           # Number of threads used in GUROBI, set 0 for maximum number of available threads
-                        uc_strat=4            # user cut strategy
+                        ucstrat=4            # user cut strategy
 )
 ```
 Then:

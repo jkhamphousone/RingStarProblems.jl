@@ -1,4 +1,3 @@
-import .SPSolve: USPSolve
 
 function rrsp_create_benders_model_lazy(filename, inst, pars)
     """
@@ -33,13 +32,13 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
     gurobi_env = Gurobi.Env()
     gurobi_model = Gurobi.Optimizer(gurobi_env)
     m = direct_model(gurobi_model)
-    if pars.time_limit > 0
-        set_optimizer_attribute(m, "TimeLimit", pars.time_limit)
+    if pars.timelimit > 0
+        set_optimizer_attribute(m, "TimeLimit", pars.timelimit)
     end
     set_optimizer_attribute(m, "Threads", pars.nthreads)
     set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
     
-    if pars.uc_strat > 0 || pars.use_blossom
+    if pars.ucstrat > 0 || pars.use_blossom
         set_optimizer_attribute(m, "PreCrush", 1)
     end
     pars.log_level == 0 && set_silent(m)
@@ -89,7 +88,8 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
     set_optimizer_attribute(m, "Cutoff", bestobjval)
     @info "3 hubs objective:" bestobjval
 
-    if pars.warm_start != ""
+    if length(pars.warm_start) > 0
+        # TODO: currently in developpement
         warm_hubs = parse.(Int, split(pars.warm_start, "-")[1:end-1])
         @show warm_hubs
         y_warm = zeros(Bool, n)
@@ -182,7 +182,7 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         sol = Solution(n, hubs, x̂_bool, x̂′_postopt, ŷ_bool, ŷ′_postopt, B_computed, i★, j★, k★)
 
 
-        if pars.time_limit > 20 && pars.assert
+        if pars.timelimit > 20 && pars.assert
             resilient_checker(filename, inst, x̂, x̂′_postopt, ŷ, ŷ′_postopt, gap, B_computed, UB; log_level=pars.log_level)
         end
 
@@ -271,7 +271,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
             if nsubtour_cons == nsubtour_cons_before
                 B_cb = callback_value(cb_data, B) * inst.F
                 start_time_sp = time()
-                if pars.sp_solve == SPSolve.Poly()
+                if pars.sp_solve == Poly()
                     B_val, α, β, γ, δ, ζ = sp_optimize_poly(x̂, ŷ, inst)
                     B_val *= inst.F
 
@@ -316,7 +316,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
                     B_computed, i★, j★, k★ = compute_B_critical_triple(inst, x̂, ŷ)
                     tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
 
-                    if pars.sp_solve == SPSolve.LP()
+                    if pars.sp_solve == LP()
 
                         con = @build_constraint(inst.F * B >=
                                                 sum((1 - y[i, i] - sum(y[i, j] for j in setdiff(V, tildeV, i); init=0))α[i] for i in V) +
@@ -406,16 +406,16 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
     function call_back_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.uc_strat == 1
+        if pars.ucstrat == 1
             max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.uc_strat == 2
+        elseif pars.ucstrat == 2
             max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 3
+        elseif pars.ucstrat == 3
             max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 4
+        elseif pars.ucstrat == 4
             max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
-        if max_current_value > pars.uc_tolerance
+        if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom

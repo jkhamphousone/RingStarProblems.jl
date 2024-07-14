@@ -24,12 +24,12 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
 
     gurobi_env = Gurobi.Env()
     m = direct_model(Gurobi.Optimizer(gurobi_env))
-    if pars.time_limit > 0
-        set_optimizer_attribute(m, "TimeLimit", pars.time_limit)
+    if pars.timelimit > 0
+        set_optimizer_attribute(m, "TimeLimit", pars.timelimit)
     end
     set_optimizer_attribute(m, "Threads", pars.nthreads)
     set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
-    if pars.uc_strat > 0 || pars.use_blossom
+    if pars.ucstrat > 0 || pars.use_blossom
         set_optimizer_attribute(m, "PreCrush", 1)
     end
     pars.log_level == 0 && set_silent(m)
@@ -104,12 +104,11 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
 
     @info "Number of constraints in model is: $(num_constraints(m, AffExpr, MOI.GreaterThan{Float64}) + num_constraints(m, AffExpr, MOI.LessThan{Float64}))"
 
-    if pars.warm_start != ""
-        warm_hubs = parse.(Int, split(pars.warm_start, "-")[1:end-1])
-        @show warm_hubs
+    if length(pars.warm_start) > 0
+        @show warm_start
         y_warm = zeros(Bool, n)
         for i in V
-            if i in warm_hubs
+            if i in warm_start
                 set_start_value(y[i, i], true)
                 y_warm[i] = true
             else
@@ -123,12 +122,12 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
                 set_start_value(x[i, j], false)
             end
         end
-        for i in 1:length(warm_hubs)-1
-            set_start_value(x[mima(warm_hubs[i], warm_hubs[i+1])...], true)
-            x_warm[mima(warm_hubs[i], warm_hubs[i+1])...] = true
+        for i in 1:length(warm_start)-1
+            set_start_value(x[mima(warm_start[i], warm_start[i+1])...], true)
+            x_warm[mima(warm_start[i], warm_start[i+1])...] = true
         end
 
-        set_start_value(x[warm_hubs[end], n+1], true)
+        set_start_value(x[warm_start[end], n+1], true)
 
     end
     @show F
@@ -198,7 +197,7 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
 
 
         @show LB, UB
-        if pars.time_limit > 20 && pars.assert
+        if pars.timelimit > 20 && pars.assert
             resilient_checker(filename, inst, x̂, x̂′_postopt, ŷ, ŷ′_postopt, gap, B_computed, UB; log_level=0)
         end
 
@@ -272,16 +271,16 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
 
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.uc_strat == 1
+        if pars.ucstrat == 1
             max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.uc_strat == 2
+        elseif pars.ucstrat == 2
             max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 3
+        elseif pars.ucstrat == 3
             max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 4
+        elseif pars.ucstrat == 4
             max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
-        if max_current_value > pars.uc_tolerance
+        if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom

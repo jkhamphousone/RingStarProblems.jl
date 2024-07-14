@@ -3,8 +3,8 @@ module RingStarProblems
 
     else
         a = time()
-        @info "Loading Revise"
-        using Revise
+        @info "Loading Revise, Aqua"
+        using Revise, Aqua
         @info "Loading JuMP"
         using JuMP
         @info "Loading Gurobi"
@@ -25,6 +25,7 @@ module RingStarProblems
         include("instance.jl")
         include("solution.jl")
         include("options.jl")
+
 
         include("solution_checker.jl")
         @info "Loading .jl files $(lpad("25%",4))"
@@ -53,4 +54,5 @@ module RingStarProblems
         @info "Loading .jl files $(lpad("100%",4))"
         @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
     end
+
 end

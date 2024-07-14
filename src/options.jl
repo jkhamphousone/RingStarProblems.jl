@@ -1,42 +1,73 @@
+module Options
 
-module SolveMod
-    struct Both end  # public interface
-    struct BranchBendersCut end  # public interface
-    struct ILP end  # public interface
-    struct NoOptimize end  # public interface
-    struct gF end  # public interface
-    struct gFexploreonlyILP end  # public interface
-    struct gFexploreonlyben end  # public interface
-    const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
+    module SolveMod
+        struct Both end  # public interface
+        struct BranchBendersCut end  # public interface
+        struct ILP end  # public interface
+        struct NoOptimize end  # public interface
+        struct gF end  # public interface
+        struct gFexploreonlyILP end  # public interface
+        struct gFexploreonlyben end  # public interface
+        const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
 
-    export USolveMod
+        export Both, BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
+    end
+
+    using .SolveMod
+
+    module SPSolve
+        struct Poly end  # public interface
+        struct LP end  # public interface
+        const USPSolve = Union{Poly,LP}  # not part of the public interface
+        export Poly, LP, USPSolve
+    end
+
+    using .SPSolve
+
+    module WResults
+        struct WHTML end  # public interface
+        struct WLocal end  # public interface
+        const UWriteResults = Union{WHTML,WLocal,Bool}  # not part of the public interface
+        export WHTML, WLocal, UWriteResults
+    end
+    using .WResults
+
+    export SolveMod, SPSolve, WResults, Both, BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve, WHTML, WLocal, UWriteResults
 end
 
-module SPSolve
-    struct Poly end  # public interface
-    struct LP end  # public interface
-    const USPSolve = Union{Poly,LP}  # not part of the public interface
 
-    export USPSolve
-end
+using .Options
 
-import .SolveMod: USolveMod
-import .SPSolve: USPSolve
 
-@with_kw mutable struct OptimizeParameters @deftype String
+@with_kw mutable struct SolverParameters @deftype String
+    """
+    "y_ij <= y_jj no constraint on the fly"
+    "y_ij <= y_jj - x_ij no constraint on the fly"
+    "seperate y_ij <= y_jj - x_ij on lazy constraints"
+    ("without constraints (10) and (12)", "without(10)&(12)")
+        poly: "poly" or "hybrid"
+        random: 0 if not a random instance
+                number of instance nodes otherwise
+        alphas: array of Labbé alphas values to test
+        writeresults: "html" writing results in html file
+                    "local" writing longchapars folder
+                    "" not writing results
+        n_rand: Number of nodes in random instances
+        o_i: "1", "0", "random" or "1:1000"
+    """
     solve_mod::USolveMod
     sp_solve::USPSolve
-    tildeV::Int = 0 ; @assert 0 <= tildeV <= 100
+    tildeV::Int = 0 ;                    @assert 0 ≤ tildeV ≤ 100
     alphas::Vector{Int} = Int[5]
-    F::Float64 = 0.0 ; @assert 0 <= F
-    warm_start::String = "" ; @assert warm_start == "" || warm_start[1] == '1'  # Exemple of 5 hubs warm_start: "1-2-5-3-4"
-    inst_trans::Int = 2 ; @assert inst_trans in Int[0,1,2]
-    uc_strat::Int = 4 ; @assert uc_strat in Int[0,1,2,3,4]
-    uc_strat_4_limit::Int = 2000 ;
-    uc_tolerance::Float64 = .01 ;
-    time_limit::Int = 3600 ; @assert time_limit >= 0 # time_limit = 0 means infinity
+    F::Float64 = 0.0 ;                   @assert F ≥ 0
+    warm_start::Vector{Int} = Int[] ;    @assert length(warm_start) == 0 || warm_start[1] == Int[1]  # Exemple of 5 hubs warm_start: Int[1,2,5,3,4] TODO: in developpment
+    inst_trans::Int = 2 ;                @assert inst_trans in Int[0,1,2]
+    ucstrat::Int = 4 ;                   @assert ucstrat in Int[0,1,2,3,4]
+    ucstrat_limit::Int = 2000 ;          @assert ucstrat_limit ≥ 0
+    uctolerance::Float64 = .01 ;         @assert uctolerance ≥ 0
+    timelimit::Int = 3600 ;              @assert timelimit ≥ 0 # timelimit = 0 means infinity
     nthreads::Int = 8 ; @assert nthreads >= 0
-    write_res = "html" ; @assert write_res in String["", "html", "local"]
+    writeresults::UWriteResults
     n_rand::Int = 0 ; @assert n_rand >= 0
     o_i = "" ; @assert o_i in String["", "0", "1", "random", "1:1000"]
     s_ij = ""; @assert s_ij in String["", "l_ij", "random"]
@@ -55,23 +86,6 @@ import .SPSolve: USPSolve
     redirect_stdio::Bool = true ; # link to redirect stdio https://stackoverflow.com/a/69059106/10094437
     use_blossom::Bool = true ;
     gFreuse_lazycons::Bool = true ;
-    """
-    "y_ij <= y_jj no constraint on the fly"
-    "y_ij <= y_jj - x_ij no constraint on the fly"
-    "seperate y_ij <= y_jj - x_ij on lazy constraints"
-    ("without constraints (10) and (12)", "without(10)&(12)")
-    """
-    """
-        poly: "poly" or "hybrid"
-        random: 0 if not a random instance
-                number of instance nodes otherwise
-        alphas: array of Labbé alphas values to test
-        write_res: "html" writing results in html file
-                    "local" writing longchapars folder
-                    "" not writing results
-        n_rand: Number of nodes in random instances
-        o_i: "1", "0", "random" or "1:1000"
-    """
 end
 
 @with_kw mutable struct BDtable @deftype Float64

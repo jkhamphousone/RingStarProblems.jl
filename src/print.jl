@@ -2,17 +2,17 @@ function get_input_filepath(output_folder, filename, extension, inst, pars, nstr
     α_str = pars.n_rand == 0 ? "_α=$(inst.α)" : ""
     main_folder_path = "$(output_folder)$(filename[1])$α_str/"
     mkpath(main_folder_path)
-    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.time_limit)$(pars.o_i == "" ? "" : "_oi=$(replace(pars.o_i,":"=>"-"))_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
+    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.timelimit)$(pars.o_i == "" ? "" : "_oi=$(replace(pars.o_i,":"=>"-"))_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
 end
 
 function write_solution_to_file(output_filepath, filename, inst, pars, nstr_random, rand_inst_id, n, benders_table, ilp_table)
 
-    if length(pars.write_res) > 0
+    if pars.writeresults == WHTML() || pars.writeresults == WLocal()
         output_file = write_header(output_filepath, filename, inst, pars)
-        write_results(output_file, n, inst, benders_table, ilp_table, pars)
+        writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 
-        println(output_file, "$(pars.write_res == "html" ? "</details>" : "")")
-        print(output_file, "$(pars.write_res == "html" ? "</pre>" : "")")
+        println(output_file, "$(pars.writeresults == WHTML() ? "</details>" : "")")
+        print(output_file, "$(pars.writeresults == WHTML() ? "</pre>" : "")")
         @show output_file
         close(output_file)
     end
@@ -25,19 +25,19 @@ function write_header(output_filename, filename, inst, pars)
     is_file_empty = filesize(output_filename)
 
     if is_file_empty == 0
-        println(output_file, "$(pars.write_res == "html" ? "<body><meta charset=\"utf-8\"></body><pre>" : "")------------------------------------------------------------\n", lpad("       $(length(α_str)==0 ? "" : "α=$(inst.α)") —— $(filename[1]) —— $(inst.n) nodes       \n", 60), "------------------------------------------------------------")
+        println(output_file, "$(pars.writeresults == WHTML() ? "<body><meta charset=\"utf-8\"></body><pre>" : "")------------------------------------------------------------\n", lpad("       $(length(α_str)==0 ? "" : "α=$(inst.α)") —— $(filename[1]) —— $(inst.n) nodes       \n", 60), "------------------------------------------------------------")
     else
         choppre(output_filename)
     end
 
-    length(pars.write_res) > 0 && println(output_file, "\n——————— $(Dates.format(Dates.now(), "e, dd u yyyy HH:MM:SS")) ————————— $(pars.html_user_notes[1]) ————————— use blossom = $(pars.use_blossom)")
+    pars.writeresults == WHTML() || pars.writeresults == WLocal() && println(output_file, "\n——————— $(Dates.format(Dates.now(), "e, dd u yyyy HH:MM:SS")) ————————— $(pars.html_user_notes[1]) ————————— use blossom = $(pars.use_blossom)")
     return output_file
 end
 
 
 
 
-function write_results(output_file, n, inst, benders_table, ilp_table, pars)
+function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
     rpad_col = 21
     tildeV_string = "empty"
     if length(inst.tildeV) > 0
@@ -55,7 +55,7 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
         println(output_file)
         TL_ilp = ""
         if ilp_table.TL_reached > 0
-            TL_ilp = " (TL $(pars.time_limit))"
+            TL_ilp = " (TL $(pars.timelimit))"
         end
         println(output_file, rpad("total time", rpad_col),
             rpadstrip("$(ilp_table.t_time)$TL_ilp", rpad_col),
@@ -68,19 +68,19 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
             rpad(ilp_table.nblossom, rpad_col))
 
         println(output_file, rpad("LB <= UB", rpad_col),
-            rpadstrip("$(Formatting.format(ilp_table.LB))<=$(Formatting.format(ilp_table.UB))", rpad_col),
+            rpadstrip("$(ilp_table.LB)<=$(ilp_table.UB)", rpad_col),
             rpad("subtour", rpad_col),
             rpadstrip(ilp_table.nsubtour_cons, rpad_col))
 
         println(output_file, rpad("connectivity cuts", rpad_col),
             rpadstrip(ilp_table.nconnectivity_cuts, rpad_col),
             rpad("uc strategy", rpad_col),
-            rpadstrip(pars.uc_strat, rpad_col))
+            rpadstrip(pars.ucstrat, rpad_col))
 
 
 
         println(output_file, rpad("uc tolerance", rpad_col),
-            rpadstrip(pars.uc_tolerance, rpad_col),
+            rpadstrip(pars.uctolerance, rpad_col),
             rpad("tildeV", rpad_col),
             rpad(tildeV_string, rpad_col))
 
@@ -109,13 +109,13 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
         print(output_file, rpad(pars.s_ij == "" ? "" : "s_ij", rpad_col),
             rpad(pars.s_ij == "" ? "" : "$(pars.s_ij)\n", rpad_col))
 
-        print(output_file, rpad(pars.warm_start == "" ? "" : "warm_start", rpad_col),
-            rpad(pars.warm_start == "" ? "" : pars.warm_start * '\n', rpad_col))
+        print(output_file, rpad(length(pars.warm_start) == 0 ? "" : "warm_start", rpad_col),
+            rpad(length(pars.warm_start) == 0 ? "" : pars.warm_start * '\n', rpad_col))
 
 
-        println(output_file, "$(pars.write_res == "html" ? "<details><summary>Found solution</summary>" : "")")
+        println(output_file, "$(pars.writeresults == WHTML() ? "<details><summary>Found solution</summary>" : "")")
         print_solution(output_file, ilp_table.sol, inst)
-        println(output_file, "$(pars.write_res == "html" ? "</details>" : "")")
+        println(output_file, "$(pars.writeresults == WHTML() ? "</details>" : "")")
 
     end
     ########### Benders
@@ -132,7 +132,7 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
 
         TL_benders = ""
         if benders_table.TL_reached > 0
-            TL_benders = " (TL $(pars.time_limit))"
+            TL_benders = " (TL $(pars.timelimit))"
         end
         println(output_file, rpad("total time", rpad_col),
             rpadstrip("$(benders_table.t_time)$TL_benders", rpad_col),
@@ -145,9 +145,9 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
             rpad(benders_table.nblossom, rpad_col))
         
         println(output_file, rpad("LB <= UB", rpad_col),
-            rpadstrip("$(Formatting.format(benders_table.LB))<=$(Formatting.format(benders_table.UB))", rpad_col),
+            rpadstrip("$(benders_table.LB)<=$(benders_table.UB)", rpad_col),
             rpad("Master/SP costs", rpad_col),
-            rpadstrip("$(Formatting.format(benders_table.m_cost))/$(Formatting.format(benders_table.sp_cost))", rpad_col))
+            rpadstrip("$(benders_table.m_cost)/$(benders_table.sp_cost)", rpad_col))
         println(output_file, rpad("Master time", rpad_col),
             rpadstrip(benders_table.m_time, rpad_col),
             rpad("SP time", rpad_col),
@@ -159,9 +159,9 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
             rpadstrip(benders_table.nconnectivity_cuts, rpad_col))
 
         println(output_file, rpad("uc strategy", rpad_col),
-            rpadstrip(pars.uc_strat, rpad_col),
+            rpadstrip(pars.ucstrat, rpad_col),
             rpad("uc tolerance", rpad_col),
-            rpadstrip(pars.uc_tolerance, rpad_col))
+            rpadstrip(pars.uctolerance, rpad_col))
 
 
         println(output_file, rpad("opt. cuts", rpad_col),
@@ -185,8 +185,8 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
 
         println(output_file, rpad("F", rpad_col),
             rpad(inst.F, rpad_col))
-        print(output_file, rpad(pars.warm_start == "" ? "" : "warm_start", rpad_col),
-            rpad(pars.warm_start == "" ? "" : pars.warm_start * '\n', rpad_col))
+        print(output_file, rpad(length(pars.warm_start) == 0 ? "" : "warm_start", rpad_col),
+            rpad(length(pars.warm_start) == 0 ? "" : pars.warm_start * '\n', rpad_col))
 
         println(output_file, rpad(pars.o_i == "" ? "" : "o_i", rpad_col),
             rpad(pars.o_i == "" ? "" : pars.o_i, rpad_col),
@@ -196,9 +196,9 @@ function write_results(output_file, n, inst, benders_table, ilp_table, pars)
         println(output_file, rpad(pars.s_ij == "" ? "" : "s_ij", rpad_col),
             rpad(pars.s_ij == "" ? "" : pars.s_ij, rpad_col))
 
-        println(output_file, "$(pars.write_res == "html" ? "<details><summary>Found solution</summary>" : "")")
+        println(output_file, "$(pars.writeresults == WHTML() ? "<details><summary>Found solution</summary>" : "")")
         print_solution(output_file, benders_table.sol, inst)
-        println(output_file, "$(pars.write_res == "html" ? "</details>" : "")")
+        println(output_file, "$(pars.writeresults == WHTML() ? "</details>" : "")")
 
     end
 

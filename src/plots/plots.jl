@@ -1,11 +1,11 @@
-function optimize_plot_gap(do_plot_gap, m::Model, time_step, time_limit)
+function optimize_plot_gap(do_plot_gap, m::Model, time_step, timelimit)
     if do_plot_gap
         set_optimizer_attribute(m, "TimeLimit", time_step)
         gap_history = Float64[]
         start_time = time()
         solving_time = 0
         times_arr = Float64[]
-        while solving_time < time_limit
+        while solving_time < timelimit
             optimize!(m)
             solving_time = time() - start_time
             gap = MOI.get(m, MOI.RelativeGap())
@@ -95,6 +95,6 @@ function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_
     end
     alpha_or_n_rand = filename[1] == "random_instance" ? "random_instance_$(pars.n_rand)_$solving_met" : "$(rpad(filename[1],20,"_"))_α-$(inst.α)_$solving_met"
     mkpath(eval(@__DIR__) * "/results/html/plots/journal_2023/$(alpha_or_n_rand)")
-    draw(PDF(eval(@__DIR__) * "/Results/html/plots/journal_2023/$alpha_or_n_rand/$(alpha_or_n_rand)_$(rpad(plot_backup_edge ? "backup-ring" : "ring_",5,"_"))TL-$(pars.time_limit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))$(pars.html_user_notes[2] == "" ? "" : "___$(pars.html_user_notes[2])__").pdf"), gplot(inst_graph, inst.x, inst.y, nodesize=nodesize, nodefillc=nodefillc, edgestrokec=edge_colors, nodelabel=nodelabels, nodelabelsize=nodesize, nodelabelc=nodelabel_colors, EDGELINEWIDTH=1.1, edgelinewidth=1.1))
+    draw(PDF(eval(@__DIR__) * "/Results/html/plots/journal_2023/$alpha_or_n_rand/$(alpha_or_n_rand)_$(rpad(plot_backup_edge ? "backup-ring" : "ring_",5,"_"))TL-$(pars.timelimit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))$(pars.html_user_notes[2] == "" ? "" : "___$(pars.html_user_notes[2])__").pdf"), gplot(inst_graph, inst.x, inst.y, nodesize=nodesize, nodefillc=nodefillc, edgestrokec=edge_colors, nodelabel=nodelabels, nodelabelsize=nodesize, nodelabelc=nodelabel_colors, EDGELINEWIDTH=1.1, edgelinewidth=1.1))
 
 end

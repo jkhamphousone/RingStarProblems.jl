@@ -82,16 +82,16 @@ function ilp_st_optimize_explore!(m, x, y, x′, y′, f, F, B, inst, pars, star
 
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.uc_strat == 1
+        if pars.ucstrat == 1
             max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.uc_strat == 2
+        elseif pars.ucstrat == 2
             max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 3
+        elseif pars.ucstrat == 3
             max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 4
+        elseif pars.ucstrat == 4
             max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
-        if max_current_value > pars.uc_tolerance
+        if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom

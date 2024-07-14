@@ -91,16 +91,16 @@ function benders_st_optimize_explore!(m, x, y, f, F, B, str_lmr, inst, pars, sta
 
     function call_back_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.uc_strat == 1
+        if pars.ucstrat == 1
             max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.uc_strat == 2
+        elseif pars.ucstrat == 2
             max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 3
+        elseif pars.ucstrat == 3
             max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 4
+        elseif pars.ucstrat == 4
             max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
-        if max_current_value > pars.uc_tolerance
+        if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom
@@ -483,12 +483,12 @@ function rrsp_create_ilp_lazyexplore(filename, inst, pars, nsubtour_cons, subtou
 
     gurobi_env = Gurobi.Env()
     m_ilp = direct_model(Gurobi.Optimizer(gurobi_env))
-    if pars.time_limit > 0
-        set_optimizer_attribute(m_ilp, "TimeLimit", pars.time_limit)
+    if pars.timelimit > 0
+        set_optimizer_attribute(m_ilp, "TimeLimit", pars.timelimit)
     end
     set_optimizer_attribute(m_ilp, "Threads", pars.nthreads)
     set_optimizer_attribute(m_ilp, "OutputFlag", min(pars.log_level, 1))
-    if pars.uc_strat > 0 || pars.use_blossom
+    if pars.ucstrat > 0 || pars.use_blossom
         set_optimizer_attribute(m_ilp, "PreCrush", 1)
     end
     pars.log_level == 0 && set_silent(m_ilp)
@@ -673,16 +673,16 @@ function ilp_st_optimize_lazyexplore!(m_ilp, x_milp, y_milp, x′_milp, y′_mil
 
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.uc_strat == 1
+        if pars.ucstrat == 1
             max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x_milp, y_milp, V, n, pars)
-        elseif pars.uc_strat == 2
+        elseif pars.ucstrat == 2
             max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x_milp, JuMP.VariableRef[y_milp[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 3
+        elseif pars.ucstrat == 3
             max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x_milp, JuMP.VariableRef[y_milp[i, i] for i in V], V, n, pars)
-        elseif pars.uc_strat == 4
+        elseif pars.ucstrat == 4
             max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x_milp, y_milp, V, n, nconnectivity_cuts, pars)
         end
-        if max_current_value > pars.uc_tolerance
+        if max_current_value > pars.uctolerance
             MOI.submit(m_ilp, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom

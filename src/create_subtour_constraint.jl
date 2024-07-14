@@ -217,7 +217,7 @@ function create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
         end
     end
 
-    if max_current_violation > pars.uc_tolerance
+    if max_current_violation > pars.uctolerance
         # con = @build_constraint(sum(sum(x[mima(j,k)] for j in bestpart1) for k in bestpart2) >= 2y[max_violated_node,max_violated_node])
         con = @build_constraint(sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >= 2sum(y[max_violated_node, j] for j in setdiff(bestpart1, n + 1)))
         return max_current_violation, con
@@ -270,7 +270,7 @@ function create_connectivity_cut_strategy_2(cb_data, x, y, V, n, pars)
         end
     end
 
-    if max_current_violation > pars.uc_tolerance
+    if max_current_violation > pars.uctolerance
         con = @build_constraint(sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >= 2y[max_violated_node])
 
         return max_current_violation, con
@@ -323,7 +323,7 @@ function create_connectivity_cut_strategy_3(cb_data, x, y, V, n, pars)
             end
         end
     end
-    if max_current_violation > pars.uc_tolerance
+    if max_current_violation > pars.uctolerance
         con = @build_constraint(sum(sum(x[j, k] for j in V
                                         if j < k && ((bestlabels[j] == 1 && bestlabels[k] != 1) ||
                                                   (bestlabels[k] == 1 && bestlabels[j] != 1))) for k in V) >= 2y[max_violated_node])
@@ -343,7 +343,7 @@ function create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_c
     # \end{itemize}
     # ``
     # """
-    if nconnectivity_cuts < pars.uc_strat_4_limit
+    if nconnectivity_cuts < pars.ucstrat_limit
         # if nconnectivity_cuts <= 1999
         # if nconnectivity_cuts%100 == 0
         #     println("Generating a user cut")
