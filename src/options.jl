@@ -8,21 +8,24 @@ module SolveMod
     struct gFexploreonlyILP end  # public interface
     struct gFexploreonlyben end  # public interface
     const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
+
+    export USolveMod
 end
 
 module SPSolve
     struct Poly end  # public interface
-    struct Hybrid end  # public interface
     struct LP end  # public interface
-    const USPSolve = Union{Poly,Hybrid,LP}  # not part of the public interface
+    const USPSolve = Union{Poly,LP}  # not part of the public interface
+
+    export USPSolve
 end
 
-using .SolveMod: USolveMod
-using .SPSolve: USPSolve
+import .SolveMod: USolveMod
+import .SPSolve: USPSolve
 
 @with_kw mutable struct OptimizeParameters @deftype String
-    solve_mod::USolveMod = USolveMod.Both()
-    sp_solve::USPSolve = SPSolve.Poly()
+    solve_mod::USolveMod
+    sp_solve::USPSolve
     tildeV::Int = 0 ; @assert 0 <= tildeV <= 100
     alphas::Vector{Int} = Int[5]
     F::Float64 = 0.0 ; @assert 0 <= F

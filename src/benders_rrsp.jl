@@ -1,4 +1,4 @@
-import .SPSolve
+import .SPSolve: USPSolve
 
 function rrsp_create_benders_model_lazy(filename, inst, pars)
     """

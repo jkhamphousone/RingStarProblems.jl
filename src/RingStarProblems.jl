@@ -51,6 +51,6 @@ module RingStarProblems
         
 
         @info "Loading .jl files $(lpad("100%",4))"
-        @info time()-a
+        @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
     end
 end
