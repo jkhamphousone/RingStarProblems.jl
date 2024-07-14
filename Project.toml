@@ -1,7 +1,7 @@
 name = "RingStarProblems"
 uuid = "bed4ad48-c7de-4cc5-bbc0-d98473e6c0f4"
 authors = ["jkhamphousone <research.khamphousone@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
