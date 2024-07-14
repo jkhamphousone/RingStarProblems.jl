@@ -44,6 +44,8 @@ module Options
     end
     using .Costs
 
+    using .Costs
+
     export SolveMod, Both, BranchBendersCut, ILP, USolveMod
     export SPSolve, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve 
     export WResults, WHTML, WLocal, UWriteResults
@@ -56,10 +58,6 @@ using .Options
 
 @with_kw mutable struct SolverParameters @deftype String
     """
-    "y_ij <= y_jj no constraint on the fly"
-    "y_ij <= y_jj - x_ij no constraint on the fly"
-    "seperate y_ij <= y_jj - x_ij on lazy constraints"
-    ("without constraints (10) and (12)", "without(10)&(12)")
         poly: "poly" or "hybrid"
         random: 0 if not a random instance
                 number of instance nodes otherwise
@@ -87,7 +85,7 @@ using .Options
     o_i::UCosts                          
     s_ij::UCosts                         
     r_ij::UCosts                         
-    backup_factor::Float64 = 0.01; @assert 0 <= backup_factor <= 1 # Will be used to determine factor between c, c′, d and d′. c′ = backup_factor*c and d′ = backup_factor*d
+    backup_factor::Float64 = 0.01;       @assert 0 <= backup_factor <= 1 # Will be used to determine factor between c, c′, d and d′. c′ = backup_factor*c and d′ = backup_factor*d
     nb_runrand::Tuple{Int,Int} = (1,1); @assert nb_runrand[2] in 1:10 || nrand == 0 && 1 <= nb_runrand[1] <= nb_runrand[2]
     two_opt::Int = 0 ; @assert two_opt in [0, 1, 2]
     do_plot::Bool = true ;
@@ -95,7 +93,6 @@ using .Options
     lp_relaxation::Bool = false ;
     assert::Bool = true
     write_log::Bool = false
-    html_user_notes::Tuple{String,String} = "seperate y_ij <= y_jj - x_ij on lazy constraints", "seperate y_ij <= y_jj - x_ij on lazy constraints"
     post_procedure::Bool = true
     F_interval::Tuple{Float64,Float64} = (0.0,183)
     redirect_stdio::Bool = true ; # link to redirect stdio https://stackoverflow.com/a/69059106/10094437

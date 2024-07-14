@@ -50,7 +50,7 @@ function ilp_st_optimize_explore!(m, x, y, x′, y′, f, F, B, inst, pars, star
             nsubtour_cons_before = nsubtour_cons[1]
             ring_edges = create_ring_edges_lazy(callback_value.(cb_data, x), n)
             nsubtour_cons = createsubtour_constraintexplore!(m, subtourlazy_cons, cb_data, x, y, n, ring_edges, nsubtour_cons)
-            if nsubtour_cons[1] == nsubtour_cons_before && pars.html_user_notes[1] == "seperate y_ij <= y_jj - x_ij on lazy constraints"
+            if nsubtour_cons[1] == nsubtour_cons_before && pars.ilpseparatingcons_method[1] == "seperate y_ij <= y_jj - x_ij on lazy constraints"
 
                 max_violated = 0.0
                 max_i = -1

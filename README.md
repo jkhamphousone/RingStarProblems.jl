@@ -3,7 +3,12 @@
 # [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 
 ## Resilient Ring Star Problem
-The conference paper [Khamphousone et al., 2023](https://hal.science/hal-04286851) as well as [Khamphousone et al., 2021](https://hal.science/hal-03211922/) and [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443) introduce the Resilient Ring Star Problem (called 1-R-RSP).
+The references:
+ - [Khamphousone et al., 2023](https://hal.science/hal-04286851) 
+ - [Khamphousone et al., 2021](https://hal.science/hal-03211922/)
+ - [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443)
+
+Introduce the Resilient Ring Star Problem (called 1-R-RSP).
 
 The package can solve 1-R-RSP thanks to:
  - A Branch-and-Benders-cut algorithm (refered to as B&BC)
@@ -52,5 +57,5 @@ julia> pars = RSP.SolverParameters(
 Then:
 ```julia
 julia> id_instance = 3
-julia> RingStarProblems.rspoptimize(pars, id_instance)
+julia> RSP.rspoptimize(pars, id_instance)
 ```

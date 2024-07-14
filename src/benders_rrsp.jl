@@ -219,8 +219,6 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
     tildeV = inst.tildeV
     log_level = pars.log_level
 
-    # subtourlazy_cons = ScalarConstraint{AffExpr, MathOptInterface.GreaterThan{Float64}}
-    # []
 
     nopt_cons = 0
     nsubtour_cons = 0
@@ -232,16 +230,12 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
     x̂ = Dict{Tuple{Int,Int},Bool}()
     ŷ = Dict{Tuple{Int,Int},Bool}()
-    # best_feasible_obj = Inf
     ntwo_opt = 0
     ε = 10e-15
 
     improve_two_opt = false
 
-    # x_improve_two_opt = zeros(Float64, n, n)
-    # y_improve_two_opt = zeros(Float64, n)
-    # λ_improve_two_opt = .0
-    # bar_offset_improve_two_opt = .0
+
 
     gurobi_model = Gurobi.Optimizer(gurobi_env)
     sp_m = direct_model(gurobi_model)

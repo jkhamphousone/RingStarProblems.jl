@@ -79,28 +79,28 @@ function rrsp_create_ilp_lazy(filename, inst, pars)
     end
 
 
-    if pars.html_user_notes[1] == ""
-        @constraint(m, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j])
-    end
+    # if pars.ilpseparatingcons_method[1] == ""
+    #     @constraint(m, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j])
+    # end
 
     @constraint(m, recovery_terminal_10[i=V], sum(y′[i, j] for j in V if j != i) == 1 - y[i, i] - sum(y[i, j] for j in setdiff(V, tildeV, i)))
 
     @constraint(m, one_edge_or_arc_between_i_and_j_11[i=V, j=setdiff(V, i)], x[mima(i, j)] + y[i, j] + x′[mima(i, j)] + y′[i, j] <= y[j, j])
 
-    if pars.html_user_notes[1] == "with constraints (12)"
-        @constraint(m, backup_or_regular_arc_12[i=V, j=V; i != j], y′[i, j] <= y[j, j] - y[i, j])
-    end
+    # if pars.ilpseparatingcons_method[1] == "with constraints (12)"
+    #     @constraint(m, backup_or_regular_arc_12[i=V, j=V; i != j], y′[i, j] <= y[j, j] - y[i, j])
+    # end
 
     @constraint(m, reconnecting_star_cost_13[i=V, j=setdiff(tildeV, i)], sum(d′[i, k] * (y′[i, k] + y[i, j] - 1) for k in setdiff(V, i, j)) <= θ[i, j])
 
     @constraint(m, backup_cost_14[i=V, j=tildeV, k=i+1:n+1; i != j && j != k], c′[mima(i, k)] * (x′[mima(i, k)] + x[mima(i, j)] + x[mima(j, k)] - 2) + sum(θ[t, j] for t in setdiff(V, j)) <= B)
 
 
-    if pars.html_user_notes[1] == "y_ij <= y_jj no constraint on the fly"
-        @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j])
-    elseif pars.html_user_notes[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
-        @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j] - x[mima(i, j)])
-    end
+    # if pars.ilpseparatingcons_method[1] == "y_ij <= y_jj no constraint on the fly"
+    #     @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j])
+    # elseif pars.ilpseparatingcons_method[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
+    #     @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j] - x[mima(i, j)])
+    # end
 
     @info "Number of constraints in model is: $(num_constraints(m, AffExpr, MOI.GreaterThan{Float64}) + num_constraints(m, AffExpr, MOI.LessThan{Float64}))"
 
@@ -239,7 +239,7 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
             ring_edges = create_ring_edges_lazy(callback_value.(cb_data, x), n)
             nsubtour_cons_before = nsubtour_cons
             nsubtour_cons = create_subtour_constraint_lazy_Labbe(m, cb_data, x, y, n, ring_edges, nsubtour_cons)
-            if pars.html_user_notes[1] == "seperate y_ij <= y_jj - x_ij on lazy constraints" && nsubtour_cons_before == nsubtour_cons
+            if nsubtour_cons_before == nsubtour_cons
 
                 max_violated = 0.0
                 max_i = -1

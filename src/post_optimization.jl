@@ -3,8 +3,7 @@ function post_optimization_procedure(inst, x̂, ŷ, ring)
     n_hubs = sum(ŷ[i,i] for i in 1:n)
     tildeV = inst.tildeV
     d′ = inst.d′
-    # x′ = zeros(Bool, n, n+1)
-    # y′ = zeros(Bool, n, n)
+
     x′ = Dict{Tuple{Int,Int},Bool}() 
     y′ = Dict{Tuple{Int,Int},Bool}() 
     θ = Dict{Tuple{Int,Int}, Float64}()

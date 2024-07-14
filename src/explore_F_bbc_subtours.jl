@@ -554,17 +554,16 @@ function rrsp_create_ilp_lazyexplore(filename, inst, pars, nsubtour_cons, subtou
     @info "fixed $n_x′fixed x′ variables and $n_y′fixed y′ variables"
 
 
-    if pars.html_user_notes[1] == ""
-        @constraint(m_ilp, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x_milp[i, j] + x′_milp[i, j]) <= y_milp[i, i] + y_milp[j, j])
-    end
+    @constraint(m_ilp, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x_milp[i, j] + x′_milp[i, j]) <= y_milp[i, i] + y_milp[j, j])
+
 
     @constraint(m_ilp, recovery_terminal_10[i=V], sum(y′_milp[i, j] for j in V if j != i) == 1 - y_milp[i, i] - sum(y_milp[i, j] for j in setdiff(V, tildeV, i)))
 
     @constraint(m_ilp, one_edge_or_arc_between_i_and_j_11[i=V, j=setdiff(V, i)], x_milp[mima(i, j)] + y_milp[i, j] + x′_milp[mima(i, j)] + y′_milp[i, j] <= y_milp[j, j])
 
-    if pars.html_user_notes[1] == "with constraints (12)"
-        @constraint(m_ilp, backup_or_regular_arc_12[i=V, j=V; i != j], y′_milp[i, j] <= y_milp[j, j] - y_milp[i, j])
-    end
+    # if pars.ilpseparatingcons_method[1] == "with constraints (12)"
+    #     @constraint(m_ilp, backup_or_regular_arc_12[i=V, j=V; i != j], y′_milp[i, j] <= y_milp[j, j] - y_milp[i, j])
+    # end
 
     @constraint(m_ilp, reconnecting_star_cost_13[i=V, j=setdiff(tildeV, i)], sum(d′[i, k] * (y′_milp[i, k] + y_milp[i, j] - 1) for k in setdiff(V, i, j)) <= θ_milp[i, j])
 
@@ -573,11 +572,11 @@ function rrsp_create_ilp_lazyexplore(filename, inst, pars, nsubtour_cons, subtou
 
 
 
-    if pars.html_user_notes[1] == "y_ij <= y_jj no constraint on the fly"
-        @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j])
-    elseif pars.html_user_notes[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
-        @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j] - x_milp[mima(i, j)])
-    end
+    # if pars.ilpseparatingcons_method[1] == "y_ij <= y_jj no constraint on the fly"
+    #     @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j])
+    # elseif pars.ilpseparatingcons_method[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
+    #     @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j] - x_milp[mima(i, j)])
+    # end
 
     @info "Number of constraints in model is: $(num_constraints(m_ilp, AffExpr, MOI.GreaterThan{Float64}) + num_constraints(m_ilp, AffExpr, MOI.LessThan{Float64}))"
 
@@ -641,7 +640,7 @@ function ilp_st_optimize_lazyexplore!(m_ilp, x_milp, y_milp, x′_milp, y′_mil
             nsubtour_cons_before = nsubtour_cons[1]
             ring_edges = create_ring_edges_lazy(callback_value.(cb_data, x_milp), n)
             nsubtour_cons = createsubtour_constraintexplore!(m_ilp, subtourlazy_cons, cb_data, x_milp, y_milp, n, ring_edges, nsubtour_cons; is_ilp=true)
-            if pars.html_user_notes[1] == "seperate y_ij <= y_jj - x_ij on lazy constraints" && nsubtour_cons[1] == nsubtour_cons_before
+            if nsubtour_cons[1] == nsubtour_cons_before
 
                 max_violated = 0.0
                 max_i = -1

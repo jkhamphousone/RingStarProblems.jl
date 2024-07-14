@@ -30,7 +30,7 @@ function write_header(output_filename, filename, inst, pars)
         choppre(output_filename)
     end
 
-    pars.writeresults == WHTML() || pars.writeresults == WLocal() && println(output_file, "\n——————— $(Dates.format(Dates.now(), "e, dd u yyyy HH:MM:SS")) ————————— $(pars.html_user_notes[1]) ————————— use blossom = $(pars.use_blossom)")
+    pars.writeresults == WHTML() || pars.writeresults == WLocal() && println(output_file, "\n——————— $(Dates.format(Dates.now(), "e, dd u yyyy HH:MM:SS")) ————————— $(pars.ilpseparatingcons_method[1]) ————————— use blossom = $(pars.use_blossom)")
     return output_file
 end
 
