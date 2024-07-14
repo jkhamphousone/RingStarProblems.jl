@@ -27,7 +27,7 @@ Both Gurobi.jl and JuMP.jl must be correctely installed. Using MathOptInterface.
 
 # Installation
 ```julia
-julia> import Pkg ; Pkg.add("RingStarProblems.jl")
+julia> import Pkg ; Pkg.add("RingStarProblems")
 ```
 
 # Usage
