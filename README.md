@@ -21,6 +21,10 @@ The package can solve 1-R-RSP thanks to:
 
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
+## The Survivable Ring Star Problem
+
+[A Survivable Ring Star Problem solver](https://doi.org/10.1002/net.22193) will be added.
+
 # Requirements
 
 Both Gurobi.jl and JuMP.jl must be correctely installed. Using MathOptInterface.jl instead in development.
