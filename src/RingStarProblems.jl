@@ -28,7 +28,6 @@ else
     include("solution.jl")
 
 
-    include("solution_checker.jl")
     @info "Loading .jl files $(lpad("25%",4))"
     include("create_subtour_constraint.jl")
     include("ilp_rrsp.jl")
@@ -47,7 +46,7 @@ else
     include("main.jl")
     include("post_optimization.jl")
     include("read.jl")
-    include("../debug/debug.jl")
+
     include("create_blossom_ineaqulities.jl")
 
 

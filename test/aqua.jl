@@ -1,4 +1,6 @@
 using Aqua
+using RingStarProblems
+
 @testset "Aqua.jl" begin
     Aqua.test_all(
         RingStarProblems;

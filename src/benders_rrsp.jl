@@ -270,20 +270,7 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         )
 
 
-        if pars.timelimit > 20 && pars.assert
-            resilient_checker(
-                filename,
-                inst,
-                x̂,
-                x̂′_postopt,
-                ŷ,
-                ŷ′_postopt,
-                gap,
-                B_computed,
-                UB;
-                log_level = pars.log_level,
-            )
-        end
+
 
         sp_cost = B_computed * inst.F
         master_cost = UB - sp_cost
