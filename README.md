@@ -3,7 +3,7 @@
 # [Ring Star Problem](https://en.wikipedia.org/wiki/Ring_star_problem) variants Solver
 
 ## Resilient Ring Star Problem
-The conference paper [Khamphousone et al., 2023](https://hal.science/hal-04286851) as well as [Khamphousone et al., 2021](https://www.researchgate.net/profile/Fabian-Castano/publication/351117932_Introducing_the_Resilient_Ring_Star_Problem/links/60886e808ea909241e2c5ee0/Introducing-the-Resilient-Ring-Star-Problem.pdf) and [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443) introduce the Resilient Ring Star Problem (called 1-R-RSP).
+The conference paper [Khamphousone et al., 2023](https://hal.science/hal-04286851) as well as [Khamphousone et al., 2021](https://hal.science/hal-03211922/) and [Chapter 3 of my Thesis manuscript](https://theses.hal.science/tel-04319443) introduce the Resilient Ring Star Problem (called 1-R-RSP).
 
 The package can solve 1-R-RSP thanks to:
  - A Branch-and-Benders-cut algorithm (refered to as B&BC)
