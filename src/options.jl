@@ -1,14 +1,13 @@
 module Options
-
     module SolveMod
-        struct Both end  # public interface
-        struct BranchBendersCut end  # public interface
-        struct ILP end  # public interface
-        struct NoOptimize end  # public interface
-        struct gF end  # public interface
-        struct gFexploreonlyILP end  # public interface
-        struct gFexploreonlyben end  # public interface
-        const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}  # not part of the public interface
+        struct Both end
+        struct BranchBendersCut end
+        struct ILP end
+        struct NoOptimize end
+        struct gF end
+        struct gFexploreonlyILP end
+        struct gFexploreonlyben end
+        const USolveMod = Union{Both,BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}
 
         export Both, BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
     end
@@ -16,23 +15,39 @@ module Options
     using .SolveMod
 
     module SPSolve
-        struct Poly end  # public interface
-        struct LP end  # public interface
-        const USPSolve = Union{Poly,LP}  # not part of the public interface
+        struct Poly end
+        struct LP end
+        const USPSolve = Union{Poly,LP}
         export Poly, LP, USPSolve
     end
 
     using .SPSolve
 
     module WResults
-        struct WHTML end  # public interface
-        struct WLocal end  # public interface
-        const UWriteResults = Union{WHTML,WLocal,Bool}  # not part of the public interface
+        struct WHTML end 
+        struct WLocal end
+        const UWriteResults = Union{WHTML,WLocal,Bool}
         export WHTML, WLocal, UWriteResults
     end
     using .WResults
 
-    export SolveMod, SPSolve, WResults, Both, BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve, WHTML, WLocal, UWriteResults
+    module Costs
+        using Parameters
+
+        struct Euclidian end
+        @with_kw mutable struct RandomInterval 
+            a::Int
+            b::Int ; @assert 0 < a < b
+        end   
+        const UCosts = Union{Euclidian,RandomInterval,Int}
+        export Euclidian, RandomInterval, UCosts
+    end
+    using .Costs
+
+    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+    export SPSolve, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve 
+    export WResults, WHTML, WLocal, UWriteResults
+    export Costs, Euclidian, RandomInterval, UCosts
 end
 
 
@@ -52,7 +67,7 @@ using .Options
         writeresults: "html" writing results in html file
                     "local" writing longchapars folder
                     "" not writing results
-        n_rand: Number of nodes in random instances
+        nrand: Number of nodes in random instances
         o_i: "1", "0", "random" or "1:1000"
     """
     solve_mod::USolveMod
@@ -66,14 +81,14 @@ using .Options
     ucstrat_limit::Int = 2000 ;          @assert ucstrat_limit ≥ 0
     uctolerance::Float64 = .01 ;         @assert uctolerance ≥ 0
     timelimit::Int = 3600 ;              @assert timelimit ≥ 0 # timelimit = 0 means infinity
-    nthreads::Int = 8 ; @assert nthreads >= 0
+    nthreads::Int = 8 ;                  @assert nthreads >= 0
     writeresults::UWriteResults
-    n_rand::Int = 0 ; @assert n_rand >= 0
-    o_i = "" ; @assert o_i in String["", "0", "1", "random", "1:1000"]
-    s_ij = ""; @assert s_ij in String["", "l_ij", "random"]
-    r_ij = ""; @assert r_ij in String["", "l_ij", "n"]
+    nrand::Int = 0 ;                     @assert nrand >= 0
+    o_i::UCosts                          
+    s_ij::UCosts                         
+    r_ij::UCosts                         
     backup_factor::Float64 = 0.01; @assert 0 <= backup_factor <= 1 # Will be used to determine factor between c, c′, d and d′. c′ = backup_factor*c and d′ = backup_factor*d
-    nb_run_rand::Tuple{Int,Int} = (1,1); @assert nb_run_rand[2] in 1:10 || n_rand == 0 && 1 <= nb_run_rand[1] <= nb_run_rand[2]
+    nb_runrand::Tuple{Int,Int} = (1,1); @assert nb_runrand[2] in 1:10 || nrand == 0 && 1 <= nb_runrand[1] <= nb_runrand[2]
     two_opt::Int = 0 ; @assert two_opt in [0, 1, 2]
     do_plot::Bool = true ;
     log_level::Int = 1; @assert log_level in Int[0, 1, 2]

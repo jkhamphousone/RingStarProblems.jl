@@ -67,8 +67,8 @@ end
 
 function create_instance_robust_journal_article(filename, α, pars)
     random_filepath = eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$filename.dat"
-    if pars.n_rand > 0 && !isfile(random_filepath)
-        n = pars.n_rand
+    if pars.nrand > 0 && !isfile(random_filepath)
+        n = pars.nrand
         data = [1:1000 rand(1:1000, 1000) rand(1:1000, 1000)]
 
         V = 1:n
@@ -82,14 +82,14 @@ function create_instance_robust_journal_article(filename, α, pars)
         end
         x_coors = data[1:n, 2]
         y_coors = data[1:n, 3]
-        @assert pars.r_ij == "l_ij"
+        @assert pars.r_ij isa Euclidian
         c = Dict((e[1], e[2])
         =>
             ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]])) for e in E)
 
 
         d = Dict((a[1], a[2]) => a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits=5) for a in A)
-        if pars.s_ij == "l_ij"
+        if pars.s_ij isa Euclidian
             d = Dict((a[1], a[2])
             =>
                 ceil_labbe(distance([x_coors[a[1]], y_coors[a[1]]], [x_coors[a[2]], y_coors[a[2]]])) for a in A)
@@ -100,9 +100,9 @@ function create_instance_robust_journal_article(filename, α, pars)
         c[1, n+1] = 0
 
         o = zeros(Float64, n)
-        if pars.o_i == "1:1000"
-            o = rand(1:1000, n)
-        elseif pars.o_i == "1"
+        if pars.o_i == RandomInterval
+            o = rand(RandomInterval.a:RandomInterval.b, n)
+        elseif pars.o_i == 1
             o = ones(Float64, n)
         end
 
@@ -134,7 +134,7 @@ function create_instance_robust_journal_article(filename, α, pars)
         end
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
 
-    elseif pars.n_rand == 0
+    elseif pars.nrand == 0
 
         data = readdlm(filename)
         n = Int64(data[4, 2])
@@ -149,9 +149,9 @@ function create_instance_robust_journal_article(filename, α, pars)
 
 
         o = zeros(Float64, n)
-        if pars.o_i == "1:1000"
-            o = rand(1:1000, n)
-        elseif pars.o_i == "1"
+        if pars.o_i == RandomInterval
+            o = rand(RandomInterval.a:RandomInterval.b, n)
+        elseif pars.o_i == 1
             o = ones(Float64, n)
         end
 
@@ -222,7 +222,7 @@ function create_instance_robust_journal_article(filename, α, pars)
         x_coors = data[2:n+1, 2]
         y_coors = data[2:n+1, 3]
         o = data[n+3, 1:n]
-        @assert pars.r_ij == "l_ij"
+        @assert pars.r_ij isa Euclidian
         c = Dict((e[1], e[2])
         =>
             ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]])) for e in E)
@@ -253,14 +253,14 @@ function create_instance_robust(filename, α, pars)
     if filename[1] == "tiny_instance_7_2"
         tildeV = [4, 5, 6, 7]
     elseif filename[1] in ["random", "random_instance"]
-        tildeV = 2:pars.n_rand
+        tildeV = 2:pars.nrand
     elseif filename[1] == "tiny_instance_11_inoc2022"
         # WARNING please use α = 2
         tildeV = [2, 4, 5, 6, 7, 8, 9, 10]
     end
 
-    if pars.n_rand > 0 && !isfile(random_filepath)
-        n = pars.n_rand
+    if pars.nrand > 0 && !isfile(random_filepath)
+        n = pars.nrand
         tildeV = 2:Int(ceil(n * pars.tildeV / 100))
         data = [1:n rand(1:n, n) rand(1:n, n)]
 
@@ -279,10 +279,10 @@ function create_instance_robust(filename, α, pars)
             ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α) for e in E)
         d = Dict((a[1], a[2]) => a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits=5) for a in A)
         o = Float64[]
-        if pars.o_i == "1"
-            o = Float64[1.0 for i in 1:n]
-        elseif pars.o_i == "random"
-            o = Float64[rand(n/2:3n/2) for i in 1:n]
+        if pars.o_i == 1
+            o = ones(Float64, 1)
+        elseif pars.o_i == RandomInterval
+            o = rand(RandomInterval.a:RandomInterval.b, n)
         end
 
         open(random_filepath, "w") do f
@@ -312,7 +312,7 @@ function create_instance_robust(filename, α, pars)
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
-    elseif pars.n_rand == 0
+    elseif pars.nrand == 0
         data = readdlm(filename[2])
         n = Int64(data[1, 1])
         tildeV = 2:Int(ceil(n * pars.tildeV / 100))

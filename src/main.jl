@@ -105,11 +105,11 @@ function main(pars::SolverParameters, filename::Vector{String})
     end
 
     for α in pars.alphas
-        for rand_inst_id in pars.nb_run_rand[1]:pars.nb_run_rand[2]
+        for rand_inst_id in pars.nb_runrand[1]:pars.nb_runrand[2]
             benders_table = BDtable()
             ilp_table = ILPtable()
 
-            nstr_random = pars.n_rand > 0 ? "_" * "$(pars.n_rand)" : ""
+            nstr_random = pars.nrand > 0 ? "_" * "$(pars.nrand)" : ""
 
             if filename[1] == "random"
                 filename[2] = "$(filename[1])$(nstr_random)_α=$(α)_o=$(replace(pars.o_i,":"=>"-"))_$(rand_inst_id)"

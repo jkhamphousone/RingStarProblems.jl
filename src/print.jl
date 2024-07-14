@@ -1,8 +1,8 @@
 function get_input_filepath(output_folder, filename, extension, inst, pars, nstr_random, rand_inst_id)
-    α_str = pars.n_rand == 0 ? "_α=$(inst.α)" : ""
+    α_str = pars.nrand == 0 ? "_α=$(inst.α)" : ""
     main_folder_path = "$(output_folder)$(filename[1])$α_str/"
     mkpath(main_folder_path)
-    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.timelimit)$(pars.o_i == "" ? "" : "_oi=$(replace(pars.o_i,":"=>"-"))_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
+    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.timelimit)$(pars.o_i == "" ? "" : "_oi=$(pars.o_i)_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
 end
 
 function write_solution_to_file(output_filepath, filename, inst, pars, nstr_random, rand_inst_id, n, benders_table, ilp_table)
@@ -20,7 +20,7 @@ end
 
 
 function write_header(output_filename, filename, inst, pars)
-    α_str = pars.n_rand == 0 ? "_α-$(inst.α)" : ""
+    α_str = pars.nrand == 0 ? "_α-$(inst.α)" : ""
     output_file = open(output_filename, "a")
     is_file_empty = filesize(output_filename)
 
@@ -103,11 +103,11 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 
         print(output_file, rpad(pars.o_i == "" ? "" : "o_i", rpad_col),
             rpad(pars.o_i == "" ? "" : pars.o_i, rpad_col),
-            rpad(pars.r_ij == "" ? "" : "r_ij", rpad_col),
-            rpad(pars.r_ij == "" ? "" : "$(pars.r_ij)\n", rpad_col))
+            rpad("r_ij", rpad_col),
+            rpad("$(pars.r_ij)\n", rpad_col))
 
-        print(output_file, rpad(pars.s_ij == "" ? "" : "s_ij", rpad_col),
-            rpad(pars.s_ij == "" ? "" : "$(pars.s_ij)\n", rpad_col))
+        print(output_file, rpad("s_ij", rpad_col),
+            rpad("$(pars.s_ij)\n", rpad_col))
 
         print(output_file, rpad(length(pars.warm_start) == 0 ? "" : "warm_start", rpad_col),
             rpad(length(pars.warm_start) == 0 ? "" : pars.warm_start * '\n', rpad_col))
@@ -193,8 +193,8 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
             rpad(pars.r_ij == "" ? "" : "r_ij", rpad_col),
             rpad(pars.r_ij == "" ? "" : pars.r_ij, rpad_col))
 
-        println(output_file, rpad(pars.s_ij == "" ? "" : "s_ij", rpad_col),
-            rpad(pars.s_ij == "" ? "" : pars.s_ij, rpad_col))
+        println(output_file, rpad("s_ij", rpad_col),
+            rpad("$(pars.s_ij)", rpad_col))
 
         println(output_file, "$(pars.writeresults == WHTML() ? "<details><summary>Found solution</summary>" : "")")
         print_solution(output_file, benders_table.sol, inst)

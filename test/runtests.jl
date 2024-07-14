@@ -8,9 +8,9 @@ using RingStarProblems
         solve_mod=RSP.Both(),             # ILP, B&BC or Both
         sp_solve=RSP.Poly(),
         writeresults=RSP.WHTML(),         # output results locally, html or no output ""
-        o_i="0",                          # opening costs
-        s_ij="",                          # star costs
-        r_ij="",                          # ring costs
+        o_i= 0,                          # opening costs
+        s_ij=Euclidian(),                          # star costs
+        r_ij=Euclidian(),                          # ring costs
         backup_factor=0.01,               # backup_factor c'=0.01c and d'=0.01c
         do_plot=false,                    # plot_results (to debug)
         two_opt=0,                        # use two_opt heuristic (not functional yet)
