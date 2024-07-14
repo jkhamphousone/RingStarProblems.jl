@@ -4,13 +4,13 @@ function create_G(cb_data, x, n)
     c_m = zeros(Float64, n + 1, n + 1)
     c′_m = zeros(Float64, n + 1, n + 1)
 
-    for i in 1:n
-        for j in i+1:n+1
+    for i = 1:n
+        for j = i+1:n+1
             x_m[i, j] = callback_value(cb_data, x[i, j])
         end
     end
-    for i in 1:n
-        for j in i+1:n+1
+    for i = 1:n
+        for j = i+1:n+1
             if x_m[i, j] > 0
                 add_edge!(G, i, j)
                 add_edge!(G, j, i)
@@ -31,8 +31,8 @@ function create_G_subtours(cb_data, x, y, n)
     y_m = zeros(Float64, n, n)
     G = DiGraph(n + 1)
     capacity_matrix = zeros(Float64, n + 1, n + 1)
-    for i in 1:n
-        for j in i+1:n+1
+    for i = 1:n
+        for j = i+1:n+1
             x_m[i, j] = callback_value(cb_data, x[i, j])
             if x_m[i, j] > ε
                 add_edge!(G, i, j)
@@ -41,7 +41,7 @@ function create_G_subtours(cb_data, x, y, n)
                 capacity_matrix[j, i] = x_m[i, j]
             end
         end
-        for j in 1:n
+        for j = 1:n
             y_m[i, j] = callback_value(cb_data, y[i, j])
         end
     end
@@ -88,45 +88,41 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
     end
     if 1 > βU
         con = nothing
-            # Constraints page 133-134 of Kedad-Sidhoum et al, 2010.
-            if 1 in best_U && n + 1 in best_U
-                con = @build_constraint(
-                    sum(sum(x[i, j] for i in best_U if i < j) for j in best_U)
-                    +
-                    sum(x[mima(f[1], f[2])] for f in best_F)
-                    <=
-                    2 + 2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) - floor((length(best_F) - 1) / 2.0)
-                    )
-                    # @show "type 1"
-                    # @show con
-                    # @show best_U
-                    # @show best_F
-            elseif !(1 in best_U) && !(n + 1 in best_U)
-                con = @build_constraint(
-                    sum(sum(x[i, j] for i in best_U if i < j) for j in best_U)
-                    +
-                    sum(x[mima(f[1], f[2])] for f in best_F)
-                    <=
-                    2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) - floor((length(best_F) - 1) / 2.0)
-                )
-                # @show "type 2"
-                #     @show con
-                #     @show best_U
-                #     @show best_F
-            else # either s or t is in best_U, but not both of them, this is a blossom pair inequality
-                nblossom_pair_inequality += 1
-                con = @build_constraint(
-                    sum(sum(x[i, j] for i in best_U if i < j) for j in best_U)
-                    +
-                    sum(x[mima(f[1], f[2])] for f in best_F)
-                    <=
-                    2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) - div(length(best_F), 2)
-                )
-                # @show "type 3 (blossom pair)"
-                #     @show con
-                #     @show best_U
-                #     @show best_F
-            end
+        # Constraints page 133-134 of Kedad-Sidhoum et al, 2010.
+        if 1 in best_U && n + 1 in best_U
+            con = @build_constraint(
+                sum(sum(x[i, j] for i in best_U if i < j) for j in best_U) +
+                sum(x[mima(f[1], f[2])] for f in best_F) <=
+                2 + 2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) -
+                floor((length(best_F) - 1) / 2.0)
+            )
+            # @show "type 1"
+            # @show con
+            # @show best_U
+            # @show best_F
+        elseif !(1 in best_U) && !(n + 1 in best_U)
+            con = @build_constraint(
+                sum(sum(x[i, j] for i in best_U if i < j) for j in best_U) +
+                sum(x[mima(f[1], f[2])] for f in best_F) <=
+                2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) -
+                floor((length(best_F) - 1) / 2.0)
+            )
+            # @show "type 2"
+            #     @show con
+            #     @show best_U
+            #     @show best_F
+        else # either s or t is in best_U, but not both of them, this is a blossom pair inequality
+            nblossom_pair_inequality += 1
+            con = @build_constraint(
+                sum(sum(x[i, j] for i in best_U if i < j) for j in best_U) +
+                sum(x[mima(f[1], f[2])] for f in best_F) <=
+                2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) - div(length(best_F), 2)
+            )
+            # @show "type 3 (blossom pair)"
+            #     @show con
+            #     @show best_U
+            #     @show best_F
+        end
         return con, nblossom_pair_inequality
     end
     return nothing, nblossom_pair_inequality
@@ -134,7 +130,7 @@ end
 
 function compute_βU(δU, c_m, c′_m, F_odd)
     """
-        This is step 5 of Algorithm 2
+    	This is step 5 of Algorithm 2
     """
     F = Tuple{Int,Int}[]
     f = (-1, -1)
@@ -197,7 +193,7 @@ function create_cut_part_one(G, E_T, edge, n)
         @show X
         println("Cut tree")
         @show E_T
-    # println()
+        # println()
     end
     for i in X[1]
         for j in X[2]
@@ -224,7 +220,7 @@ function compute_cut_tree(n, G, c_min_m)
 
     fl = zeros(Float64, n + 1)
     fl[1] = -1 # Should not be used
-    for s in 2:n+1
+    for s = 2:n+1
         t = p[s]
         part1, part2, flow = GraphsFlows.mincut(G, s, t, c_min_m, EdmondsKarpAlgorithm())
         # @show part1
@@ -232,11 +228,11 @@ function compute_cut_tree(n, G, c_min_m)
         # @show flow
         X = s in part1 ? part1 : part2
         fl[s] = flow
-        for i in 1:n+1
+        for i = 1:n+1
             if (i != s) && (i in X) && p[i] == t
                 p[i] = s
             end
-            
+
         end
         if p[t] in X
             p[s] = p[t]
@@ -247,7 +243,7 @@ function compute_cut_tree(n, G, c_min_m)
     end
     # println("Cut tree")
     E_T = Tuple{Int,Int}[]
-    for i in 2:n+1
+    for i = 2:n+1
         push!(E_T, (i, p[i]))
         # print("$i => $(p[i]) [$(fl[i])],\n")
     end

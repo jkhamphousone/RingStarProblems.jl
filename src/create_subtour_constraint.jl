@@ -1,14 +1,22 @@
-function create_subtour_constraint_lazy_Labbe(m::Model, cb_data, x, y, n, ring_edges, nsubtour_cons)
+function create_subtour_constraint_lazy_Labbe(
+    m::Model,
+    cb_data,
+    x,
+    y,
+    n,
+    ring_edges,
+    nsubtour_cons,
+)
     # function to add Labbe subtour elimination constraints by lazy constraints
     # caution, y is a 2-dimensional matrix, as x
     visited = falses(n + 1) # visited[i] = true iff i is a hub reachable from the depot
-    N = [[] for i in 1:n+1]
+    N = [[] for i = 1:n+1]
     active_nodes = Set(Int[]) # Set of all hubs
 
 
     # Populating N: N[i] is a 2-element array containing the neighbors of i in the ring or is [], or has a unique element for s and t
-    for i in 1:n
-        for j in i+1:n+1
+    for i = 1:n
+        for j = i+1:n+1
             if (i, j) in ring_edges
                 push!(N[i], j)
                 push!(N[j], i)
@@ -55,9 +63,11 @@ function create_subtour_constraint_lazy_Labbe(m::Model, cb_data, x, y, n, ring_e
     if subtour == true
         for k in S
             nsubtour_cons += 1
-            con = @build_constraint(sum(sum(x[mima(i, j)] for j in setdiff(1:n+1, S)) for i in 1:n if i in S) >= 2sum(y[k, j] for j in S))
+            con = @build_constraint(
+                sum(sum(x[mima(i, j)] for j in setdiff(1:n+1, S)) for i = 1:n if i in S) >= 2sum(y[k, j] for j in S)
+            )
             MOI.submit(m, MOI.LazyConstraint(cb_data), con)
-            
+
         end
     end
     return nsubtour_cons
@@ -133,7 +143,7 @@ end
 function contains_subtour(ring, y, n)
     """ Returns true if the solution has subtours, and false otherwise"""
     potential_correct_ring = get_ring_nodes_lazy(ring, 1)
-    nb_hubs = sum([y[i] > 0.5 for i in 1:n+1])
+    nb_hubs = sum([y[i] > 0.5 for i = 1:n+1])
     return abs(length(potential_correct_ring) - nb_hubs) > 1.0e-6
 end
 
@@ -168,8 +178,8 @@ end
 
 function create_ring_edges_lazy(x, n)
     ring = Tuple{Int,Int}[]
-    for i in 1:n
-        for j in i+1:n+1
+    for i = 1:n
+        for j = i+1:n+1
             if x[i, j] > 0.5
                 push!(ring, (i, j))
             end
@@ -200,16 +210,23 @@ function create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
 
 
     bestf, bestpart1, bestpart2 = 0.0, Int[], Int[]
-    for i in 2:n
+    for i = 2:n
         if y_m[i, i] > ε
-            part1, part2, flow = GraphsFlows.mincut(flow_graph, 1, i, capacity_matrix, EdmondsKarpAlgorithm())
+            part1, part2, flow = GraphsFlows.mincut(
+                flow_graph,
+                1,
+                i,
+                capacity_matrix,
+                EdmondsKarpAlgorithm(),
+            )
 
             if !(i in part1)
                 part1, part2 = part2, part1
             end
             if max_current_violation < 2sum(y_m[i, j] for j in setdiff(part1, n + 1)) - flow
                 max_violated_node = i
-                max_current_violation = 2sum(y_m[i, j] for j in setdiff(part1, n + 1)) - flow
+                max_current_violation =
+                    2sum(y_m[i, j] for j in setdiff(part1, n + 1)) - flow
                 bestf = flow
                 bestpart1 = part1
                 bestpart2 = part2
@@ -219,7 +236,10 @@ function create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
 
     if max_current_violation > pars.uctolerance
         # con = @build_constraint(sum(sum(x[mima(j,k)] for j in bestpart1) for k in bestpart2) >= 2y[max_violated_node,max_violated_node])
-        con = @build_constraint(sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >= 2sum(y[max_violated_node, j] for j in setdiff(bestpart1, n + 1)))
+        con = @build_constraint(
+            sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >=
+            2sum(y[max_violated_node, j] for j in setdiff(bestpart1, n + 1))
+        )
         return max_current_violation, con
     end
     return -1, []
@@ -238,11 +258,11 @@ function create_connectivity_cut_strategy_2(cb_data, x, y, V, n, pars)
     # """
     ε = 10e-16
     x_m = zeros(Float64, n, n)
-    y_m = Float64[callback_value(cb_data, y[i]) for i in 1:n]
+    y_m = Float64[callback_value(cb_data, y[i]) for i = 1:n]
     flow_graph = DiGraph(n)
     capacity_matrix = zeros(Float64, n, n)
-    for i in 1:n
-        for j in i+1:n
+    for i = 1:n
+        for j = i+1:n
             x_m[i, j] = callback_value(cb_data, x[i, j])
             if x_m[i, j] > ε
                 add_edge!(flow_graph, i, j)
@@ -256,9 +276,15 @@ function create_connectivity_cut_strategy_2(cb_data, x, y, V, n, pars)
     max_current_violation = 0.0
 
     bestf, bestpart1, bestpart2 = 0.0, Int[], Int[]
-    for i in 2:n
+    for i = 2:n
         if y_m[i] > ε
-            part1, part2, flow = GraphsFlows.mincut(flow_graph, 1, i, capacity_matrix, EdmondsKarpAlgorithm())
+            part1, part2, flow = GraphsFlows.mincut(
+                flow_graph,
+                1,
+                i,
+                capacity_matrix,
+                EdmondsKarpAlgorithm(),
+            )
             if max_current_violation < 2y_m[i] - flow
                 max_violated_node = i
                 max_current_violation = 2y_m[i] - flow
@@ -271,7 +297,10 @@ function create_connectivity_cut_strategy_2(cb_data, x, y, V, n, pars)
     end
 
     if max_current_violation > pars.uctolerance
-        con = @build_constraint(sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >= 2y[max_violated_node])
+        con = @build_constraint(
+            sum(sum(x[mima(j, k)] for j in bestpart1) for k in bestpart2) >=
+            2y[max_violated_node]
+        )
 
         return max_current_violation, con
     end
@@ -291,11 +320,11 @@ function create_connectivity_cut_strategy_3(cb_data, x, y, V, n, pars)
     # """
     ε = 10e-16
     x_m = zeros(Float64, n, n)
-    y_m = Float64[callback_value(cb_data, y[i]) for i in 1:n]
+    y_m = Float64[callback_value(cb_data, y[i]) for i = 1:n]
     flow_graph = DiGraph(n)
     capacity_matrix = zeros(Float64, n, n)
-    for i in 1:n
-        for j in i+1:n
+    for i = 1:n
+        for j = i+1:n
             x_m[i, j] = callback_value(cb_data, x[i, j])
             if x_m[i, j] > ε
                 add_edge!(flow_graph, i, j)
@@ -309,9 +338,15 @@ function create_connectivity_cut_strategy_3(cb_data, x, y, V, n, pars)
     max_current_violation = 0.0
 
     bestf, bestF, bestlabels = 0.0, zeros(Float64, n, n), ones(Int64, n)
-    for i in 2:n
+    for i = 2:n
         if y_m[i] > ε
-            flow, F, labels = maximum_flow(flow_graph, 1, i, capacity_matrix, algorithm=BoykovKolmogorovAlgorithm())
+            flow, F, labels = maximum_flow(
+                flow_graph,
+                1,
+                i,
+                capacity_matrix,
+                algorithm = BoykovKolmogorovAlgorithm(),
+            )
             if max_current_violation < 2y_m[i] - flow
                 if sum(labels .== 1) <= sum(bestlabels .== 1)
                     max_violated_node = i
@@ -324,9 +359,16 @@ function create_connectivity_cut_strategy_3(cb_data, x, y, V, n, pars)
         end
     end
     if max_current_violation > pars.uctolerance
-        con = @build_constraint(sum(sum(x[j, k] for j in V
-                                        if j < k && ((bestlabels[j] == 1 && bestlabels[k] != 1) ||
-                                                  (bestlabels[k] == 1 && bestlabels[j] != 1))) for k in V) >= 2y[max_violated_node])
+        con = @build_constraint(
+            sum(
+                sum(
+                    x[j, k] for j in V if j < k && (
+                        (bestlabels[j] == 1 && bestlabels[k] != 1) ||
+                        (bestlabels[k] == 1 && bestlabels[j] != 1)
+                    )
+                ) for k in V
+            ) >= 2y[max_violated_node]
+        )
         return max_current_violation, con
     end
     return -1, []

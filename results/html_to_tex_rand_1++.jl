@@ -1,19 +1,19 @@
 using Formatting
 
 function html_to_tex_both_TL(str, nrand, instance_name, ilp_here)
-    
+
     data_str = split(str)
     idx_shift_ILP = 0
     if ilp_here
-        n = parse(Int,data_str[5])
+        n = parse(Int, data_str[5])
         @show instance_name, nrand, n
-        rILP = parse(Int,data_str[17])
-        ILP_time = parse(Float64,data_str[23])
+        rILP = parse(Int, data_str[17])
+        ILP_time = parse(Float64, data_str[23])
         if data_str[24] == "(TL"
             idx_shift_ILP += 2
             ILP_time = "TL"
         end
-        gap_digits = split(data_str[25+idx_shift_ILP],'.')[2]
+        gap_digits = split(data_str[25+idx_shift_ILP], '.')[2]
         gapILP = ""
         if length(gap_digits) == 0
             gapILP = "0"
@@ -25,18 +25,18 @@ function html_to_tex_both_TL(str, nrand, instance_name, ilp_here)
             gapILP = "$(gap_digits[1:2]).$(gap_digits[3:end])"
         end
         LB_ILP, UB_ILP = split(data_str[29+idx_shift_ILP], "<=")
-        LB_ILP, UB_ILP = parse(Float64, LB_ILP),  parse(Float64, UB_ILP)
-        n_subtour_ILP = parse(Float64,data_str[31+idx_shift_ILP])
+        LB_ILP, UB_ILP = parse(Float64, LB_ILP), parse(Float64, UB_ILP)
+        n_subtour_ILP = parse(Float64, data_str[31+idx_shift_ILP])
     else
         idx_shift_ILP = -56
     end
 
-    idx_shift_ben = idx_shift_ILP+23+8
+    idx_shift_ben = idx_shift_ILP + 23 + 8
     # if data_str[37+19][1] == '*'
     #     idx_shift_ben = 7+19
     # end
     @show data_str[42+idx_shift_ben]
-    rBen = parse(Int,data_str[42+idx_shift_ben])
+    rBen = parse(Int, data_str[42+idx_shift_ben])
     Ben_time = parse(Float64, data_str[48+idx_shift_ben])
     if data_str[49+idx_shift_ben] == "(TL"
         idx_shift_ben += 2
@@ -45,7 +45,7 @@ function html_to_tex_both_TL(str, nrand, instance_name, ilp_here)
     gap_digits = ""
     @show data_str[50+idx_shift_ben]
     if length(data_str[50+idx_shift_ben]) > 1
-        gap_digits = split(data_str[50+idx_shift_ben],'.')[2]
+        gap_digits = split(data_str[50+idx_shift_ben], '.')[2]
     end
     gapBen = ""
     if length(gap_digits) == 0
@@ -58,19 +58,19 @@ function html_to_tex_both_TL(str, nrand, instance_name, ilp_here)
         gapBen = "$(gap_digits[1:2]).$(gap_digits[3:end])"
     end
     LB_Ben, UB_Ben = split(data_str[54+idx_shift_ben], "<=")
-    LB_Ben, UB_Ben = parse(Float64, LB_Ben),  parse(Float64, UB_Ben)
-    MP_cost, SP_cost = split(data_str[57+idx_shift_ben],'/')
-    MP_cost, SP_cost = parse(Float64, MP_cost),  parse(Float64, SP_cost)
+    LB_Ben, UB_Ben = parse(Float64, LB_Ben), parse(Float64, UB_Ben)
+    MP_cost, SP_cost = split(data_str[57+idx_shift_ben], '/')
+    MP_cost, SP_cost = parse(Float64, MP_cost), parse(Float64, SP_cost)
     SP_time = parse(Float64, data_str[63+idx_shift_ben])
-    n_subtour_Ben = parse(Float64,data_str[65+idx_shift_ben])
-    n_opt_Ben = parse(Float64,data_str[77+idx_shift_ben])
+    n_subtour_Ben = parse(Float64, data_str[65+idx_shift_ben])
+    n_opt_Ben = parse(Float64, data_str[77+idx_shift_ben])
 
     @show UB_Ben
     @show SP_cost
     @show MP_cost
     @assert abs(UB_Ben - SP_cost - MP_cost) < 0.5
 
-    fmt(str) = Formatting.format(str, commas=true)
+    fmt(str) = Formatting.format(str, commas = true)
     if ilp_here
         return "\\mtcN{\\tt $instance_name - $(data_str[5]).$nrand}
         & \\mtcN{$ILP_time}   & \\mtcN{$gapILP\\%} & \\mtcN{$(fmt(LB_ILP))} & \\mtcN{$(fmt(UB_ILP))} &\\mtcN{$rILP} & \\mtcN{$(fmt(n_subtour_ILP))}
@@ -86,10 +86,10 @@ end
 function html_to_tex_both_TL_all_rand(writef = true)
 
     rm("html_to_tex_rand_ClassII.txt")
-    output_file_ClassIII = open("html_to_tex_rand_ClassII.txt","w")
+    output_file_ClassIII = open("html_to_tex_rand_ClassII.txt", "w")
     instances_arr_ClassIII = String[]
     for file in readdir("./html/journal_article/random_instance")
-        if file != "not_journal" && length(split(file,"_")[3]) > 2
+        if file != "not_journal" && length(split(file, "_")[3]) > 2
             push!(instances_arr_ClassIII, file)
         end
     end
@@ -97,13 +97,19 @@ function html_to_tex_both_TL_all_rand(writef = true)
     i = 0
     no_rule = 1
     for file in instances_arr_ClassIII
-        str = chop(read("./html/journal_article/random_instance/$file", String), head=40)
+        str = chop(read("./html/journal_article/random_instance/$file", String), head = 40)
         if writef
-            if split(file,"_")[3] == "100"
-                write(output_file_ClassIII, html_to_tex_both_TL(str, file[end-22], "ClassII", true))
+            if split(file, "_")[3] == "100"
+                write(
+                    output_file_ClassIII,
+                    html_to_tex_both_TL(str, file[end-22], "ClassII", true),
+                )
                 write(output_file_ClassIII, "\n")
             else
-                write(output_file_ClassIII, html_to_tex_both_TL(str, file[end-22], "ClassII", false))
+                write(
+                    output_file_ClassIII,
+                    html_to_tex_both_TL(str, file[end-22], "ClassII", false),
+                )
                 write(output_file_ClassIII, "\n")
             end
         else
@@ -113,7 +119,7 @@ function html_to_tex_both_TL_all_rand(writef = true)
         if i == 5
             i = 0
             if writef && no_rule != length(instances_arr_ClassIII)
-                write(output_file_ClassIII," \\cmidrule(r){1-15}\n")
+                write(output_file_ClassIII, " \\cmidrule(r){1-15}\n")
             elseif !writef
                 println(" \\cmidrule(r){1-15}")
             end

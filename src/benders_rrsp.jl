@@ -1,22 +1,34 @@
-@with_kw mutable struct BDtable @deftype Float64
-    t_time = .0 ; @assert t_time >= .0
-    m_time = .0 ; @assert m_time >= .0
-    s_time = .0 ; @assert s_time >= .0
-    blossom_time = .0 ; @assert blossom_time >= .0
-    two_opt_time = .0 ; @assert two_opt_time >= .0
-    TL_reached = false ;
-    gap = .0 ; @assert 0 <= gap
-    UB = .0
-    LB = .0
-    nopt_cons = 0 ; @assert nopt_cons >= 0
-    nsubtour_cons = 0 ; @assert nsubtour_cons >= 0
-    nconnectivity_cuts = 0 ; @assert nconnectivity_cuts >= 0
-    nblossom = 0 ; @assert nblossom >= 0 #12
-    ntwo_opt = 0 ; @assert ntwo_opt >= 0
-    m_cost = .0 ;
-    sp_cost = .0 ; #15
-    nodes_explored::Int = -1 ; #16
-    sol::Solution = Solution() ;
+@with_kw mutable struct BDtable
+    @deftype Float64
+    t_time = 0.0
+    @assert t_time >= 0.0
+    m_time = 0.0
+    @assert m_time >= 0.0
+    s_time = 0.0
+    @assert s_time >= 0.0
+    blossom_time = 0.0
+    @assert blossom_time >= 0.0
+    two_opt_time = 0.0
+    @assert two_opt_time >= 0.0
+    TL_reached = false
+    gap = 0.0
+    @assert 0 <= gap
+    UB = 0.0
+    LB = 0.0
+    nopt_cons = 0
+    @assert nopt_cons >= 0
+    nsubtour_cons = 0
+    @assert nsubtour_cons >= 0
+    nconnectivity_cuts = 0
+    @assert nconnectivity_cuts >= 0
+    nblossom = 0
+    @assert nblossom >= 0 #12
+    ntwo_opt = 0
+    @assert ntwo_opt >= 0
+    m_cost = 0.0
+    sp_cost = 0.0 #15
+    nodes_explored::Int = -1 #16
+    sol::Solution = Solution()
     """
     """
 end
@@ -24,9 +36,9 @@ end
 
 
 function round!(bdt::BDtable)
-    setfield!.(Ref(bdt), 1:6, round.(getfield.(Ref(bdt), 1:6), digits=2))
-    setfield!.(Ref(bdt), 7:7, round.(getfield.(Ref(bdt), 7:7), digits=3)) # Gap rounded at 3 digits
-    setfield!.(Ref(bdt), 8:16, round.(getfield.(Ref(bdt), 8:16), digits=2))
+    setfield!.(Ref(bdt), 1:6, round.(getfield.(Ref(bdt), 1:6), digits = 2))
+    setfield!.(Ref(bdt), 7:7, round.(getfield.(Ref(bdt), 7:7), digits = 3)) # Gap rounded at 3 digits
+    setfield!.(Ref(bdt), 8:16, round.(getfield.(Ref(bdt), 8:16), digits = 2))
     return bdt
 end
 
@@ -71,46 +83,57 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
     end
     set_optimizer_attribute(m, "Threads", pars.nthreads)
     set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
-    
+
     if pars.ucstrat > 0 || pars.use_blossom
         set_optimizer_attribute(m, "PreCrush", 1)
     end
     pars.log_level == 0 && set_silent(m)
 
 
-    @variable(m, x[i=V, j=i+1:n+1], Bin)
-    @variable(m, y[i=V′, j=V′], Bin)
+    @variable(m, x[i = V, j = i+1:n+1], Bin)
+    @variable(m, y[i = V′, j = V′], Bin)
 
     time_BSInf = time()
     BSInf = computeBSInf(inst)[1]
-    time_BSInf = round(time() - time_BSInf,digits=5)
-    @info "Computed BSInf=$BSInf in $(time_BSInf)s" 
+    time_BSInf = round(time() - time_BSInf, digits = 5)
+    @info "Computed BSInf=$BSInf in $(time_BSInf)s"
 
     @variable(m, B >= 0)
 
 
 
- 
+
     @constraint(m, number_hubs_1, sum(y[i, i] for i in V) >= 4)
 
 
-    @constraint(m, degree_constraint_2[i=setdiff(V′, 1, n + 1)], sum(x[mima(i, j)] for j in V′ if i != j) == 2y[i, i])
+    @constraint(
+        m,
+        degree_constraint_2[i = setdiff(V′, 1, n + 1)],
+        sum(x[mima(i, j)] for j in V′ if i != j) == 2y[i, i]
+    )
 
     @constraint(m, depot_connected_4, sum(x[1, i] for i in setdiff(V, 1)) == 1)
     @constraint(m, depot_connected_5, sum(x[i, n+1] for i in setdiff(V, 1)) == 1)
 
-    @constraint(m, y[1, 1] == 1)    
+    @constraint(m, y[1, 1] == 1)
     @constraint(m, y[n+1, n+1] == 1)
     @constraint(m, [i = setdiff(V′, 1, n + 1)], y[1, i] == 0)
 
-    @constraint(m, hub_or_star_7[i=V], sum(y[i, j] for j in V) == 1)
+    @constraint(m, hub_or_star_7[i = V], sum(y[i, j] for j in V) == 1)
 
-    @constraint(m, one_edge_or_arc_between_i_and_j_11[i=V, j=setdiff(V, i)], x[mima(i, j)] + y[i, j] <= y[j, j])
+    @constraint(
+        m,
+        one_edge_or_arc_between_i_and_j_11[i = V, j = setdiff(V, i)],
+        x[mima(i, j)] + y[i, j] <= y[j, j]
+    )
 
 
     function f(x, y)
         # sum(o[i] * y[i, i] for i in V) + sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) + sum(sum(c[i, j] * x[i, j] for j in V if i < j; init=0) for i in V)
-        sum(sum(c[i,j]*x[i,j] for j in V if i < j; init=0) for i in V) + sum(c[1,i]*x[i,n+1] for i in 2:n) + sum(sum(d[i,j]*y[i,j] for j in V if i != j) for i in V) + sum(o[i]*y[i,i] for i in V)
+        sum(sum(c[i, j] * x[i, j] for j in V if i < j; init = 0) for i in V) +
+        sum(c[1, i] * x[i, n+1] for i = 2:n) +
+        sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) +
+        sum(o[i] * y[i, i] for i in V)
     end
     # function ring_cost(x, y)
     #     bar_offset + sum(sum([r[i,j]*x[i,j] for j in V if i < j]) for i in V) + sum(o[i]*y[i] for i in V)
@@ -138,15 +161,15 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         x_warm = zeros(Bool, n, n)
         x′_warm = zeros(Bool, n, n)
         for i in V
-            for j in i+1:n
+            for j = i+1:n
                 set_start_value(x[i, j], false)
             end
         end
-        for i in 1:length(warm_hubs)-1
+        for i = 1:length(warm_hubs)-1
             set_start_value(x[mima(warm_hubs[i], warm_hubs[i+1])...], true)
             x_warm[mima(warm_hubs[i], warm_hubs[i+1])...] = true
         end
-        for i in 2:length(warm_hubs)-1
+        for i = 2:length(warm_hubs)-1
             if warm_hubs[i] in tildeV
                 x′_warm[mima(warm_hubs[i-1], warm_hubs[i+1])...] = true
             end
@@ -164,7 +187,25 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
 
 
 
-    m, t_time, m_time, s_time, blossom_time, t_two_opt_time, TL_reached, gap, UB, LB, x̂, ŷ, nopt_cons, nsubtour_cons, nconnectivity_cuts, ntwo_opt, nblossom, explored_nodes = benders_st_optimize_lazy!(m, x, y, f, inst.F, B, inst, pars, start_time, gurobi_env)
+    m,
+    t_time,
+    m_time,
+    s_time,
+    blossom_time,
+    t_two_opt_time,
+    TL_reached,
+    gap,
+    UB,
+    LB,
+    x̂,
+    ŷ,
+    nopt_cons,
+    nsubtour_cons,
+    nconnectivity_cuts,
+    ntwo_opt,
+    nblossom,
+    explored_nodes =
+        benders_st_optimize_lazy!(m, x, y, f, inst.F, B, inst, pars, start_time, gurobi_env)
 
 
 
@@ -176,8 +217,8 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         ŷ′_bool = Dict{Tuple{Int,Int},Bool}()
 
 
-        for i in 1:n
-            for j in 1:n+1
+        for i = 1:n
+            for j = 1:n+1
                 if j > i
                     x̂_bool[i, j] = x̂[i, j] > 0.5
                 end
@@ -187,7 +228,8 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
             end
         end
 
-        x̂′_bool, ŷ′_bool = sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars.log_level, gurobi_env)[2:3]
+        x̂′_bool, ŷ′_bool =
+            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars.log_level, gurobi_env)[2:3]
 
 
 
@@ -197,7 +239,8 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         @show hubs
         x̂′_postopt, ŷ′_postopt = x̂′_bool, ŷ′_bool
         if pars.post_procedure
-            x̂′_postopt, ŷ′_postopt = post_optimization_procedure(inst, x̂_bool, ŷ_bool, ring)[1:2]
+            x̂′_postopt, ŷ′_postopt =
+                post_optimization_procedure(inst, x̂_bool, ŷ_bool, ring)[1:2]
         end
 
         if pars.log_level > 0
@@ -213,32 +256,81 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         end
 
         B_computed, i★, j★, k★, = compute_B_critical_triple(inst, x̂_bool, ŷ_bool)
-        sol = Solution(n, hubs, x̂_bool, x̂′_postopt, ŷ_bool, ŷ′_postopt, B_computed, i★, j★, k★)
+        sol = Solution(
+            n,
+            hubs,
+            x̂_bool,
+            x̂′_postopt,
+            ŷ_bool,
+            ŷ′_postopt,
+            B_computed,
+            i★,
+            j★,
+            k★,
+        )
 
 
         if pars.timelimit > 20 && pars.assert
-            resilient_checker(filename, inst, x̂, x̂′_postopt, ŷ, ŷ′_postopt, gap, B_computed, UB; log_level=pars.log_level)
+            resilient_checker(
+                filename,
+                inst,
+                x̂,
+                x̂′_postopt,
+                ŷ,
+                ŷ′_postopt,
+                gap,
+                B_computed,
+                UB;
+                log_level = pars.log_level,
+            )
         end
 
         sp_cost = B_computed * inst.F
         master_cost = UB - sp_cost
-        return BDtable( t_time, 
-                        m_time, 
-                        s_time, 
-                        t_two_opt_time, 
-                        blossom_time, 
-                        TL_reached, 
-                        gap, 
-                        UB, LB, 
-                        nopt_cons, nsubtour_cons, nconnectivity_cuts, nblossom, ntwo_opt, 
-                        master_cost, sp_cost, 
-                        explored_nodes, 
-                        sol)
+        return BDtable(
+            t_time,
+            m_time,
+            s_time,
+            t_two_opt_time,
+            blossom_time,
+            TL_reached,
+            gap,
+            UB,
+            LB,
+            nopt_cons,
+            nsubtour_cons,
+            nconnectivity_cuts,
+            nblossom,
+            ntwo_opt,
+            master_cost,
+            sp_cost,
+            explored_nodes,
+            sol,
+        )
     end
-    empty_dict = Dict{Tuple{Int,Int},Bool}() 
+    empty_dict = Dict{Tuple{Int,Int},Bool}()
     sol = Solution(n, Int[1], empty_dict, empty_dict, empty_dict, empty_dict, 0, 0, 0, 0)
 
-    return BDtable(t_time, m_time, s_time, t_two_opt_time, blossom_time, TL_reached, 100, 0, LB, nopt_cons, nsubtour_cons, nconnectivity_cuts, nblossom, ntwo_opt, 0, 0, 0, sol)
+    return BDtable(
+        t_time,
+        m_time,
+        s_time,
+        t_two_opt_time,
+        blossom_time,
+        TL_reached,
+        100,
+        0,
+        LB,
+        nopt_cons,
+        nsubtour_cons,
+        nconnectivity_cuts,
+        nblossom,
+        ntwo_opt,
+        0,
+        0,
+        0,
+        sol,
+    )
 end
 function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gurobi_env)
 
@@ -260,7 +352,8 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
     nblossom = 0
     nblossom_pair_inequality = 0
 
-    total_time, sp_time, sp_obj, t_two_opt_time, blossom_time = start_time, 0.0, 0.0, 0.0, 0.0
+    total_time, sp_time, sp_obj, t_two_opt_time, blossom_time =
+        start_time, 0.0, 0.0, 0.0, 0.0
 
     x̂ = Dict{Tuple{Int,Int},Bool}()
     ŷ = Dict{Tuple{Int,Int},Bool}()
@@ -295,7 +388,15 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
             nsubtour_cons_before = nsubtour_cons
             ring_edges = create_ring_edges_lazy(callback_value.(cb_data, x), n)
-            nsubtour_cons = create_subtour_constraint_lazy_Labbe(m, cb_data, x, y, n, ring_edges, nsubtour_cons)
+            nsubtour_cons = create_subtour_constraint_lazy_Labbe(
+                m,
+                cb_data,
+                x,
+                y,
+                n,
+                ring_edges,
+                nsubtour_cons,
+            )
             if nsubtour_cons == nsubtour_cons_before
                 B_cb = callback_value(cb_data, B) * inst.F
                 start_time_sp = time()
@@ -304,7 +405,8 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
                     B_val *= inst.F
 
                 else
-                    B_val, α, β, γ, δ, ζ, sp_m, first_sp_m = sp_optimize_ilp_dual(x̂, ŷ, inst, pars.log_level, sp_m, first_sp_m)
+                    B_val, α, β, γ, δ, ζ, sp_m, first_sp_m =
+                        sp_optimize_ilp_dual(x̂, ŷ, inst, pars.log_level, sp_m, first_sp_m)
                 end
 
                 sp_time += time() - start_time_sp
@@ -315,20 +417,33 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
 
                     x′, sp_cost = compute_sp_res(x̂, ŷ, V, n, tildeV, rp, s)[[1, 3]] # TODO create simpler functions that do only compute backup ring cost and ring cost
-                    hubs, master_ring_cost = compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
-                    x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(x̂, x′, hubs, sp_cost + master_ring_cost + bar_offset, pars, n, r, rp, tildeV)
+                    hubs, master_ring_cost =
+                        compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
+                    x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(
+                        x̂,
+                        x′,
+                        hubs,
+                        sp_cost + master_ring_cost + bar_offset,
+                        pars,
+                        n,
+                        r,
+                        rp,
+                        tildeV,
+                    )
 
 
                     B_two_opt = two_opt_cost - ring_cost(x_two_opt, ŷ)
                     t_two_opt_time += time() - two_opt_time
 
 
-                    if two_opt_cost < min(bestobjval, sp_cost + master_ring_cost + bar_offset)
+                    if two_opt_cost <
+                       min(bestobjval, sp_cost + master_ring_cost + bar_offset)
 
-                        pars.log_level > 1 && print("Feasible solution found of value $(two_opt_cost)")
+                        pars.log_level > 1 &&
+                            print("Feasible solution found of value $(two_opt_cost)")
                         improve_two_opt = true
                         for i in V
-                            for j in i+1:n
+                            for j = i+1:n
                                 x_improve_two_opt[i, j] = Float64(round(x_two_opt[i, j]))
                             end
                         end
@@ -338,30 +453,84 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
                     end
                 end
-                
+
                 if B_cb < B_val
 
                     B_computed, i★, j★, k★ = compute_B_critical_triple(inst, x̂, ŷ)
-                    tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
+                    tildeJ = Set([
+                        (i, j, k) for
+                        i in V, j in tildeV, k in V′ if i != j && j != k && i < k
+                    ])
 
                     if pars.sp_solve == LP()
 
-                        con = @build_constraint(inst.F * B >=
-                                                sum((1 - y[i, i] - sum(y[i, j] for j in setdiff(V, tildeV, i); init=0))α[i] for i in V) +
-                                                sum((x[mima(i, j)] + x[mima(j, k)] - 1)β[i, j, k] for (i, j, k) in tildeJ) +
-                                                sum((sum(d′[i, k] * (y[i, j] - 1) for k in setdiff(V, i, j)))γ[i, j] for i in V for j in tildeV if i != j) +
-                                                sum(c′[i, k] * (x[mima(i, j)] + x[mima(j, k)] - 2)δ[i, j, k] for (i, j, k) in tildeJ) +
-                                                sum((x[mima(i, j)] + y[i, j] - y[j, j])ζ[i, j] for i in V for j in V if i != j)
+                        con = @build_constraint(
+                            inst.F * B >=
+                            sum(
+                                (
+                                    1 - y[i, i] - sum(
+                                        y[i, j] for j in setdiff(V, tildeV, i);
+                                        init = 0,
+                                    )
+                                )α[i] for i in V
+                            ) +
+                            sum(
+                                (x[mima(i, j)] + x[mima(j, k)] - 1)β[i, j, k] for
+                                (i, j, k) in tildeJ
+                            ) +
+                            sum(
+                                (sum(
+                                    d′[i, k] * (y[i, j] - 1) for k in setdiff(V, i, j)
+                                ))γ[i, j] for i in V for j in tildeV if i != j
+                            ) +
+                            sum(
+                                c′[i, k] * (x[mima(i, j)] + x[mima(j, k)] - 2)δ[i, j, k] for
+                                (i, j, k) in tildeJ
+                            ) +
+                            sum(
+                                (x[mima(i, j)] + y[i, j] - y[j, j])ζ[i, j] for i in V
+                                for j in V if i != j
+                            )
                         )
 
 
                         MOI.submit(m, MOI.LazyConstraint(cb_data), con)
                     else
-                        con = @build_constraint(B >=
-                                                sum((1 - y[i, i] + x[mima(i, j★)] + y[i, j★] - y[j★, j★] - sum(y[i, j] for j in setdiff(V, tildeV, i))) * minimum(d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]) for i in setdiff(V, j★) if ŷ[i, j★]; init=0) +
-                                                (2x[mima(i★, j★)] + 2x[mima(j★, k★)] - 3) * c′[i★, k★] +
-                                                sum(sum(d′[i, k] * (y[i, j★] - 1) for k in setdiff(V, i, j★); init=0) for i in setdiff(V, j★) if ŷ[i, j★]; init=0) +
-                                                sum(sum(minimum((d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]; init=0) - d′[i, j])*(x[mima(i,j)] + y[i,j] - y[j,j]) for j in setdiff(V, i) if !ŷ[j, j] && minimum(d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]; init=0) > d′[i, j]; init=0) for i in setdiff(V, j★) if ŷ[i, j★]; init=0)
+                        con = @build_constraint(
+                            B >=
+                            sum(
+                                (
+                                    1 - y[i, i] + x[mima(i, j★)] + y[i, j★] - y[j★, j★] -
+                                    sum(y[i, j] for j in setdiff(V, tildeV, i))
+                                ) *
+                                minimum(d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k])
+                                for i in setdiff(V, j★) if ŷ[i, j★];
+                                init = 0,
+                            ) +
+                            (2x[mima(i★, j★)] + 2x[mima(j★, k★)] - 3) * c′[i★, k★] +
+                            sum(
+                                sum(
+                                    d′[i, k] * (y[i, j★] - 1) for k in setdiff(V, i, j★);
+                                    init = 0,
+                                ) for i in setdiff(V, j★) if ŷ[i, j★];
+                                init = 0,
+                            ) +
+                            sum(
+                                sum(
+                                    minimum(
+                                        (
+                                            d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]; init = 0
+                                        ) - d′[i, j],
+                                    ) * (x[mima(i, j)] + y[i, j] - y[j, j]) for
+                                    j in setdiff(V, i) if !ŷ[j, j] &&
+                                    minimum(
+                                        d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
+                                        init = 0,
+                                    ) > d′[i, j];
+                                    init = 0,
+                                ) for i in setdiff(V, j★) if ŷ[i, j★];
+                                init = 0,
+                            )
                         )
 
                         MOI.submit(m, MOI.LazyConstraint(cb_data), con)
@@ -373,26 +542,40 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
 
                         x′, sp_cost = compute_sp_res(x̂, ŷ, V, n, tildeV, rp, s)[[1, 3]] # TODO create simpler functions that do only compute backup ring cost and ring cost
-                        hubs, master_ring_cost = compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
-                        x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(x̂, x′, hubs, sp_cost + master_ring_cost + bar_offset, pars, n, r, rp, tildeV)
+                        hubs, master_ring_cost =
+                            compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
+                        x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(
+                            x̂,
+                            x′,
+                            hubs,
+                            sp_cost + master_ring_cost + bar_offset,
+                            pars,
+                            n,
+                            r,
+                            rp,
+                            tildeV,
+                        )
 
 
                         λ_two_opt = two_opt_cost - ring_cost(x_two_opt, ŷ)
 
 
-                        if two_opt_cost < min(bestobjval, sp_cost + master_ring_cost + bar_offset)
+                        if two_opt_cost <
+                           min(bestobjval, sp_cost + master_ring_cost + bar_offset)
                             # We accept two-opt solution
                             println("Feasible solution found of value $(two_opt_cost)")
                             improve_two_opt = true
                             for i in V
-                                for j in i+1:n
-                                    x_improve_two_opt[i, j] = Float64(round(x_two_opt[i, j]))
+                                for j = i+1:n
+                                    x_improve_two_opt[i, j] =
+                                        Float64(round(x_two_opt[i, j]))
                                 end
                             end
                             y_improve_two_opt = Float64.(round.(ŷ))
                             bar_offset_improve_two_opt = bar_offset
                             λ_improve_two_opt = λ_two_opt
-                            pars.log_level > 1 && @info "New heuristic solution found with value $two_opt_cost"
+                            pars.log_level > 1 &&
+                                @info "New heuristic solution found with value $two_opt_cost"
                         end
                         t_two_opt_time += time() - two_opt_time
                     end
@@ -409,7 +592,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
             vars_submit = JuMP.VariableRef[]
             vars_improve_two_opt_submit = Bool[]
             for i in V
-                for j in i+1:n
+                for j = i+1:n
                     push!(vars_submit, x[i, j])
                     push!(vars_improve_two_opt_submit, x_improve_two_opt[i, j])
                 end
@@ -422,9 +605,18 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
 
             status = MOI.submit(
-                m, MOI.HeuristicSolution(cb_data), vcat(vars_submit, offset, λ), vcat(vars_improve_two_opt_submit, bar_offset_improve_two_opt, λ_improve_two_opt))
+                m,
+                MOI.HeuristicSolution(cb_data),
+                vcat(vars_submit, offset, λ),
+                vcat(
+                    vars_improve_two_opt_submit,
+                    bar_offset_improve_two_opt,
+                    λ_improve_two_opt,
+                ),
+            )
 
-            pars.log_level > 1 && println("Submitted a heuristic solution with status $status")
+            pars.log_level > 1 &&
+                println("Submitted a heuristic solution with status $status")
             improve_two_opt = false
             t_two_opt_time += time() - two_opt_time
         end
@@ -435,20 +627,44 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
     function call_back_user_cuts(cb_data)
         max_current_value = -Inf
         if pars.ucstrat == 1
-            max_current_value, con = create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
+            max_current_value, con =
+                create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
         elseif pars.ucstrat == 2
-            max_current_value, con = create_connectivity_cut_strategy_2(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
+            max_current_value, con = create_connectivity_cut_strategy_2(
+                cb_data,
+                x,
+                JuMP.VariableRef[y[i, i] for i in V],
+                V,
+                n,
+                pars,
+            )
         elseif pars.ucstrat == 3
-            max_current_value, con = create_connectivity_cut_strategy_3(cb_data, x, JuMP.VariableRef[y[i, i] for i in V], V, n, pars)
+            max_current_value, con = create_connectivity_cut_strategy_3(
+                cb_data,
+                x,
+                JuMP.VariableRef[y[i, i] for i in V],
+                V,
+                n,
+                pars,
+            )
         elseif pars.ucstrat == 4
-            max_current_value, con = create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
+            max_current_value, con = create_connectivity_cut_strategy_4(
+                cb_data,
+                x,
+                y,
+                V,
+                n,
+                nconnectivity_cuts,
+                pars,
+            )
         end
         if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
             nconnectivity_cuts += 1
         elseif pars.use_blossom
             tmp_time = time()
-            con, nblossom_pair_inequality = create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
+            con, nblossom_pair_inequality =
+                create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
             if con !== nothing
                 nblossom += 1
                 if pars.log_level > 1
@@ -476,11 +692,11 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
     pars.log_level > 0 && @info "ended"
 
-    
 
-    t_time = round(total_time, digits=4)
-    m_time = round(total_time - sp_time, digits=4)
-    s_time = round(sp_time, digits=4)
+
+    t_time = round(total_time, digits = 4)
+    m_time = round(total_time - sp_time, digits = 4)
+    s_time = round(sp_time, digits = 4)
     @info "Spent $(t_time)s in Benders decomposition\nSpent $(m_time)s in Master problem\nSpent $(s_time)s in subproblem\n$nopt_cons Optimality Constraints created\n$nsubtour_cons Subtour Constraints created"
 
 
@@ -488,7 +704,26 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
     @show "Termination status is $st"
     TL_reached = st == MOI.TIME_LIMIT
     if !has_values(m)
-        return (m, t_time, m_time, s_time, t_two_opt_time, blossom_time, TL_reached, Inf, 0, objective_bound(m), zeros(Bool, n, n), zeros(Bool, n, n), nopt_cons, nsubtour_cons, nconnectivity_cuts, ntwo_opt, nblossom, MOI.get(m, MOI.NodeCount()))
+        return (
+            m,
+            t_time,
+            m_time,
+            s_time,
+            t_two_opt_time,
+            blossom_time,
+            TL_reached,
+            Inf,
+            0,
+            objective_bound(m),
+            zeros(Bool, n, n),
+            zeros(Bool, n, n),
+            nopt_cons,
+            nsubtour_cons,
+            nconnectivity_cuts,
+            ntwo_opt,
+            nblossom,
+            MOI.get(m, MOI.NodeCount()),
+        )
     end
 
 
@@ -498,7 +733,26 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
     @info "B : $(value(B))"
     @info "Blossom time : $(blossom_time)s"
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
-    return (m, t_time, m_time, s_time, t_two_opt_time, blossom_time, TL_reached, relative_gap(m), objective_value(m), objective_bound(m), value.(x), Bool.(round.(value.(y))), nopt_cons, nsubtour_cons, nconnectivity_cuts, ntwo_opt, nblossom, MOI.get(m, MOI.NodeCount()))
+    return (
+        m,
+        t_time,
+        m_time,
+        s_time,
+        t_two_opt_time,
+        blossom_time,
+        TL_reached,
+        relative_gap(m),
+        objective_value(m),
+        objective_bound(m),
+        value.(x),
+        Bool.(round.(value.(y))),
+        nopt_cons,
+        nsubtour_cons,
+        nconnectivity_cuts,
+        ntwo_opt,
+        nblossom,
+        MOI.get(m, MOI.NodeCount()),
+    )
 end
 
 
@@ -556,12 +810,12 @@ function compute_sp_res(x̂, ŷ, V, n, tildeV, r, s)
             if i in tildeV
                 if nb_hubs > 4
                     neighboors = Int[]
-                    for j in 1:i-1
+                    for j = 1:i-1
                         if x̂[j, i] > 0.5
                             push!(neighboors, j)
                         end
                     end
-                    for j in i+1:n
+                    for j = i+1:n
                         if x̂[i, j] > 0.5
                             push!(neighboors, j)
                         end
@@ -582,12 +836,12 @@ function compute_sp_res(x̂, ŷ, V, n, tildeV, r, s)
         for i in H
             neighboors = Int[]
             if i in tildeV
-                for j in 1:i-1
+                for j = 1:i-1
                     if x̂[j, i] > 0.5
                         push!(neighboors, j)
                     end
                 end
-                for j in i+1:n
+                for j = i+1:n
                     if x̂[i, j] > 0.5
                         push!(neighboors, j)
                     end
@@ -614,7 +868,7 @@ function compute_master_hubs_and_cost(x_opt, V, n, tildeV, o, r)
     master_cost = 0.0
     H = Int[]
     for i in V
-        for j in i+1:n
+        for j = i+1:n
             if x_opt[i, j] > 0.5
                 if !(i in H)
                     push!(H, i)
@@ -630,5 +884,3 @@ function compute_master_hubs_and_cost(x_opt, V, n, tildeV, o, r)
     end
     return H, master_cost
 end
-
-

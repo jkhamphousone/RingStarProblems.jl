@@ -28,7 +28,7 @@ function print_inst(inst::RRSPInstance, pars)
     end
     str *= '\n'
     for i in V
-        for j in 1:inst.n
+        for j = 1:inst.n
             if j == 1
                 str *= "$(rpad(i,rpad_value))"
             end
@@ -66,7 +66,8 @@ function print_inst(inst::RRSPInstance, pars)
 end
 
 function create_instance_robust_journal_article(filename, α, pars)
-    random_filepath = eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$filename.dat"
+    random_filepath =
+        eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$filename.dat"
     if pars.nrand > 0 && !isfile(random_filepath)
         n = pars.nrand
         data = [1:1000 rand(1:1000, 1000) rand(1:1000, 1000)]
@@ -83,18 +84,29 @@ function create_instance_robust_journal_article(filename, α, pars)
         x_coors = data[1:n, 2]
         y_coors = data[1:n, 3]
         @assert pars.r_ij isa Euclidian
-        c = Dict((e[1], e[2])
-        =>
-            ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]])) for e in E)
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]),
+            ) for e in E
+        )
 
 
-        d = Dict((a[1], a[2]) => a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits=5) for a in A)
+        d = Dict(
+            (a[1], a[2]) =>
+                a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits = 5)
+            for a in A
+        )
         if pars.s_ij isa Euclidian
-            d = Dict((a[1], a[2])
-            =>
-                ceil_labbe(distance([x_coors[a[1]], y_coors[a[1]]], [x_coors[a[2]], y_coors[a[2]]])) for a in A)
+            d = Dict(
+                (a[1], a[2]) => ceil_labbe(
+                    distance(
+                        [x_coors[a[1]], y_coors[a[1]]],
+                        [x_coors[a[2]], y_coors[a[2]]],
+                    ),
+                ) for a in A
+            )
         end
-        for i in 2:n
+        for i = 2:n
             c[i, n+1] = c[1, i]
         end
         c[1, n+1] = 0
@@ -108,17 +120,17 @@ function create_instance_robust_journal_article(filename, α, pars)
 
         open(random_filepath, "w") do f
             println(f, "$n 0.0 $α")
-            for i in 1:n
+            for i = 1:n
                 println(f, "$i $(x_coors[i]) $(y_coors[i])")
             end
             println(f, "opening costs")
-            for i in 1:n
+            for i = 1:n
                 print(f, o[i], " ")
             end
             println(f)
             println(f, "star costs")
-            for i in 1:n
-                for j in 1:n
+            for i = 1:n
+                for j = 1:n
                     print(f, s[i, j], " ")
                 end
                 println(f)
@@ -156,16 +168,17 @@ function create_instance_robust_journal_article(filename, α, pars)
         end
 
         if filename[end-12:end] == "brazil58.tsp2"
-            c = Dict((e[1], e[2])
-            =>
-                ceil_labbe(data[7+e[1], e[2]-e[1]] * α) for e in E)
-            d = Dict((a[1], a[2])
-            =>
-                a[1] == a[2] ? 0.0 : (a[1] < a[2] ?
-                 ceil_labbe(data[7+a[1], a[2]-a[1]] * (10 - α)) :
-                 ceil_labbe(data[7+a[2], a[1]-a[2]] * (10 - α))) for a in A)
+            c = Dict((e[1], e[2]) => ceil_labbe(data[7+e[1], e[2]-e[1]] * α) for e in E)
+            d = Dict(
+                (a[1], a[2]) =>
+                    a[1] == a[2] ? 0.0 :
+                    (
+                        a[1] < a[2] ? ceil_labbe(data[7+a[1], a[2]-a[1]] * (10 - α)) :
+                        ceil_labbe(data[7+a[2], a[1]-a[2]] * (10 - α))
+                    ) for a in A
+            )
 
-            for i in 2:n
+            for i = 2:n
                 c[i, n+1] = c[1, i]
             end
             c[1, n+1] = 0
@@ -177,7 +190,20 @@ function create_instance_robust_journal_article(filename, α, pars)
             for kv in d
                 d′[kv[1]] = d[kv[1]] * pars.backup_factor
             end
-            return RRSPInstance(n, V, 2:Int(ceil(n * pars.tildeV / 100)), pars.F, o, α, c, c′, d, d′, zeros(Int, n), zeros(Int, n))
+            return RRSPInstance(
+                n,
+                V,
+                2:Int(ceil(n * pars.tildeV / 100)),
+                pars.F,
+                o,
+                α,
+                c,
+                c′,
+                d,
+                d′,
+                zeros(Int, n),
+                zeros(Int, n),
+            )
         else
             shift_n = 0
             if filename[end-7:end] == "120.tsp2"
@@ -185,20 +211,30 @@ function create_instance_robust_journal_article(filename, α, pars)
             end
             x_coors = data[7+shift_n:n+shift_n+6, 2]
             y_coors = data[7+shift_n:n+shift_n+6, 3]
-            c = Dict((e[1], e[2])
-            =>
-                ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * (α)) for e in E)
+            c = Dict(
+                (e[1], e[2]) => ceil_labbe(
+                    distance(
+                        [x_coors[e[1]], y_coors[e[1]]],
+                        [x_coors[e[2]], y_coors[e[2]]],
+                    ) * (α),
+                ) for e in E
+            )
 
 
-            for i in 2:n
+            for i = 2:n
                 c[i, n+1] = c[1, i]
             end
             c[1, n+1] = 0
 
 
-            d = Dict((a[1], a[2])
-            =>
-                ceil_labbe(distance([x_coors[a[1]], y_coors[a[1]]], [x_coors[a[2]], y_coors[a[2]]]) * (10 - α)) for a in A)
+            d = Dict(
+                (a[1], a[2]) => ceil_labbe(
+                    distance(
+                        [x_coors[a[1]], y_coors[a[1]]],
+                        [x_coors[a[2]], y_coors[a[2]]],
+                    ) * (10 - α),
+                ) for a in A
+            )
 
             c′ = Dict{Tuple{Int,Int},Float64}()
             d′ = Dict{Tuple{Int,Int},Float64}()
@@ -223,18 +259,18 @@ function create_instance_robust_journal_article(filename, α, pars)
         y_coors = data[2:n+1, 3]
         o = data[n+3, 1:n]
         @assert pars.r_ij isa Euclidian
-        c = Dict((e[1], e[2])
-        =>
-            ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]])) for e in E)
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]),
+            ) for e in E
+        )
 
-        for i in 2:n
+        for i = 2:n
             c[i, n+1] = c[1, i]
         end
         c[1, n+1] = 0
         d_data = data[n+5:2n+4, 1:n]
-        d = Dict((a[1], a[2])
-        =>
-            d_data[a[1], a[2]] for a in A)
+        d = Dict((a[1], a[2]) => d_data[a[1], a[2]] for a in A)
         c′ = Dict{Tuple{Int,Int},Float64}()
         d′ = Dict{Tuple{Int,Int},Float64}()
         for kv in c
@@ -274,10 +310,16 @@ function create_instance_robust(filename, α, pars)
         end
         x_coors = data[1:n, 2]
         y_coors = data[1:n, 3]
-        c = Dict((e[1], e[2])
-        =>
-            ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α) for e in E)
-        d = Dict((a[1], a[2]) => a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits=5) for a in A)
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α,
+            ) for e in E
+        )
+        d = Dict(
+            (a[1], a[2]) =>
+                a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits = 5)
+            for a in A
+        )
         o = Float64[]
         if pars.o_i == 1
             o = ones(Float64, 1)
@@ -287,17 +329,17 @@ function create_instance_robust(filename, α, pars)
 
         open(random_filepath, "w") do f
             println(f, "$n 0.0 $α")
-            for i in 1:n
+            for i = 1:n
                 println(f, "$i $(x_coors[i]) $(y_coors[i])")
             end
             println(f, "opening costs")
-            for i in 1:n
+            for i = 1:n
                 print(f, o[i], " ")
             end
             println(f)
             println(f, "star costs")
-            for i in 1:n
-                for j in 1:n
+            for i = 1:n
+                for j = 1:n
                     print(f, s[i, j], " ")
                 end
                 println(f)
@@ -328,18 +370,26 @@ function create_instance_robust(filename, α, pars)
         y_coors = data[2:n+1, 3]
 
 
-        o = Float64[n for i in 1:n]
-        c = Dict((e[1], e[2])
-        =>
-            ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α) for e in E)
-        for i in 2:n
+        o = Float64[n for i = 1:n]
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α,
+            ) for e in E
+        )
+        for i = 2:n
             c[i, n+1] = c[1, i]
         end
         c[1, n+1] = 0
-        d = Dict((a[1], a[2])
-        =>
-            ceil_labbe(distance([x_coors[a[1]], y_coors[a[1]]], [x_coors[a[2]], y_coors[a[2]]])) * (10 - α) for a in A)
-  
+        d = Dict(
+            (a[1], a[2]) =>
+                ceil_labbe(
+                    distance(
+                        [x_coors[a[1]], y_coors[a[1]]],
+                        [x_coors[a[2]], y_coors[a[2]]],
+                    ),
+                ) * (10 - α) for a in A
+        )
+
         c′ = Dict{Tuple{Int,Int},Float64}()
         d′ = Dict{Tuple{Int,Int},Float64}()
         for kv in c
@@ -364,18 +414,18 @@ function create_instance_robust(filename, α, pars)
         x_coors = data[2:n+1, 2]
         y_coors = data[2:n+1, 3]
         o = data[n+3, 1:n]
-        c = Dict((e[1], e[2])
-        =>
-            ceil_labbe(distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α) for e in E)
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]) * α,
+            ) for e in E
+        )
 
-        for i in 2:n
+        for i = 2:n
             c[i, n+1] = c[1, i]
         end
         c[1, n+1] = 0
         d_data = data[n+5:2n+4, 1:n]
-        d = Dict((a[1], a[2])
-        =>
-            d_data[a[1], a[2]] for a in A)
+        d = Dict((a[1], a[2]) => d_data[a[1], a[2]] for a in A)
         c′ = Dict{Tuple{Int,Int},Float64}()
         d′ = Dict{Tuple{Int,Int},Float64}()
         for kv in c
@@ -454,12 +504,12 @@ function instance_transform_improved(inst, inst_trans)
 
         fst_min = Inf
         snd_min = Inf
-        for k in 1:i-1
+        for k = 1:i-1
             if fst_min > r′[k, i]
                 fst_min = r′[k, i]
             end
         end
-        for k in i+1:n
+        for k = i+1:n
             if snd_min > r′[i, k]
                 snd_min = r′[i, k]
             end

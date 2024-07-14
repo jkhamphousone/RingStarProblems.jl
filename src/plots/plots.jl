@@ -23,7 +23,14 @@ function optimize_plot_gap(do_plot_gap, m::Model, time_step, timelimit)
 end
 
 
-function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_backup_edge=false)
+function plot_results_plan_run(
+    pars,
+    inst,
+    filename,
+    result_table,
+    is_ilp,
+    plot_backup_edge = false,
+)
     @info "plotting filename $(filename[1]), α = $(inst.α)"
     n = inst.n
 
@@ -36,8 +43,8 @@ function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_
     dauphineblue = RGBA(0.19, 0.267, 0.5176)
     teal_backup = RGBA(0, 0.502, 0.502)
     darkorange = RGBA(1, 0.549, 0.0)
-    nodefillc = [i == 1 ? dark : darkred for i in 1:n]
-    nodelabel_colors = [i == result_table.sol.j★ ? dark : colorant"white" for i in 1:n]
+    nodefillc = [i == 1 ? dark : darkred for i = 1:n]
+    nodelabel_colors = [i == result_table.sol.j★ ? dark : colorant"white" for i = 1:n]
 
 
 
@@ -50,11 +57,12 @@ function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_
     edge_colors = []
 
 
-    nodelabels = String[i == result_table.sol.j★ ? "$i\n $(result_table.sol.B)" : "$i" for i in 1:n]
+    nodelabels =
+        String[i == result_table.sol.j★ ? "$i\n $(result_table.sol.B)" : "$i" for i = 1:n]
 
 
-    for i in 1:n
-        for j in i+1:n	
+    for i = 1:n
+        for j = i+1:n
             if result_table.sol.x_opt[i, j]
                 add_edge!(inst_graph, i, j)
                 push!(edge_colors, dauphineblue)
@@ -93,8 +101,28 @@ function plot_results_plan_run(pars, inst, filename, result_table, is_ilp, plot_
     elseif pars.two_opt == 2
         two_opt_string = "_intense_2-opt"
     end
-    alpha_or_nrand = filename[1] == "random_instance" ? "random_instance_$(pars.nrand)_$solving_met" : "$(rpad(filename[1],20,"_"))_α-$(inst.α)_$solving_met"
+    alpha_or_nrand =
+        filename[1] == "random_instance" ? "random_instance_$(pars.nrand)_$solving_met" :
+        "$(rpad(filename[1],20,"_"))_α-$(inst.α)_$solving_met"
     mkpath(eval(@__DIR__) * "/results/html/plots/journal_2023/$(alpha_or_nrand)")
-    draw(PDF(eval(@__DIR__) * "/Results/html/plots/journal_2023/$alpha_or_nrand/$(alpha_or_nrand)_$(rpad(plot_backup_edge ? "backup-ring" : "ring_",5,"_"))TL-$(pars.timelimit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))$(pars.ilpseparatingcons_method[2] == "" ? "" : "___$(pars.ilpseparatingcons_method[2])__").pdf"), gplot(inst_graph, inst.x, inst.y, nodesize=nodesize, nodefillc=nodefillc, edgestrokec=edge_colors, nodelabel=nodelabels, nodelabelsize=nodesize, nodelabelc=nodelabel_colors, EDGELINEWIDTH=1.1, edgelinewidth=1.1))
+    draw(
+        PDF(
+            eval(@__DIR__) *
+            "/Results/html/plots/journal_2023/$alpha_or_nrand/$(alpha_or_nrand)_$(rpad(plot_backup_edge ? "backup-ring" : "ring_",5,"_"))TL-$(pars.timelimit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))$(pars.ilpseparatingcons_method[2] == "" ? "" : "___$(pars.ilpseparatingcons_method[2])__").pdf",
+        ),
+        gplot(
+            inst_graph,
+            inst.x,
+            inst.y,
+            nodesize = nodesize,
+            nodefillc = nodefillc,
+            edgestrokec = edge_colors,
+            nodelabel = nodelabels,
+            nodelabelsize = nodesize,
+            nodelabelc = nodelabel_colors,
+            EDGELINEWIDTH = 1.1,
+            edgelinewidth = 1.1,
+        ),
+    )
 
 end
