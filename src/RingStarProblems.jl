@@ -22,9 +22,9 @@ module RingStarProblems
         
         @info "Loading .jl files $(lpad("0%",4))"
 
+        include("options.jl")
         include("instance.jl")
         include("solution.jl")
-        include("options.jl")
 
 
         include("solution_checker.jl")
@@ -54,5 +54,8 @@ module RingStarProblems
         @info "Loading .jl files $(lpad("100%",4))"
         @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
     end
-
+    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+    export SPSolve, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve 
+    export WResults, WHTML, WLocal, UWriteResults
+    export Costs, Euclidian, RandomInterval, UCosts
 end

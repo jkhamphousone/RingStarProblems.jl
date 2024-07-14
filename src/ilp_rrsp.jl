@@ -1,3 +1,31 @@
+
+@with_kw mutable struct ILPtable @deftype Float64
+    t_time = .0 ; @assert t_time >= .0
+    two_opt_time = .0 ; @assert two_opt_time >= .0
+    blossom_time = .0 ; @assert blossom_time >= .0
+    TL_reached = false ;
+    gap = .0 ; @assert 0 <= gap
+    UB = .0
+    LB = .0
+    nsubtour_cons = 0 ; @assert nsubtour_cons >= 0
+    nconnectivity_cuts = 0 ; @assert nconnectivity_cuts >= 0
+    nedges_cuts = 0 ;
+    ntwo_opt = 0 ; @assert ntwo_opt >= 0 #11
+    nblossom = 0 ; @assert nblossom >= 0 #12
+    nodes_explored::Int = -1 ;
+    sol::Solution = Solution() ;
+    """
+    """
+end
+    
+function round!(ilp::ILPtable)
+    setfield!.(Ref(ilp), 1:4, round.(getfield.(Ref(ilp), 1:4), digits=2))
+    setfield!.(Ref(ilp), 5:5, round.(getfield.(Ref(ilp), 5:5), digits=3))
+    setfield!.(Ref(ilp), 6:12, round.(getfield.(Ref(ilp), 6:12), digits=2))
+    return ilp
+end
+
+
 function rrsp_create_ilp_lazy(filename, inst, pars)
     println()
     two_opt_string = ""
