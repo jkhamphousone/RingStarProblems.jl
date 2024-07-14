@@ -1,15 +1,19 @@
 
-@with_kw mutable struct Solution @deftype Dict{Tuple{Int,Int},Bool}
-    n::Int = 0 ;
+@with_kw mutable struct Solution
+    @deftype Dict{Tuple{Int,Int},Bool}
+    n::Int = 0
     hubs::Vector{Int} = Int[] # Vector of size |H|. n+1 doesn't appear
-    x_opt = Dict{Tuple{Int,Int},Bool}() 
-    x′_opt = Dict{Tuple{Int,Int},Bool}() 
-    y_opt = Dict{Tuple{Int,Int},Bool}() 
-    y′_opt = Dict{Tuple{Int,Int},Bool}() 
-    B::Float64 = .0
-    i★::Int = 0; @assert i★ >= 0
-    j★::Int = 0; @assert j★ >= 0 # j★ is the critical hub that is responsible for the value of B
-    k★::Int = 0; @assert k★ >= 0
+    x_opt = Dict{Tuple{Int,Int},Bool}()
+    x′_opt = Dict{Tuple{Int,Int},Bool}()
+    y_opt = Dict{Tuple{Int,Int},Bool}()
+    y′_opt = Dict{Tuple{Int,Int},Bool}()
+    B::Float64 = 0.0
+    i★::Int = 0
+    @assert i★ >= 0
+    j★::Int = 0
+    @assert j★ >= 0 # j★ is the critical hub that is responsible for the value of B
+    k★::Int = 0
+    @assert k★ >= 0
 end
 
 function print_solution(file, sol::Solution, inst::RRSPInstance)

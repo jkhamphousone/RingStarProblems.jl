@@ -1,7 +1,7 @@
 function read_ilp_table(filepath, id_sol)
-    data_str = split(chop(read(filepath, String), head=40))
+    data_str = split(chop(read(filepath, String), head = 40))
 
-    n = parse(Int,data_str[6])
+    n = parse(Int, data_str[6])
     i = 0
     idx_start = 9
     while i < id_sol
@@ -11,8 +11,8 @@ function read_ilp_table(filepath, id_sol)
         idx_start += 1
     end
     idx_start -= 10
-    nhubs = parse(Int,data_str[idx_start+23])
-    hubs = parse.(Int, split(data_str[idx_start+26],'—'))
+    nhubs = parse(Int, data_str[idx_start+23])
+    hubs = parse.(Int, split(data_str[idx_start+26], '—'))
     idx_shift_ilp = 0
     t_time = parse(Float64, data_str[idx_start+29])
     TL_reached = false
@@ -30,15 +30,15 @@ function read_ilp_table(filepath, id_sol)
     nedges_cuts = parse(Float64, data_str[61+idx_start])
 
 
-    x_opt = Dict{Tuple{Int,Int},Bool}() 
-    x′_opt = Dict{Tuple{Int,Int},Bool}() 
-    y_opt = Dict{Tuple{Int,Int},Bool}() 
-    y′_opt = Dict{Tuple{Int,Int},Bool}() 
+    x_opt = Dict{Tuple{Int,Int},Bool}()
+    x′_opt = Dict{Tuple{Int,Int},Bool}()
+    y_opt = Dict{Tuple{Int,Int},Bool}()
+    y′_opt = Dict{Tuple{Int,Int},Bool}()
     idx_opt = 73 + idx_start
 
     function affect_dict!(opt, data_str, str, idx)
         while data_str[idx] != str
-            opt[parse(Int,data_str[idx]), parse(Int,data_str[idx+2])] = true
+            opt[parse(Int, data_str[idx]), parse(Int, data_str[idx+2])] = true
             idx += 6
         end
         idx += 1
@@ -60,16 +60,18 @@ function read_ilp_table(filepath, id_sol)
 
     sol = Solution(n, hubs, x_opt, x′_opt, y_opt, y′_opt, B, i★, j★, k★)
 
-    return ILPtable(t_time, 
-                    two_opt_time, 
-                    TL_reached,
-                    ilp_gap,
-                    UB_ilp,
-                    LB_ilp,
-                    n_subtour_ILP,
-                    nconnectivity_cuts,
-                    nedges_cuts,
-                    ntwo_opt,
-                    nhubs,
-                    sol)
+    return ILPtable(
+        t_time,
+        two_opt_time,
+        TL_reached,
+        ilp_gap,
+        UB_ilp,
+        LB_ilp,
+        n_subtour_ILP,
+        nconnectivity_cuts,
+        nedges_cuts,
+        ntwo_opt,
+        nhubs,
+        sol,
+    )
 end

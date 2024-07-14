@@ -19,10 +19,10 @@ function sp_optimize_poly(x̂, ŷ, inst)
     if inst.F == 0
         return 0, α, β, γ, δ, ζ
     end
-    
+
     for i in V
         for j in tildeV
-            for k in i+1:n+1
+            for k = i+1:n+1
                 if j != i && j != k
                     if (i, j, k) != (i★, j★, k★)
                         β[i, j, k] = 0
@@ -37,31 +37,31 @@ function sp_optimize_poly(x̂, ŷ, inst)
             γ[i, j★] = 0
         end
 
-        if i != j★ && ŷ[i,j★]
-            α[i] = F*minimum(d′[i,k] for k in setdiff(V,j★,i) if ŷ[k,k])
+        if i != j★ && ŷ[i, j★]
+            α[i] = F * minimum(d′[i, k] for k in setdiff(V, j★, i) if ŷ[k, k])
         else
             α[i] = 0
         end
 
-        if i != j★ && ŷ[i,j★]
-            for j in setdiff(V,i)
+        if i != j★ && ŷ[i, j★]
+            for j in setdiff(V, i)
                 if j == j★
-                    ζ[i,j] = α[i]
-                elseif ŷ[j,j]
-                    ζ[i,j] = 0
+                    ζ[i, j] = α[i]
+                elseif ŷ[j, j]
+                    ζ[i, j] = 0
                 else
-                    ζ[i,j] = max(0, α[i] - F*d′[i,j])
+                    ζ[i, j] = max(0, α[i] - F * d′[i, j])
                 end
             end
         else
-            for j in setdiff(V,i)
-                ζ[i,j] = 0
+            for j in setdiff(V, i)
+                ζ[i, j] = 0
             end
         end
 
 
     end
-   
+
 
     for j in setdiff(tildeV, j★)
         for i in setdiff(V, j)
@@ -72,31 +72,53 @@ function sp_optimize_poly(x̂, ŷ, inst)
     β[i★, j★, k★] = F * c′[i★, k★]
     δ[i★, j★, k★] = F
 
-    obj = c′[i★, k★] + sum(minimum(d′[i, k] for k in setdiff(V, j★) if ŷ[k, k]) for i in setdiff(V, j★) if ŷ[i, j★] ; init = 0)
+    obj =
+        c′[i★, k★] + sum(
+            minimum(d′[i, k] for k in setdiff(V, j★) if ŷ[k, k]) for
+            i in setdiff(V, j★) if ŷ[i, j★];
+            init = 0,
+        )
 
     return obj, α, β, γ, δ, ζ
 end
 
-function debug_RingStarProblems(inst, α, α_poly, β, β_poly, γ, γ_poly, δ, δ_poly, ζ, ζ_poly, j★, ŷ, x̂)
+function debug_RingStarProblems(
+    inst,
+    α,
+    α_poly,
+    β,
+    β_poly,
+    γ,
+    γ_poly,
+    δ,
+    δ_poly,
+    ζ,
+    ζ_poly,
+    j★,
+    ŷ,
+    x̂,
+)
     println("test")
     V = inst.V
     n = length(V)
     tildeV = inst.tildeV
     for i in V
         if α[i] > 0 || α_poly[i] > 0
-            println("α[$i] = $(α[i]), α_poly[$i] = $(α_poly[i]), min d = $(inst.F*minimum(inst.d′[i,k] for k in setdiff(V,j★,i) if ŷ[k,k] && !ŷ[i,k] && !x̂[mima(i,k)]))")
+            println(
+                "α[$i] = $(α[i]), α_poly[$i] = $(α_poly[i]), min d = $(inst.F*minimum(inst.d′[i,k] for k in setdiff(V,j★,i) if ŷ[k,k] && !ŷ[i,k] && !x̂[mima(i,k)]))",
+            )
         end
         if i == 6 || i == 2
-            for j in setdiff(V,i)
-                if ŷ[j,j]
+            for j in setdiff(V, i)
+                if ŷ[j, j]
                     println("ŷ[$j,$j]=$(ŷ[j,j])")
                 end
             end
-            for j in setdiff(V,i)
+            for j in setdiff(V, i)
                 println("ŷ[$i,$j]=$(ŷ[i,j]), $(inst.d′[i,j])")
             end
-            for j in setdiff(V,i)
-                if x̂[mima(i,j)]
+            for j in setdiff(V, i)
+                if x̂[mima(i, j)]
                     println("x̂[mima($i,$j)]=$(x̂[mima(i,j)])")
                 end
             end
@@ -134,7 +156,7 @@ function debug_RingStarProblems(inst, α, α_poly, β, β_poly, γ, γ_poly, δ,
     # end
     for i in V
         for j in setdiff(V, i)
-            if ζ[i,j] > 0 || ζ_poly[i,j] > 0
+            if ζ[i, j] > 0 || ζ_poly[i, j] > 0
                 println("ζ[$i, $j] = $(ζ[i,j]), ζ_poly[$i,$j] = $(ζ_poly[i,j])")
             end
         end
