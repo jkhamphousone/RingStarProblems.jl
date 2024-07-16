@@ -1,15 +1,10 @@
 module RingStarProblems
-if "JULIA_REGISTRYCI_AUTOMERGE" in keys(ENV) &&
-   ENV["JULIA_REGISTRYCI_AUTOMERGE"] == "JULIA_REGISTRYCI_AUTOMERGE"
 
-else
     a = time()
-    @info "Loading Revise, Aqua"
-    using Revise, Aqua
+    @info "Loading Aqua"
+    using Aqua
     @info "Loading JuMP"
     using JuMP
-    @info "Loading Gurobi"
-    using Gurobi
     @info "Loading Combinatorics, DelimitedFiles, Dates and Random"
     using Combinatorics, DelimitedFiles, Dates, Random
     @info "Loading Distributions, Graphs, GraphsFlows and Plots"
@@ -58,6 +53,5 @@ else
         NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
     export WResults, WHTML, WLocal, UWriteResults
     export Costs, Euclidian, RandomInterval, UCosts
-end
 
 end

@@ -84,14 +84,13 @@ using .Options
 	@assert length(warm_start) == 0 || warm_start[1] == Int[1]  # Exemple of 5 hubs warm_start: Int[1,2,5,3,4] TODO: in developpment
 	inst_trans = 2
 	@assert inst_trans in Int[0, 1, 2]
-	ucstrat = 4
-	@assert ucstrat in Int[0, 1, 2, 3, 4]
+	ucstrat::Bool = true
 	ucstrat_limit = 2000
 	@assert ucstrat_limit ≥ 0
 	uctolerance::Float64 = 0.01
 	@assert uctolerance ≥ 0
 	timelimit = 3600
-	@assert timelimit ≥ 0 # timelimit = 0 means infinity
+	@assert timelimit ≥ 0 # timelimit in seconds, timelimit = 0 means infinity
 	nthreads = 8
 	@assert nthreads >= 0
 	writeresults::UWriteResults

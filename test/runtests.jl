@@ -24,9 +24,15 @@ using Test
         use_blossom = false,                # use blossom inequalities (not functional yet)
         alphas = [3],                       # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
         nthreads = 4,                       # Number of threads used in GUROBI, set 0 for maximum number of available threads
-        ucstrat = 4,                         # user cut strategy
+        ucstrat = true,                     # use user cut
     )
-    @test RSP.rspoptimize(pars, 1 ; solutionchecker = true) == 0
-    @test RSP.rspoptimize(pars, 3 ; solutionchecker = true) == 0
 
+    using SCIP
+    @info "Testing with SCIP"
+    @test RSP.rspoptimize(pars, 1 ; solutionchecker = true, optimizer = SCIP.Optimizer) == 0
+    @test RSP.rspoptimize(pars, 3 ; solutionchecker = true, optimizer = SCIP.Optimizer) == 0
+    @info "Testing with Gurobi"
+    using Gurobi
+    @test RSP.rspoptimize(pars, 1 ; solutionchecker = true, optimizer = Gurobi.Optimizer) == 0
+    @test RSP.rspoptimize(pars, 3 ; solutionchecker = true, optimizer = Gurobi.Optimizer) == 0
 end

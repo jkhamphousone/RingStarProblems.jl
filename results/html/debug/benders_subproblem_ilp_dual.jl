@@ -1,4 +1,4 @@
-function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env)
+function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level; optmizer)
     n = length(inst.V)
 
     ifelse(pars.F == 0, 1:1, inst.tildeV)
@@ -8,9 +8,8 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, gurobi_env)
     c′ = inst.c′
     tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
 
-    gurobi_model = Gurobi.Optimizer(gurobi_env)
-    sp_m = direct_model(gurobi_model)
-    set_optimizer_attribute(sp_m, "OutputFlag", 0)
+    sp_m = Model(optmizer)
+    
 
     log_level <= 1 && set_silent(sp_m)
 

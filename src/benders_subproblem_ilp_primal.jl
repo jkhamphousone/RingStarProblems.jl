@@ -1,4 +1,4 @@
-function sp_optimize_ilp_primal(x̂, ŷ, inst, log_level, gurobi_env)
+function sp_optimize_ilp_primal(x̂, ŷ, inst, pars; optimizer)
     n = length(inst.V)
     tildeV = inst.tildeV
     V = inst.V
@@ -8,12 +8,11 @@ function sp_optimize_ilp_primal(x̂, ŷ, inst, log_level, gurobi_env)
 
     tildeJ = [(i, j, k) for i in V, j in tildeV, k in V′ if i != j && k != j && i < k]
 
-    gurobi_model = Gurobi.Optimizer(gurobi_env)
-    sp_m = direct_model(gurobi_model)
-    # sp_m = Model(Gurobi.Optimizer) # To use if dualize.jl
-    set_optimizer_attribute(sp_m, "OutputFlag", 0)
+    sp_m = Model(optimizer)
+    if pars.log_level <= 0
+        set_silent(m)
+    end
 
-    log_level <= 1 && set_silent(sp_m)
     @variable(sp_m, x′[i = V, j = V′; i < j] >= 0)
     @variable(sp_m, y′[i = V, j = V; i != j] >= 0)
     @variable(sp_m, θ[i = V, j = tildeV; i != j] >= 0)

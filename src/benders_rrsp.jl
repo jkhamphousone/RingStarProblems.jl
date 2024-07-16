@@ -45,7 +45,7 @@ end
 
 
 
-function rrsp_create_benders_model_lazy(filename, inst, pars)
+function rrspcreatebenders_modellazy(filename, inst, pars ; optimizer)
     """
     - Loads data from file
     - Calls the instance transformation
@@ -74,19 +74,12 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
     # o, r, rp, s, bar_offset = instance_transform_improved(inst, pars.inst_trans)
 
 
-
-    gurobi_env = Gurobi.Env()
-    gurobi_model = Gurobi.Optimizer(gurobi_env)
-    m = direct_model(gurobi_model)
+    m = Model(optimizer)
     if pars.timelimit > 0
-        set_optimizer_attribute(m, "TimeLimit", pars.timelimit)
+        set_time_limit_sec(m, pars.timelimit)
     end
-    set_optimizer_attribute(m, "Threads", pars.nthreads)
-    set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
 
-    if pars.ucstrat > 0 || pars.use_blossom
-        set_optimizer_attribute(m, "PreCrush", 1)
-    end
+
     pars.log_level == 0 && set_silent(m)
 
 
@@ -129,24 +122,19 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
 
 
     function f(x, y)
-        # sum(o[i] * y[i, i] for i in V) + sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) + sum(sum(c[i, j] * x[i, j] for j in V if i < j; init=0) for i in V)
+
         sum(sum(c[i, j] * x[i, j] for j in V if i < j; init = 0) for i in V) +
         sum(c[1, i] * x[i, n+1] for i = 2:n) +
         sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) +
         sum(o[i] * y[i, i] for i in V)
     end
-    # function ring_cost(x, y)
-    #     bar_offset + sum(sum([r[i,j]*x[i,j] for j in V if i < j]) for i in V) + sum(o[i]*y[i] for i in V)
-    # end
 
     bestsol, bestobjval = three(inst.n, inst.o, inst.c, inst.d, tildeV)
-    # bestsol, bestobjval = four(inst.n, inst.o, inst.r, inst.s, tildeV, bestobjval, bestsol)
-    # @constraint(m, f(x,y) + pars.F*B <= bestobjval)
-    set_optimizer_attribute(m, "Cutoff", bestobjval)
+
     @info "3 hubs objective:" bestobjval
 
     if length(pars.warm_start) > 0
-        # TODO: currently in developpement
+        # TODO: warm start currently in developpement
         warm_hubs = parse.(Int, split(pars.warm_start, "-")[1:end-1])
         @show warm_hubs
         y_warm = zeros(Bool, n)
@@ -205,7 +193,7 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
     ntwo_opt,
     nblossom,
     explored_nodes =
-        benders_st_optimize_lazy!(m, x, y, f, inst.F, B, inst, pars, start_time, gurobi_env)
+        benders_st_optimize_lazy!(m, x, y, f, inst.F, B, inst, pars, start_time; optimizer)
 
 
 
@@ -229,8 +217,7 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         end
 
         x̂′_bool, ŷ′_bool =
-            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars.log_level, gurobi_env)[2:3]
-
+            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars; optimizer)[2:3]
 
 
         ring = create_ring_edges_lazy(x̂_bool, n)
@@ -319,7 +306,7 @@ function rrsp_create_benders_model_lazy(filename, inst, pars)
         sol,
     )
 end
-function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gurobi_env)
+function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time ; optimizer)
 
     @objective(m, Min, f(x, y) + F * B)
 
@@ -351,9 +338,10 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
 
 
-    gurobi_model = Gurobi.Optimizer(gurobi_env)
-    sp_m = direct_model(gurobi_model)
-    set_optimizer_attribute(sp_m, "OutputFlag", 0)
+    sp_m = Model(optimizer)
+    if pars.log_level == 0
+        set_silent(m)
+    end
     first_sp_m = true
 
     function call_back_benders_lazy(cb_data)
@@ -392,7 +380,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
                     B_val *= inst.F
 
                 else
-                    B_val, α, β, γ, δ, ζ, sp_m, first_sp_m =
+                    B_val, α, β, γ, δ, ζ =
                         sp_optimize_ilp_dual(x̂, ŷ, inst, pars.log_level, sp_m, first_sp_m)
                 end
 
@@ -613,29 +601,8 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
     function call_back_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.ucstrat == 1
-            max_current_value, con =
-                create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.ucstrat == 2
-            max_current_value, con = create_connectivity_cut_strategy_2(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 3
-            max_current_value, con = create_connectivity_cut_strategy_3(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 4
-            max_current_value, con = create_connectivity_cut_strategy_4(
+        if pars.ucstrat
+            max_current_value, con = createconnectivitycut(
                 cb_data,
                 x,
                 y,
@@ -666,9 +633,9 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time, gur
 
 
 
-    MOI.set(m, MOI.LazyConstraintCallback(), call_back_benders_lazy)
-    MOI.set(m, MOI.HeuristicCallback(), call_back_benders_heuristic)
-    MOI.set(m, MOI.UserCutCallback(), call_back_user_cuts)
+    set_attribute(m, MOI.LazyConstraintCallback(), call_back_benders_lazy)
+    set_attribute(m, MOI.HeuristicCallback(), call_back_benders_heuristic)
+    set_attribute(m, MOI.UserCutCallback(), call_back_user_cuts)
 
 
     optimize!(m)

@@ -1,11 +1,8 @@
 
 
 
-function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutionchecker = false)
+function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutionchecker = false, optimizer)
 
-
-	@show joinpath(@__DIR__, "instances", "Instances_small")
-	@show @__DIR__
 	fd_small = joinpath(@__DIR__, "instances", "Instances_small")
 	fd_15 = joinpath(@__DIR__, "instances", "Instances_15")
 	fd_25 = joinpath(@__DIR__, "instances", "Instances_25")
@@ -83,7 +80,7 @@ function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutioncheck
 			GC.gc()
 		end
 	end
-	main(pars, filename ; solutionchecker = false)
+	main(pars, filename ; solutionchecker = false, optimizer)
 	GC.gc()
 	return 0
 end
@@ -91,7 +88,7 @@ end
 
 
 
-function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker = false)
+function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker = false, optimizer)
 	journal_article_instances_str = [
 		"random_instance",
 		"berlin52",
@@ -182,7 +179,7 @@ function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker
 
 			if pars.solve_mod in [BranchBendersCut(), Both()]
 				benders_table =
-					round!(rrsp_create_benders_model_lazy(filename[1], inst, pars))
+					round!(rrspcreatebenders_modellazy(filename[1], inst, pars ; optimizer))
 
 			end
 
@@ -197,7 +194,7 @@ function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker
 			)
 			if pars.solve_mod in [ILP(), Both()]
 
-				ilp_table = round!(rrsp_create_ilp_lazy(filename[1], inst, pars ; solutionchecker))
+				ilp_table = round!(rrspcreate_ilplazy(filename[1], inst, pars ; solutionchecker, optimizer))
 
 
 			elseif pars.solve_mod == NoOptimize()

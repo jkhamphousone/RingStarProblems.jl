@@ -35,7 +35,7 @@ function round!(ilp::ILPtable)
 end
 
 
-function rrsp_create_ilp_lazy(filename, inst, pars; solutionchecker = false)
+function rrspcreate_ilplazy(filename, inst, pars; solutionchecker = false, optimizer)
     println()
     two_opt_string = ""
     if pars.two_opt >= 1
@@ -59,17 +59,14 @@ function rrsp_create_ilp_lazy(filename, inst, pars; solutionchecker = false)
 
 
 
-    gurobi_env = Gurobi.Env()
-    m = direct_model(Gurobi.Optimizer(gurobi_env))
+    m = Model(optimizer)
     if pars.timelimit > 0
-        set_optimizer_attribute(m, "TimeLimit", pars.timelimit)
+        set_time_limit_sec(m, pars.timelimit)
     end
-    set_optimizer_attribute(m, "Threads", pars.nthreads)
-    set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
-    if pars.ucstrat > 0 || pars.use_blossom
-        set_optimizer_attribute(m, "PreCrush", 1)
+    if pars.log_level == 0
+        set_silent(m)
     end
-    pars.log_level == 0 && set_silent(m)
+
 
     @variable(m, x[i = V, j = i+1:n+1], Bin)
     @variable(m, y[i = V′, j = V′], Bin)
@@ -201,10 +198,6 @@ function rrsp_create_ilp_lazy(filename, inst, pars; solutionchecker = false)
 
 
     bestsol, bestobjval = three(inst.n, inst.o, inst.c, inst.d, tildeV)
-    # bestsol, bestobjval = four(inst.n, inst.o, inst.r, inst.s, tildeV, bestobjval, bestsol)
-    # @constraint(m, f(x,y) + pars.F*B <= bestobjval)
-    # set_optimizer_attribute(m, "Cutoff", bestobjval)
-    # @info "3 hubs objective:" bestobjval
 
     m,
     UB,
@@ -428,29 +421,8 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
 
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.ucstrat == 1
-            max_current_value, con =
-                create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.ucstrat == 2
-            max_current_value, con = create_connectivity_cut_strategy_2(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 3
-            max_current_value, con = create_connectivity_cut_strategy_3(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 4
-            max_current_value, con = create_connectivity_cut_strategy_4(
+        if pars.ucstrat
+            max_current_value, con = createconnectivitycut(
                 cb_data,
                 x,
                 y,
@@ -479,8 +451,8 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
         end
     end
 
-    MOI.set(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
-    MOI.set(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
+    set_attribute(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
+    set_attribute(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
     optimize!(m)
     total_time = time() - total_time
     ilp_time = round(total_time, digits = 3)

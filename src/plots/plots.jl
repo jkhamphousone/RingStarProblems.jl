@@ -1,4 +1,4 @@
-function optimize_plot_gap(do_plot_gap, m::Model, time_step, timelimit)
+function optimize_plot_gap(do_plot_gap, m, time_step, timelimit)
     if do_plot_gap
         set_optimizer_attribute(m, "TimeLimit", time_step)
         gap_history = Float64[]
