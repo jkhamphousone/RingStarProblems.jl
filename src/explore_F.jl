@@ -258,14 +258,15 @@ function write_tikz_list_Fm_Sm(
 end
 
 
-
+"""
+    rrsp_plot_gF(filename, inst, pars, Fl, Fr)
+- Loads data from file
+- Calls the instance transformation
+- Calls the brute force search algorithms for 3 and 4 hub
+- Creates the master problem.
+"""
 function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
-    """
-    - Loads data from file
-    - Calls the instance transformation
-    - Calls the brute force search algorithms for 3 and 4 hub
-    - Creates the master problem.
-    """
+
     println()
     @info "Plotting g(F) ---  $(filename)  ---"
 

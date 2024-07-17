@@ -1,3 +1,6 @@
+"""
+Branch & Benders Cut result table
+"""
 @with_kw mutable struct BDtable
     @deftype Float64
     t_time = 0.0
@@ -5,7 +8,7 @@
     m_time = 0.0
     @assert m_time >= 0.0
     s_time = 0.0
-    @assert s_time >= 0.0
+    @assert s_time >= 0.0   
     blossom_time = 0.0
     @assert blossom_time >= 0.0
     two_opt_time = 0.0
@@ -29,8 +32,6 @@
     sp_cost = 0.0 #15
     nodes_explored::Int = -1 #16
     sol::Solution = Solution()
-    """
-    """
 end
 
 
@@ -44,14 +45,15 @@ end
 
 
 
+"""
+    rrspcreatebenders_modellazy(filename, inst, pars ; optimizer)
 
+- Loads data from file
+- Calls the instance transformation
+- Calls the brute force search algorithms for 3 and 4 hub
+- Creates the master problem.
+"""
 function rrspcreatebenders_modellazy(filename, inst, pars ; optimizer)
-    """
-    - Loads data from file
-    - Calls the instance transformation
-    - Calls the brute force search algorithms for 3 and 4 hub
-    - Creates the master problem.
-    """
     println()
     two_opt_string = ""
     if pars.two_opt == 1
@@ -720,13 +722,14 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time ; op
 end
 
 
-
+"""
+    compute_sp_res(x̂, ŷ, V, n, tildeV, r, s)
+    
+r here is a backup cost. Ask yourself if you call with it "rp"?
+Solves the subproblem from an integer solution of the master problem.
+It returns the y_ij (star arcs), the x' (backup edges) and sp_cost, which is the total backup cost + star cost.
+"""
 function compute_sp_res(x̂, ŷ, V, n, tildeV, r, s)
-    """
-    r here is a backup cost. Ask yourself if you call with it "rp"?
-    Solves the subproblem from an integer solution of the master problem.
-    It returns the y_ij (star arcs), the x' (backup edges) and sp_cost, which is the total backup cost + star cost.
-    """
     x′ = zeros(Bool, n, n)
     y_sp = zeros(Bool, n, n)
     sp_cost = 0.0
