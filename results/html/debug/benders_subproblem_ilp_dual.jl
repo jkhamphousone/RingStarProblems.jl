@@ -115,10 +115,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level; optmizer)
         ) <= 0
     )
 
-    open(eval(@__DIR__) * "/debug/DUAL_$(today()).txt", "w") do io
-        write(io, "DUAL MODEL LP\n")
-        write(io, "$(all_constraints(sp_m, AffExpr, MOI.LessThan{Float64}))")
-    end
+
 
 
     @show "test 3 c"
