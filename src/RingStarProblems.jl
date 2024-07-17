@@ -7,9 +7,9 @@ module RingStarProblems
     using JuMP
     @info "Loading Combinatorics, DelimitedFiles, Dates and Random"
     using Combinatorics, DelimitedFiles, Dates, Random
-    @info "Loading Distributions, Graphs, GraphsFlows and Plots"
+    @info "Loading Distributions, Graphs, GraphsFlows"
     using Distributions
-    using Graphs, GraphsFlows, Plots
+    using Graphs, GraphsFlows
     @info "Loading Parameters and Formatting"
     using Parameters
     @info "Loading, Cairo, Suppressor and Options"
