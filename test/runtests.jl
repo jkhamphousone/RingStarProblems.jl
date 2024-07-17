@@ -1,12 +1,19 @@
 import RingStarProblems as RSP
 using Test
+using JET
 using JuMP
 using GLPK
 using Gurobi
+
+include("aqua.jl")
+
 @testset "RingStarProblems.jl" begin
 	# Write your tests here.
-	include("aqua.jl")
+	
+	@info JET.report_package(RingStarProblems)
 	include("solutionchecker.jl")
+
+	
 
 	pars = RSP.SolverParameters(
 		solve_mod = RSP.Both(),             # ILP, B&BC or Both

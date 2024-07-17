@@ -1,8 +1,6 @@
 module RingStarProblems
 
     a = time()
-    @info "Loading Aqua"
-    using Aqua
     @info "Loading JuMP"
     using JuMP
     @info "Loading Combinatorics, DelimitedFiles, Dates and Random"
