@@ -32,9 +32,9 @@ jobs:
           # - version: '1.6'  # 1.6 LTS (32-bit Linux)
           #   os: ubuntu-latest
           #   arch: x86
-          - version: 'nightly'
-            os: ubuntu-latest
-            arch: x64
+          # - version: 'nightly'
+          #   os: ubuntu-latest
+          #   arch: x64
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@v2
