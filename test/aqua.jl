@@ -1,5 +1,5 @@
-using Aqua
 using RingStarProblems
+using Aqua
 
 @testset "Aqua.jl" begin
     Aqua.test_all(

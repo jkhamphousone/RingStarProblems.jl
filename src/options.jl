@@ -59,20 +59,20 @@ end
 
 using .Options
 
-
+"""
+	SolverParameters
+	poly: "poly" or "hybrid"
+	random: 0 if not a random instance
+			number of instance nodes otherwise
+	alphas: array of Labbé alphas values to test
+	writeresults: "html" writing results in html file
+				"local" writing longchapars folder
+				"" not writing results
+	nrand: Number of nodes in random instances
+	o_i: "1", "0", "random" or "1:1000"
+"""
 @with_kw mutable struct SolverParameters
 	@deftype Int
-	"""
-		poly: "poly" or "hybrid"
-		random: 0 if not a random instance
-				number of instance nodes otherwise
-		alphas: array of Labbé alphas values to test
-		writeresults: "html" writing results in html file
-					"local" writing longchapars folder
-					"" not writing results
-		nrand: Number of nodes in random instances
-		o_i: "1", "0", "random" or "1:1000"
-	"""
 	solve_mod::USolveMod
 	sp_solve::USPSolve
 	tildeV = 0

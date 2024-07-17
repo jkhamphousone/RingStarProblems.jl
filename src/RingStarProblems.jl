@@ -1,8 +1,14 @@
 module RingStarProblems
 
     a = time()
-    @info "Loading Aqua"
-    using Aqua
+
+    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+    export SPSolve,
+        NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
+    export WResults, WHTML, WLocal, UWriteResults
+    export Costs, Euclidian, RandomInterval, UCosts
+    export rspoptimize
+
     @info "Loading JuMP"
     using JuMP
     @info "Loading Combinatorics, DelimitedFiles, Dates and Random"
@@ -48,10 +54,6 @@ module RingStarProblems
 
     @info "Loading .jl files $(lpad("100%",4))"
     @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
-    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
-    export SPSolve,
-        NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
-    export WResults, WHTML, WLocal, UWriteResults
-    export Costs, Euclidian, RandomInterval, UCosts
+
 
 end
