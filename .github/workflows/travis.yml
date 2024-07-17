@@ -3,6 +3,7 @@ julia:
   - nightly
   - 1.10.0
   - 1.10.4
+  - 1.6
 codecov: true
 on:
   push:
