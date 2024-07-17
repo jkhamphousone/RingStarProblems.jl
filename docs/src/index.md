@@ -1,3 +1,3 @@
 ```@docs
-rspoptimize(pars, id_instance::Int = 0; solutionchecker = false, optimizer)
+rspoptimize(pars, id_instance, optimizer, solutionchecker = false)
 ```

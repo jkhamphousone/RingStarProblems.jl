@@ -36,15 +36,15 @@ julia> import Pkg ; Pkg.add("RingStarProblems")
 
 # Usage
 ```julia
-julia> using RingStarProblems
+julia> import RingStarProblems as RSP
 julia> using JuMP
-julia> pars = SolverParameters(
-        solve_mod      = Both(),          # ILP, B&BC or Both
-        sp_solve       = Poly(),
-        writeresults   = WHTML(),         # output results locally, html or no output ""
+julia> pars = RSP.SolverParameters(
+        solve_mod      = RSP.Both(),          # ILP, B&BC or Both
+        sp_solve       = RSP.Poly(),
+        writeresults   = RSP.WHTML(),         # output results locally, html or no output ""
         o_i            = 0,                   # opening costs
-        s_ij           = Euclidian(),     # star costs
-        r_ij           = Euclidian(),     # ring costs
+        s_ij           = RSP.Euclidian(),     # star costs
+        r_ij           = RSP.Euclidian(),     # ring costs
         backup_factor  = 0.01,                # backup_factor c'=0.01c and d'=0.01c
         do_plot        = false,               # plot_results (to debug)
         two_opt        = 0,                   # use two_opt heuristic (not functional yet)
@@ -63,7 +63,7 @@ To use GLPK optimizer:
 ```julia
 julia> using GLPK
 julia> id_instance = 3
-julia> rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimizer,
+julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimizer,
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit)
 	)
@@ -73,6 +73,7 @@ julia> rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimizer,
 To use Gurobi optimizer:
 ```julia
 julia> using Gurobi
-julia> rspoptimize(pars, id_instance, optimizer_with_attributes(Gurobi.Optimizer,
+julia> id_instance = 3
+julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit))
 ```
