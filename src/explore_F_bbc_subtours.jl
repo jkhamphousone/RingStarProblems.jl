@@ -209,6 +209,13 @@ function benders_st_optimize_explore!(
     @info "Spent $(t_time)s in Benders decomposition\nSpent $(m_time)s in Master problem\nSpent $(s_time)s in subproblem\n$nopt_cons Optimality Constraints created\n$(nsubtour_cons[1]) Subtour Constraints created"
 
 
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
+
     st = MOI.get(m, MOI.TerminationStatus())
     @show "Termination status is $st"
     TL_reached = st == MOI.TIME_LIMIT
@@ -231,7 +238,7 @@ function benders_st_optimize_explore!(
             nconnectivity_cuts,
             ntwo_opt,
             nblossom,
-            MOI.get(m, MOI.NodeCount()),
+            nodecount,
         )
     end
 
@@ -242,6 +249,15 @@ function benders_st_optimize_explore!(
     @info "B : $(value(B))"
     @info "Blossom time : $(blossom_time)s"
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
+
+
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
+
     return (
         m,
         t_time,
@@ -260,7 +276,7 @@ function benders_st_optimize_explore!(
         nconnectivity_cuts,
         ntwo_opt,
         nblossom,
-        MOI.get(m, MOI.NodeCount()),
+        nodecount,
         subtourlazy_cons,
     )
 end
@@ -615,9 +631,7 @@ function rrspcreate_ilplazy(
 
     
     m_ilp = Model(Gurobi.Optimizer())
-    if pars.timelimit > 0
-        set_time_limit_sec(m_ilp, pars.timelimit)
-    end
+
     if pars.log_level == 0
         set_silent(m)
     end

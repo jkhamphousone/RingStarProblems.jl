@@ -287,9 +287,7 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
     gurobi_env = Gurobi.Env()
     gurobi_model = Gurobi.Optimizer(gurobi_env)
     m = Model(gurobi_model)
-    if pars.timelimit > 0
-        set_time_limit_sec(m, pars.timelimit)
-    end
+
     set_optimizer_attribute(m, "Threads", pars.nthreads)
     if pars.log_level == 0
         set_silent(m)

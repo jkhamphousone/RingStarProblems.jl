@@ -60,9 +60,7 @@ function rrspcreate_ilplazy(filename, inst, pars; solutionchecker = false, optim
 
 
     m = Model(optimizer)
-    if pars.timelimit > 0
-        set_time_limit_sec(m, pars.timelimit)
-    end
+
     if pars.log_level == 0
         set_silent(m)
     end
@@ -456,7 +454,13 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
     optimize!(m)
     total_time = time() - total_time
     ilp_time = round(total_time, digits = 3)
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
 
+    end
 
     st = MOI.get(m, MOI.TerminationStatus())
     TL_reached = st == MOI.TIME_LIMIT
@@ -477,7 +481,7 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
             nconnectivity_cuts,
             nedges_cuts,
             nblossom,
-            MOI.get(m, MOI.NodeCount()),
+            nodecount,
         )
     end
 
@@ -488,6 +492,13 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
     @info "Generated $nconnectivity_cuts connectivty cuts"
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
     println("Objective : $(objective_value(m))")
+
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
 
     return (
         m,
@@ -505,6 +516,6 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
         nconnectivity_cuts,
         nedges_cuts,
         nblossom,
-        MOI.get(m, MOI.NodeCount()),
+        nodecount,
     )
 end

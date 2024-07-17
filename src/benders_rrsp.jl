@@ -75,9 +75,7 @@ function rrspcreatebenders_modellazy(filename, inst, pars ; optimizer)
 
 
     m = Model(optimizer)
-    if pars.timelimit > 0
-        set_time_limit_sec(m, pars.timelimit)
-    end
+
 
 
     pars.log_level == 0 && set_silent(m)
@@ -657,6 +655,18 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time ; op
     st = MOI.get(m, MOI.TerminationStatus())
     @show "Termination status is $st"
     TL_reached = st == MOI.TIME_LIMIT
+
+
+
+
+
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
+
     if !has_values(m)
         return (
             m,
@@ -676,7 +686,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time ; op
             nconnectivity_cuts,
             ntwo_opt,
             nblossom,
-            MOI.get(m, MOI.NodeCount()),
+            nodecount,
         )
     end
 

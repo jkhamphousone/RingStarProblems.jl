@@ -37,7 +37,7 @@ julia> import Pkg ; Pkg.add("RingStarProblems")
 # Usage
 ```julia
 julia> import RingStarProblems as RSP
-julia> using SCIP # or using GLPK, using Gurobi
+julia> using GLPK # or using Gurobi
 julia> pars = RSP.SolverParameters(
         solve_mod      = RSP.Both(),          # ILP, B&BC or Both
         sp_solve       = RSP.Poly(),
@@ -61,5 +61,12 @@ julia> pars = RSP.SolverParameters(
 Then:
 ```julia
 julia> id_instance = 3
-julia> RSP.rspoptimize(pars, id_instance; optimizer = SCIP.Optimizer)
+julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer =
+		JuMP.optimizer_with_attributes(GLPK.Optimizer,
+			"msg_lev" => GLPK.GLP_MSG_ALL,
+			"tm_lim" => pars.timelimit)
+	)
+
+julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer = JuMP.optimizer_with_attributes(Gurobi.Optimizer,
+		"TimeLimit" => pars.timelimit))
 ```

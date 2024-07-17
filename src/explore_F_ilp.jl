@@ -151,7 +151,12 @@ function ilp_st_optimize_explore!(
     total_time = time() - total_time
     ilp_time = round(total_time, digits = 3)
 
-
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
     st = MOI.get(m, MOI.TerminationStatus())
     TL_reached = st == MOI.TIME_LIMIT
     if !has_values(m)
@@ -171,7 +176,7 @@ function ilp_st_optimize_explore!(
             nconnectivity_cuts,
             nedges_cuts,
             nblossom,
-            MOI.get(m, MOI.NodeCount()),
+            nodecount,
         )
     end
 
