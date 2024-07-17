@@ -286,19 +286,18 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
 
     gurobi_env = Gurobi.Env()
     gurobi_model = Gurobi.Optimizer(gurobi_env)
-    m = direct_model(gurobi_model)
-    if pars.timelimit > 0
-        set_optimizer_attribute(m, "TimeLimit", pars.timelimit)
-    end
+    m = Model(gurobi_model)
+
     set_optimizer_attribute(m, "Threads", pars.nthreads)
-    set_optimizer_attribute(m, "OutputFlag", min(pars.log_level, 1))
+    if pars.log_level == 0
+        set_silent(m)
+    end
     set_optimizer_attribute(m, "PreCrush", 1)
     set_optimizer_attribute(m, "MIPFocus", 0)
 
     # set_optimizer_attribute(m, "MIPGap", 1e-10)
     set_optimizer_attribute(m, "MIPGap", ε)
     # set_optimizer_attribute(m, "MIPGap", 0.985)
-    pars.log_level == 0 && set_silent(m)
 
 
     @variable(m, x[i = V, j = i+1:n+1], Bin)
@@ -571,7 +570,7 @@ function rrsp_plot_gF(filename, inst, pars, Fl, Fr)
         time_KSInf = time()
 
 
-        KSInf, x̂, ŷ = rrsp_create_ilp_lazyexplore(
+        KSInf, x̂, ŷ = rrspcreate_ilplazy(
             filename,
             inst,
             pars,
@@ -751,7 +750,7 @@ function create_S(
         end
 
         ŷ′_bool =
-            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars.log_level, gurobi_env)[3]
+            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars; optimizer)[3]
 
         ring = create_ring_edges_lazy(x̂_bool, n)
         ŷ′_postopt = ŷ′_bool

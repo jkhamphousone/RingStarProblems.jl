@@ -1,5 +1,5 @@
 function create_subtour_constraint_lazy_Labbe(
-    m::Model,
+    m,
     cb_data,
     x,
     y,
@@ -72,70 +72,6 @@ function create_subtour_constraint_lazy_Labbe(
     end
     return nsubtour_cons
 end
-
-# function create_subtour_constraint_lazy_Labbe(m::Model, cb_data, x, y, n, ring_edges, nsubtour_cons)
-#     # function to add Labbe subtour elimination constraints by lazy constraints
-#     # caution, y is a 2-dimensional matrix, as x
-#     visited = falses(n + 1) # visited[i] = true iff i is a hub reachable from the depot
-#     N = [[] for i in 1:n + 1]
-#     active_nodes=Set(Int[]) # Set of all hubs
-
-
-#     # Populating N: N[i] is a 2-element array containing the neighbors of i in the ring or is [], or has a unique element for s and t
-#     for i in 1:n
-#        for j in i+1:n+1
-#          if (i,j) in ring_edges
-#              push!(N[i], j)
-#              push!(N[j], i)
-#              active_nodes = union(active_nodes, Set([i,j]))
-#          end
-#        end
-#     end
-
-#     # Populating visited by exploring the ring from node 1
-#     visited[1] = true
-#     i = N[1][1]
-#     visited[i] = true
-#     chain_complete = false
-#     if i == n + 1
-#        chain_complete = true
-#     end
-#     while chain_complete == false
-#     #println("i=$(i), visited(i)=$(visited[i])")
-#        if visited[N[i][1]] == false
-#           i = N[i][1]
-#           visited[i] = true
-#        elseif visited[N[i][2]] == false
-#           i = N[i][2]
-#           visited[i] = true
-#        end
-
-#        if i == n + 1 # t has been reached
-#           chain_complete = true
-#        end
-#     end
-#     #println("fin")
-#     # Checking the existence of a subtour: if there is one, then hub_out is the index of a hub not in visited.
-#     hub_out = 2  # index of a hub out of the st-chain (if one exists)
-#     subtour = false
-#     while hub_out <= n && subtour == false
-
-#        if visited[hub_out] == false && hub_out in active_nodes
-#           subtour = true
-#        else
-#           hub_out += 1
-#        end
-
-#     end
-
-#     # Generation of a lazy constraint to break the subtour
-#     if subtour == true
-#        nsubtour_cons += 1
-#        con = @build_constraint(sum([sum([x[i,j] for j in i+1:n if visited[j] == false]) for i in 1:n if visited[i] == true]) >=  2sum([y[hub_out, j] for j in 1:n if visited[j] == true]))    
-#        MOI.submit(m, MOI.LazyConstraint(cb_data), con)
-#     end
-#     return nsubtour_cons
-#  end
 
 
 
@@ -373,7 +309,7 @@ function create_connectivity_cut_strategy_3(cb_data, x, y, V, n, pars)
     end
     return -1, []
 end
-function create_connectivity_cut_strategy_4(cb_data, x, y, V, n, nconnectivity_cuts, pars)
+function createconnectivitycut(cb_data, x, y, V, n, nconnectivity_cuts, pars)
     # """ TODO
     # Discribing strategy_number in [1,2,3,4]
     # ``\begin{itemize}

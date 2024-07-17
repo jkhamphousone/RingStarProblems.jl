@@ -21,18 +21,23 @@ The package can solve 1-R-RSP thanks to:
 
 When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
+## The Survivable Ring Star Problem
+
+[A Survivable Ring Star Problem solver](https://doi.org/10.1002/net.22193) will be added.
+
 # Requirements
 
-Both Gurobi.jl and JuMP.jl must be correctely installed. Using MathOptInterface.jl instead in development.
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can only use CPLEX, GLPK, Gurobi, Xpress, and SCIP yet (as of 16th of July 2024) [because solver-independent callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia
-julia> import Pkg ; Pkg.add("RingStarProblems.jl")
+julia> import Pkg ; Pkg.add("RingStarProblems")
 ```
 
 # Usage
 ```julia
 julia> import RingStarProblems as RSP
+julia> using GLPK # or using Gurobi
 julia> pars = RSP.SolverParameters(
         solve_mod      = RSP.Both(),          # ILP, B&BC or Both
         sp_solve       = RSP.Poly(),
@@ -50,12 +55,18 @@ julia> pars = RSP.SolverParameters(
         F              = 183,                 # total failing time F, see PhD manuscript
         use_blossom    = false,               # use blossom inequalities (not functional yet)
         alphas         = [3],                 # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
-        nthreads       = 4,                   # Number of threads used in GUROBI, set 0 for maximum number of available threads
-        ucstrat        = 4                    # user cut strategy
+        nthreads       = 4                   # Number of threads used in GUROBI, set 0 for maximum number of available threads
        )
 ```
 Then:
 ```julia
 julia> id_instance = 3
-julia> RSP.rspoptimize(pars, id_instance)
+julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer =
+		JuMP.optimizer_with_attributes(GLPK.Optimizer,
+			"msg_lev" => GLPK.GLP_MSG_ALL,
+			"tm_lim" => pars.timelimit)
+	)
+
+julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer = JuMP.optimizer_with_attributes(Gurobi.Optimizer,
+		"TimeLimit" => pars.timelimit))
 ```

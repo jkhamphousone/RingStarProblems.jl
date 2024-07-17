@@ -4,7 +4,8 @@ using RingStarProblems
 @testset "Aqua.jl" begin
     Aqua.test_all(
         RingStarProblems;
-        ambiguities = (exclude = [], broken = true),
+        stale_deps=(;ignore=[:GLPK, :Gurobi]),
+        ambiguities = (exclude = [], broken = false),
         piracies = false,
     )
 end

@@ -43,7 +43,7 @@ function ilp_st_optimize_explore!(
         for i = nsubtour_cons[2]+1:nsubtour_cons[1]
             nsubtour_cons[2] += 1
             con = @constraint(m, subtourlazy_cons[i][1] >= subtourlazy_cons[i][2])
-            MOI.set(grb, Gurobi.ConstraintAttribute("Lazy"), index(con), 1)
+            set_attribute(grb, Gurobi.ConstraintAttribute("Lazy"), index(con), 1)
         end
         info_nlazycons = length(subtourlazy_cons)
     end
@@ -115,29 +115,8 @@ function ilp_st_optimize_explore!(
 
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
-        if pars.ucstrat == 1
-            max_current_value, con =
-                create_connectivity_cut_strategy_1(cb_data, x, y, V, n, pars)
-        elseif pars.ucstrat == 2
-            max_current_value, con = create_connectivity_cut_strategy_2(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 3
-            max_current_value, con = create_connectivity_cut_strategy_3(
-                cb_data,
-                x,
-                JuMP.VariableRef[y[i, i] for i in V],
-                V,
-                n,
-                pars,
-            )
-        elseif pars.ucstrat == 4
-            max_current_value, con = create_connectivity_cut_strategy_4(
+        if pars.ucstrat
+            max_current_value, con = createconnectivitycut(
                 cb_data,
                 x,
                 y,
@@ -166,13 +145,18 @@ function ilp_st_optimize_explore!(
         end
     end
 
-    MOI.set(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
-    MOI.set(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
+    set_attribute(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
+    set_attribute(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
     optimize!(m)
     total_time = time() - total_time
     ilp_time = round(total_time, digits = 3)
 
-
+    nodecount = -1
+    try
+        nodecount = MOI.get(m, MOI.NodeCount())
+    catch e
+        @info "Getting Node Count is not supported by GLPK"
+    end
     st = MOI.get(m, MOI.TerminationStatus())
     TL_reached = st == MOI.TIME_LIMIT
     if !has_values(m)
@@ -192,7 +176,7 @@ function ilp_st_optimize_explore!(
             nconnectivity_cuts,
             nedges_cuts,
             nblossom,
-            MOI.get(m, MOI.NodeCount()),
+            nodecount,
         )
     end
 
