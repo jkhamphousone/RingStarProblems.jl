@@ -181,7 +181,7 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 
     end
     ########### Benders
-    if pars.solve_mod in [BranchBendersCut(), Both]
+    if pars.solve_mod in [BranchBendersCut(), Both()]
         print(output_file, "BD  —— $(length(benders_table.sol.hubs)) hubs —— ")
         for hub in benders_table.sol.hubs
             print(output_file, "$hub")
