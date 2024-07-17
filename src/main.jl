@@ -207,14 +207,15 @@ function main(pars::SolverParameters, filename::Vector{String}, optimizer, solut
 				ilp_table = read_ilp_table(input_filepath, pars.plot_id)
 			end
 
-			if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
-				if pars.solve_mod in [ILP(), Both()]
-					plot_results_plan_run(pars, inst, filename, ilp_table, true)
-				end
-				if pars.solve_mod in [BranchBendersCut(), Both()]
-					plot_results_plan_run(pars, inst, filename, benders_table, false)
-				end
-			end
+			#WARNING: DO NOT DELLETE TODO: to make functionnal
+			# if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
+			# 	if pars.solve_mod in [ILP(), Both()]
+			# 		plot_results_plan_run(pars, inst, filename, ilp_table, true)
+			# 	end
+			# 	if pars.solve_mod in [BranchBendersCut(), Both()]
+			# 		plot_results_plan_run(pars, inst, filename, benders_table, false)
+			# 	end
+			# end
 			if pars.writeresults != ""
 				write_solution_to_file(
 					input_filepath,

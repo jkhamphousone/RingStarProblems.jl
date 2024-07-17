@@ -41,7 +41,7 @@ module RingStarProblems
     include("three_four_rho_rsp.jl")
     @info "Loading .jl files $(lpad("75%",4))"
     include("utilities.jl")
-    include(eval(@__DIR__) * "/plots/plots.jl")
+    # include(eval(@__DIR__) * "/plots/plots.jl")
     include("local_searches.jl")
     include("explore_F.jl")
     include("main.jl")
