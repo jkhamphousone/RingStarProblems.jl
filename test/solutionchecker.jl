@@ -1,6 +1,9 @@
-function log_assert(left_hs, operator, right_hs, error_str = "")
-    @testset error_str begin
-        @test operator(left_hs, right_hs)
+function log_assert(filename, left_hs, operator, right_hs, error_str = "")
+    if !operator(left_hs, right_hs)
+        @assert operator(left_hs, right_hs)
+        println(error_str)
+        println("filename: ", filename)
+        # @assert operator(left_hs, right_hs)
     end
 end
 

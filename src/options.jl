@@ -1,4 +1,7 @@
 module Options
+
+using Parameters
+
 module SolveMod
 	struct Both end
 	struct BranchBendersCut end
@@ -47,13 +50,17 @@ module Costs
 end
 using .Costs
 
-using .Costs
 
 export SolveMod, Both, BranchBendersCut, ILP, USolveMod
 export SPSolve,
 	NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
 export WResults, WHTML, WLocal, UWriteResults
 export Costs, Euclidian, RandomInterval, UCosts
+
+
+
+
+
 end
 
 
