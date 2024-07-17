@@ -37,13 +37,13 @@ include("aqua.jl")
 	)
 
 
-	@test RSP.rspoptimize(pars, 1; solutionchecker = true, optimizer =
+	@test RSP.rspoptimize(pars, 1, solutionchecker = true, optimizer =
 	optimizer_with_attributes(GLPK.Optimizer,
 		"msg_lev" => GLPK.GLP_MSG_ALL,
 		"tm_lim" => pars.timelimit)
 	) == 0
-	@test RSP.rspoptimize(pars, 1; solutionchecker = true, optimizer = optimizer_with_attributes(Gurobi.Optimizer,
+	@test RSP.rspoptimize(pars, 1, solutionchecker = true; optimizer = optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit)) == 0
-	@test RSP.rspoptimize(pars, 3; solutionchecker = true, optimizer = optimizer_with_attributes(Gurobi.Optimizer,
+	@test RSP.rspoptimize(pars, 3, solutionchecker = true; optimizer = optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit)) == 0
 end
