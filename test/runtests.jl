@@ -43,8 +43,12 @@ include("aqua.jl")
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit),
 		 true) == 0
-	@test rspoptimize(pars, 1, optimizer_with_attributes(Gurobi.Optimizer,
-			"TimeLimit" => pars.timelimit), true) == 0
-	@test rspoptimize(pars, 3, optimizer_with_attributes(Gurobi.Optimizer,
-			"TimeLimit" => pars.timelimit), true) == 0
+	gurobilocal = false
+	if gurobilocal
+	 
+		@test rspoptimize(pars, 1, optimizer_with_attributes(Gurobi.Optimizer,
+				"TimeLimit" => pars.timelimit), true) == 0
+		@test rspoptimize(pars, 3, optimizer_with_attributes(Gurobi.Optimizer,
+				"TimeLimit" => pars.timelimit), true) == 0
+	end
 end
