@@ -35,7 +35,7 @@ function round!(ilp::ILPtable)
 end
 
 
-function rrspcreate_ilplazy(filename, inst, pars; solutionchecker = false, optimizer)
+function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = false)
     println()
     two_opt_string = ""
     if pars.two_opt >= 1

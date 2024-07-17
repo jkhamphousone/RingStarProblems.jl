@@ -6,7 +6,7 @@
 
 Return exit code 0
 """
-function rspoptimize(pars, id_instance::Int = 0, solutionchecker = false; optimizer)
+function rspoptimize(pars, id_instance::Int = 0, optimizer, solutionchecker = false)
 
 	fd_small = joinpath(@__DIR__, "instances", "Instances_small")
 	fd_15 = joinpath(@__DIR__, "instances", "Instances_15")
@@ -93,7 +93,7 @@ end
 
 
 
-function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker = false, optimizer)
+function main(pars::SolverParameters, filename::Vector{String}, optimizer, solutionchecker = false)
 	journal_article_instances_str = [
 		"random_instance",
 		"berlin52",
@@ -199,7 +199,7 @@ function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker
 			)
 			if pars.solve_mod in [ILP(), Both()]
 
-				ilp_table = round!(rrspcreate_ilplazy(filename[1], inst, pars ; solutionchecker, optimizer))
+				ilp_table = round!(rrspcreate_ilplazy(filename[1], inst, pars, optimizer, solutionchecker))
 
 
 			elseif pars.solve_mod == NoOptimize()
