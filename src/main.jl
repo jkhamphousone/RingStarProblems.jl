@@ -6,7 +6,7 @@
 
 Return exit code 0
 """
-function rspoptimize(pars, id_instance::Int = 0; solutionchecker = false, optimizer)
+function rspoptimize(pars, id_instance::Int = 0, solutionchecker = false; optimizer)
 
 	fd_small = joinpath(@__DIR__, "instances", "Instances_small")
 	fd_15 = joinpath(@__DIR__, "instances", "Instances_15")
