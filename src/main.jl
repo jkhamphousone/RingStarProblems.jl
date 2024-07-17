@@ -1,7 +1,12 @@
 
 
 
-function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutionchecker = false, optimizer)
+"""
+	rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutionchecker = false, optimizer)
+
+Return exit code 0
+"""
+function rspoptimize(pars, id_instance::Int = 0; solutionchecker = false, optimizer)
 
 	fd_small = joinpath(@__DIR__, "instances", "Instances_small")
 	fd_15 = joinpath(@__DIR__, "instances", "Instances_15")

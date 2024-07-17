@@ -60,6 +60,7 @@ end
 using .Options
 
 """
+	SolverParameters
 	poly: "poly" or "hybrid"
 	random: 0 if not a random instance
 			number of instance nodes otherwise
