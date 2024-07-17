@@ -1,13 +1,7 @@
 module RingStarProblems
 
-    a = time()
 
-    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
-    export SPSolve,
-        NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
-    export WResults, WHTML, WLocal, UWriteResults
-    export Costs, Euclidian, RandomInterval, UCosts
-    export rspoptimize
+    a = time()
 
     @info "Loading JuMP"
     using JuMP
@@ -28,7 +22,12 @@ module RingStarProblems
     include("instance.jl")
     include("solution.jl")
 
-
+    export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+    export SPSolve,
+        NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
+    export WResults, WHTML, WLocal, UWriteResults
+    export Costs, Euclidian, RandomInterval, UCosts
+    export rspoptimize, SolverParameters
     @info "Loading .jl files $(lpad("25%",4))"
     include("create_subtour_constraint.jl")
     include("ilp_rrsp.jl")
@@ -41,7 +40,7 @@ module RingStarProblems
     include("three_four_rho_rsp.jl")
     @info "Loading .jl files $(lpad("75%",4))"
     include("utilities.jl")
-    # include(eval(@__DIR__) * "/plots/plots.jl")
+    include("./plots/plots.jl")
     include("local_searches.jl")
     include("explore_F.jl")
     include("main.jl")
@@ -49,7 +48,7 @@ module RingStarProblems
     include("read.jl")
 
     include("create_blossom_ineaqulities.jl")
-
+    include("../test/solutionchecker.jl")
 
 
     @info "Loading .jl files $(lpad("100%",4))"

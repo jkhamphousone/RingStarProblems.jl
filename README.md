@@ -63,7 +63,7 @@ To use GLPK optimizer:
 ```julia
 julia> using GLPK
 julia> id_instance = 3
-julia> rspoptimize(pars, id_instance; optimizer =
+julia> rspoptimize(pars, id_instance, optimizer =
 		JuMP.optimizer_with_attributes(GLPK.Optimizer,
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit)
@@ -74,6 +74,6 @@ julia> rspoptimize(pars, id_instance; optimizer =
 To use Gurobi optimizer:
 ```julia
 julia> using Gurobi
-julia> rspoptimize(pars, id_instance; optimizer = JuMP.optimizer_with_attributes(Gurobi.Optimizer,
+julia> rspoptimize(pars, id_instance, optimizer = JuMP.optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit))
 ```

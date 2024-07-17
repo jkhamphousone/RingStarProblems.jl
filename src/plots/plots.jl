@@ -38,11 +38,11 @@ function plot_results_plan_run(
 
     hubs = result_table.sol.hubs
     @show hubs
-    darkred = plot_backup_edge ? RGBA(0.5, 0.2, 0.2) : RGBA(0.8, 0, 0)
-    dark = RGBA(0, 0, 0)
-    dauphineblue = RGBA(0.19, 0.267, 0.5176)
-    teal_backup = RGBA(0, 0.502, 0.502)
-    darkorange = RGBA(1, 0.549, 0.0)
+    darkred = plot_backup_edge ? RGBX(0.5, 0.2, 0.2) : RGBX(0.8, 0, 0)
+    dark = RGBX(0, 0, 0)
+    dauphineblue = RGBX(0.19, 0.267, 0.5176)
+    teal_backup = RGBX(0, 0.502, 0.502)
+    darkorange = RGBX(1, 0.549, 0.0)
     nodefillc = [i == 1 ? dark : darkred for i = 1:n]
     nodelabel_colors = [i == result_table.sol.j★ ? dark : colorant"white" for i = 1:n]
 

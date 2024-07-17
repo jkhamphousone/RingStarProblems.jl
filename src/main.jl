@@ -81,11 +81,11 @@ function rspoptimize(pars, id_instance, optimizer, solutionchecker = false)
 			stdout = "$output_path/stdout_$(filename[1])_$now_file.txt",
 			stderr = "$output_path/stderr_$(filename[1])_$now_file.txt",
 		) do
-			main(pars, filename)
+			main(pars, filename, optimizer, solutionchecker)
 			GC.gc()
 		end
 	end
-	main(pars, filename ; solutionchecker = false, optimizer)
+	main(pars, filename, optimizer, solutionchecker)
 	GC.gc()
 	return 0
 end
