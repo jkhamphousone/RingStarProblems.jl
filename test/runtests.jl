@@ -16,20 +16,20 @@ include("aqua.jl")
 
 
 	pars = SolverParameters(
-		solve_mod = Both(),             # ILP, B&BC or Both
+		solve_mod = Both(),                 # ILP, B&BC or Both
 		sp_solve = Poly(),
-		writeresults = false,         # output results locally, html or no output ""
+		writeresults = false,               # output results locally, html or no output ""
 		o_i = 0,                            # opening costs
-		s_ij = Euclidian(),             # star costs
-		r_ij = Euclidian(),             # ring costs
+		s_ij = Euclidian(),                 # star costs
+		r_ij = Euclidian(),          b      # ring costs
 		backup_factor = 0.01,               # backup_factor c'=0.01c and d'=0.01c
 		do_plot = false,                    # plot_results (to debug)
 		two_opt = 0,                        # use two_opt heuristic (not functional yet)
 		tildeV = 100,                       # uncertain nodes set
-		timelimit = 120_000,                     # Solver Time Limit
+		timelimit = 60_000,                 # Solver Time Limit
 		log_level = 1,                      # console output log_level
 		redirect_stdio = false,             # redirecting_stdio to output file
-		F = 183,                            # total failing time F, see PhD manuscript
+		F = 7,                              # total failing time F, see PhD manuscript
 		use_blossom = false,                # use blossom inequalities (not functional yet)
 		alphas = [3],                       # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
 		nthreads = 4,                       # Number of threads used in GUROBI, set 0 for maximum number of available threads
