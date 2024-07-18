@@ -11,14 +11,14 @@ include("aqua.jl")
 	# Write your tests here.
 
 	@info JET.report_package(RingStarProblems)
-	
+
 
 
 
 	pars = SolverParameters(
 		solve_mod = Both(),             # ILP, B&BC or Both
 		sp_solve = Poly(),
-		writeresults = WHTML(),         # output results locally, html or no output ""
+		writeresults = false,         # output results locally, html or no output ""
 		o_i = 0,                            # opening costs
 		s_ij = Euclidian(),             # star costs
 		r_ij = Euclidian(),             # ring costs
@@ -26,7 +26,7 @@ include("aqua.jl")
 		do_plot = false,                    # plot_results (to debug)
 		two_opt = 0,                        # use two_opt heuristic (not functional yet)
 		tildeV = 100,                       # uncertain nodes set
-		timelimit = 60,                     # Gurobi TL
+		timelimit = 120_000,                     # Solver Time Limit
 		log_level = 1,                      # console output log_level
 		redirect_stdio = false,             # redirecting_stdio to output file
 		F = 183,                            # total failing time F, see PhD manuscript
@@ -39,16 +39,16 @@ include("aqua.jl")
 
 	include("solutionchecker.jl")
 
-	@test rspoptimize(pars, 1, optimizer_with_attributes(GLPK.Optimizer,
+	@test rspoptimize(pars, :TinyInstance_10_3, optimizer_with_attributes(GLPK.Optimizer,
+			"msg_lev" => 2,
+			"tm_lim" => 15),
+		true) == 0
+	@test rspoptimize(pars, :Instance_15_1_0_3_1, optimizer_with_attributes(GLPK.Optimizer,
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit),
-		 true) == 0
-	gurobilocal = false
-	if gurobilocal
-	 
-		@test rspoptimize(pars, 1, optimizer_with_attributes(Gurobi.Optimizer,
-				"TimeLimit" => pars.timelimit), true) == 0
-		@test rspoptimize(pars, 3, optimizer_with_attributes(Gurobi.Optimizer,
-				"TimeLimit" => pars.timelimit), true) == 0
-	end
+		true) == 0
+	@test rspoptimize(pars, :eil51, optimizer_with_attributes(GLPK.Optimizer,
+			"msg_lev" => GLPK.GLP_MSG_ALL,
+			"tm_lim" => pars.timelimit),
+		true) == 0
 end
