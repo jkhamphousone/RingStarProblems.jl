@@ -115,9 +115,8 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
     end
 
 
-    # if pars.ilpseparatingcons_method[1] == ""
-    #     @constraint(m, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j])
-    # end
+
+    @constraint(m, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j])
 
     @constraint(
         m,
@@ -132,9 +131,7 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
         x[mima(i, j)] + y[i, j] + x′[mima(i, j)] + y′[i, j] <= y[j, j]
     )
 
-    # if pars.ilpseparatingcons_method[1] == "with constraints (12)"
-    #     @constraint(m, backup_or_regular_arc_12[i=V, j=V; i != j], y′[i, j] <= y[j, j] - y[i, j])
-    # end
+    @constraint(m, backup_or_regular_arc_12[i=V, j=V; i != j], y′[i, j] <= y[j, j] - y[i, j])
 
     @constraint(
         m,
@@ -150,11 +147,7 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
     )
 
 
-    # if pars.ilpseparatingcons_method[1] == "y_ij <= y_jj no constraint on the fly"
-    #     @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j])
-    # elseif pars.ilpseparatingcons_method[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
-    #     @constraint(m, terminal_to_hub[i=V, j=setdiff(V, i)], y[i, j] <= y[j, j] - x[mima(i, j)])
-    # end
+
 
     @info "Number of constraints in model is: $(num_constraints(m, AffExpr, MOI.GreaterThan{Float64}) + num_constraints(m, AffExpr, MOI.LessThan{Float64}))"
 
@@ -191,7 +184,6 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
         sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) +
         sum(o[i] * y[i, i] for i in V) +
         F * B
-        # sum(sum(c[i,j]*x[i,j] for j in V if i < j; init=0) for i in V) + sum(sum(d[i,j]*y[i,j] for j in V if i != j) for i in V) + sum(o[i]*y[i,i] for i in V) + F*B
     end
 
 
