@@ -56,10 +56,12 @@ end
 
 cbv(cb_data, x, edge) = callback_value(cb_data, x[mima(edge[1], edge[2])])
 
+"""
+    create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
+
+Algorithm 2 of ODD MINIMUM CUT SETS AND b-MATCHINGS REVISITED page 1485
+"""
 function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
-    """
-    Algorithm 2 of ODD MINIMUM CUT SETS AND b-MATCHINGS REVISITED page 1485
-    """
     r = Inf
     # Compute G (n+1 nodes), c and c'
     G, c_m, c′_m = create_G(cb_data, x, n)
@@ -128,10 +130,12 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
     return nothing, nblossom_pair_inequality
 end
 
+"""
+    compute_βU(δU, c_m, c′_m, F_odd)
+    
+This is step 5 of Algorithm 2
+"""
 function compute_βU(δU, c_m, c′_m, F_odd)
-    """
-    	This is step 5 of Algorithm 2
-    """
     F = Tuple{Int,Int}[]
     f = (-1, -1)
     best_diff = Inf
@@ -166,10 +170,12 @@ function compute_βU(δU, c_m, c′_m, F_odd)
     return βU, F
 end
 
+"""
+    create_cut_part_one(G, E_T, edge, n)
+
+for a given edge e of the cut tree of G (represented by its edge set E_T), this function returns the set U of nodes that belong to the same connected component as s (node 1) in the cut tree once edge e has been removed. It also returns δU, the set of all edges with exactly one endpoint in U
+"""
 function create_cut_part_one(G, E_T, edge, n)
-    """
-    for a given edge e of the cut tree of G (represented by its edge set E_T), this function returns the set U of nodes that belong to the same connected component as s (node 1) in the cut tree once edge e has been removed. It also returns δU, the set of all edges with exactly one endpoint in U
-    """
     incidence_matrix = zeros(Bool, n + 1, n + 1) # Incidence matrix of G
     for e in E_T
         incidence_matrix[e[1], e[2]] = 1

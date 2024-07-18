@@ -60,9 +60,7 @@ function print_inst(inst::RRSPInstance, pars)
     end
     str *= "\nc'=$(pars.backup_factor)c and d'=$(pars.backup_factor)d"
 
-    open(eval(@__DIR__) * "/debug/instance_$(today()).txt", "w") do io
-        write(io, str)
-    end
+
 end
 
 function create_instance_robust_journal_article(filename, α, pars)

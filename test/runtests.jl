@@ -1,20 +1,27 @@
-import RingStarProblems as RSP
+using RingStarProblems
 using Test
+using JET
 using JuMP
 using GLPK
 using Gurobi
+
+include("aqua.jl")
+
 @testset "RingStarProblems.jl" begin
 	# Write your tests here.
-	include("aqua.jl")
-	include("solutionchecker.jl")
 
-	pars = RSP.SolverParameters(
-		solve_mod = RSP.Both(),             # ILP, B&BC or Both
-		sp_solve = RSP.Poly(),
-		writeresults = RSP.WHTML(),         # output results locally, html or no output ""
+	@info JET.report_package(RingStarProblems)
+	
+
+
+
+	pars = SolverParameters(
+		solve_mod = Both(),             # ILP, B&BC or Both
+		sp_solve = Poly(),
+		writeresults = WHTML(),         # output results locally, html or no output ""
 		o_i = 0,                            # opening costs
-		s_ij = RSP.Euclidian(),             # star costs
-		r_ij = RSP.Euclidian(),             # ring costs
+		s_ij = Euclidian(),             # star costs
+		r_ij = Euclidian(),             # ring costs
 		backup_factor = 0.01,               # backup_factor c'=0.01c and d'=0.01c
 		do_plot = false,                    # plot_results (to debug)
 		two_opt = 0,                        # use two_opt heuristic (not functional yet)
@@ -30,13 +37,18 @@ using Gurobi
 	)
 
 
-	@test RSP.rspoptimize(pars, 1; solutionchecker = true, optimizer =
-	optimizer_with_attributes(GLPK.Optimizer,
-		"msg_lev" => GLPK.GLP_MSG_ALL,
-		"tm_lim" => pars.timelimit)
-	) == 0
-	@test RSP.rspoptimize(pars, 1; solutionchecker = true, optimizer = optimizer_with_attributes(Gurobi.Optimizer,
-		"TimeLimit" => pars.timelimit)) == 0
-	@test RSP.rspoptimize(pars, 3; solutionchecker = true, optimizer = optimizer_with_attributes(Gurobi.Optimizer,
-		"TimeLimit" => pars.timelimit)) == 0
+	include("solutionchecker.jl")
+
+	@test rspoptimize(pars, 1, optimizer_with_attributes(GLPK.Optimizer,
+			"msg_lev" => GLPK.GLP_MSG_ALL,
+			"tm_lim" => pars.timelimit),
+		 true) == 0
+	gurobilocal = false
+	if gurobilocal
+	 
+		@test rspoptimize(pars, 1, optimizer_with_attributes(Gurobi.Optimizer,
+				"TimeLimit" => pars.timelimit), true) == 0
+		@test rspoptimize(pars, 3, optimizer_with_attributes(Gurobi.Optimizer,
+				"TimeLimit" => pars.timelimit), true) == 0
+	end
 end

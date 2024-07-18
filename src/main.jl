@@ -1,7 +1,12 @@
 
 
 
-function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutionchecker = false, optimizer)
+"""
+	rspoptimize(pars::SolverParameters, id_instance, optimizer, solutionchecker = false)
+
+Return exit code 0
+"""
+function rspoptimize(pars, id_instance, optimizer, solutionchecker = false)
 
 	fd_small = joinpath(@__DIR__, "instances", "Instances_small")
 	fd_15 = joinpath(@__DIR__, "instances", "Instances_15")
@@ -71,16 +76,16 @@ function rspoptimize(pars::SolverParameters, id_instance::Int = 0; solutioncheck
 		now_file = Dates.format(Dates.now(), "yyyy-mm-dd_HHhMM")
 		now_folder = Dates.format(Dates.now(), "yyyy-mm-dd")
 		output_path = joinpath(@__DIR__, "debug", "stdio", "$now_folder")
-		mkpath(output_path)mkpath
+		mkpath(output_path)
 		redirect_stdio(
 			stdout = "$output_path/stdout_$(filename[1])_$now_file.txt",
 			stderr = "$output_path/stderr_$(filename[1])_$now_file.txt",
 		) do
-			main(pars, filename)
+			main(pars, filename, optimizer, solutionchecker)
 			GC.gc()
 		end
 	end
-	main(pars, filename ; solutionchecker = false, optimizer)
+	main(pars, filename, optimizer, solutionchecker)
 	GC.gc()
 	return 0
 end
@@ -88,7 +93,7 @@ end
 
 
 
-function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker = false, optimizer)
+function main(pars::SolverParameters, filename::Vector{String}, optimizer, solutionchecker = false)
 	journal_article_instances_str = [
 		"random_instance",
 		"berlin52",
@@ -194,7 +199,7 @@ function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker
 			)
 			if pars.solve_mod in [ILP(), Both()]
 
-				ilp_table = round!(rrspcreate_ilplazy(filename[1], inst, pars ; solutionchecker, optimizer))
+				ilp_table = round!(rrspcreate_ilplazy(filename[1], inst, pars, optimizer, solutionchecker))
 
 
 			elseif pars.solve_mod == NoOptimize()
@@ -202,14 +207,15 @@ function main(pars::SolverParameters, filename::Vector{String} ; solutionchecker
 				ilp_table = read_ilp_table(input_filepath, pars.plot_id)
 			end
 
-			if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
-				if pars.solve_mod in [ILP(), Both()]
-					plot_results_plan_run(pars, inst, filename, ilp_table, true)
-				end
-				if pars.solve_mod in [BranchBendersCut(), Both()]
-					plot_results_plan_run(pars, inst, filename, benders_table, false)
-				end
-			end
+			#WARNING: DO NOT DELLETE TODO: to make functionnal
+			# if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
+			# 	if pars.solve_mod in [ILP(), Both()]
+			# 		plot_results_plan_run(pars, inst, filename, ilp_table, true)
+			# 	end
+			# 	if pars.solve_mod in [BranchBendersCut(), Both()]
+			# 		plot_results_plan_run(pars, inst, filename, benders_table, false)
+			# 	end
+			# end
 			if pars.writeresults != ""
 				write_solution_to_file(
 					input_filepath,

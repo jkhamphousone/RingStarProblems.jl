@@ -956,12 +956,6 @@ function ilp_st_optimize_lazyexplore!(
 
 
 
-    pathdebug = eval(@__DIR__) * "/debug/explore_F/ILP/march/$(today())/"
-    mkpath(pathdebug)
-    open("$(pathdebug)nbnodes=$(n)_F=NoF-CompteKSInf.lp", "w") do f
-        println(f, m_ilp)
-    end
-
 
 
 

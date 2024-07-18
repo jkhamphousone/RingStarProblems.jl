@@ -37,7 +37,7 @@ julia> import Pkg ; Pkg.add("RingStarProblems")
 # Usage
 ```julia
 julia> import RingStarProblems as RSP
-julia> using GLPK # or using Gurobi
+julia> using JuMP
 julia> pars = RSP.SolverParameters(
         solve_mod      = RSP.Both(),          # ILP, B&BC or Both
         sp_solve       = RSP.Poly(),
@@ -58,15 +58,22 @@ julia> pars = RSP.SolverParameters(
         nthreads       = 4                   # Number of threads used in GUROBI, set 0 for maximum number of available threads
        )
 ```
-Then:
+### GLPK
+To use GLPK optimizer:
 ```julia
+julia> using GLPK
 julia> id_instance = 3
-julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer =
-		JuMP.optimizer_with_attributes(GLPK.Optimizer,
+julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimizer,
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit)
 	)
+```
 
-julia> RSP.rspoptimize(pars, id_instance; solutionchecker = true, optimizer = JuMP.optimizer_with_attributes(Gurobi.Optimizer,
+### Gurobi
+To use Gurobi optimizer:
+```julia
+julia> using Gurobi
+julia> id_instance = 3
+julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit))
 ```
