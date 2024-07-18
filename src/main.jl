@@ -76,7 +76,7 @@ function rspoptimize(pars, id_instance, optimizer, solutionchecker = false)
 		now_file = Dates.format(Dates.now(), "yyyy-mm-dd_HHhMM")
 		now_folder = Dates.format(Dates.now(), "yyyy-mm-dd")
 		output_path = joinpath(@__DIR__, "debug", "stdio", "$now_folder")
-		mkpath(output_path)mkpath
+		mkpath(output_path)
 		redirect_stdio(
 			stdout = "$output_path/stdout_$(filename[1])_$now_file.txt",
 			stderr = "$output_path/stderr_$(filename[1])_$now_file.txt",
