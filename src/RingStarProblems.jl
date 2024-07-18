@@ -54,5 +54,8 @@ module RingStarProblems
     @info "Loading .jl files $(lpad("100%",4))"
     @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
 
+    # Make the ./src repostiroy writeable in order to output results to subfolder ./src/results
+    chmod(".", 660; recursive=true)
+
 
 end
