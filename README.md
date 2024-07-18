@@ -27,7 +27,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can only use CPLEX, GLPK, Gurobi, Xpress, and SCIP yet (as of 16th of July 2024) [because solver-independent callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can safely use CPLEX, GLPK, Gurobi, Xpress as [solver-independent Lazy Constraints callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia
