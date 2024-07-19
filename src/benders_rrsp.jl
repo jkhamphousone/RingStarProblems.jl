@@ -492,20 +492,18 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 							) +
 							sum(
 								sum(
-									minimum((d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
-									init = 0)
-											- d′[i, j]
-									) * (x[mima(i, j)] + y[i, j] - y[j, j]) for
-									j in setdiff(V, i) if !ŷ[j, j] &&
-									minimum(
-										d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
-										init = 0,
-									) > d′[i, j];
+									minimum((d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]
+									)) - d′[i, j], init = 0) * (x[mima(i, j)] + y[i, j] - y[j, j]) for
+								j in setdiff(V, i) if !ŷ[j, j] &&
+								minimum(
+									d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
 									init = 0,
-								) for i in setdiff(V, j★) if ŷ[i, j★];
+								) > d′[i, j];
 								init = 0,
-							)
+							) for i in setdiff(V, j★) if ŷ[i, j★];
+							init = 0
 						)
+
 
 						MOI.submit(m, MOI.LazyConstraint(cb_data), con)
 					end
