@@ -338,10 +338,6 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 
 
 
-	sp_m = Model(optimizer)
-	if pars.log_level == 0
-		set_silent(m)
-	end
 	first_sp_m = true
 
 	function call_back_benders_lazy(cb_data)
@@ -381,7 +377,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 
 				else
 					B_val, α, β, γ, δ, ζ =
-						sp_optimize_ilp_dual(x̂, ŷ, inst, pars.log_level, sp_m, first_sp_m)
+						sp_optimize_ilp_dual(x̂, ŷ, inst, pars.log_level, first_sp_m, optimizer)
 				end
 
 				sp_time += time() - start_time_sp
