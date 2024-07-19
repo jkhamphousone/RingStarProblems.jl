@@ -27,7 +27,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can only use CPLEX, GLPK, Gurobi, Xpress, and SCIP yet (as of 16th of July 2024) [because solver-independent callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can safely use CPLEX, GLPK, Gurobi, Xpress as [solver-independent Lazy Constraints callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia
@@ -49,21 +49,21 @@ julia> pars = RSP.SolverParameters(
         do_plot        = false,               # plot_results (to debug)
         two_opt        = 0,                   # use two_opt heuristic (not functional yet)
         tildeV         = 100,                 # uncertain nodes set
-        timelimit      = 120,                 # Gurobi TL
+        timelimit      = 120_000,             # timelimit 
         log_level      = 1,                   # console output log_level
         redirect_stdio = false,               # redirecting_stdio to output file
-        F              = 183,                 # total failing time F, see PhD manuscript
+        F              = 7,                   # total failing time F, see PhD manuscript
         use_blossom    = false,               # use blossom inequalities (not functional yet)
         alphas         = [3],                 # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
-        nthreads       = 4                   # Number of threads used in GUROBI, set 0 for maximum number of available threads
+        nthreads       = 4                    # Number of threads used in GUROBI, set 0 for maximum number of available threads
        )
 ```
 ### GLPK
 To use GLPK optimizer:
 ```julia
 julia> using GLPK
-julia> id_instance = 3
-julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimizer,
+julia> symbolinstance = :TinyInstance_12_2
+julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(GLPK.Optimizer,
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit)
 	)
@@ -73,7 +73,7 @@ julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(GLPK.Optimiz
 To use Gurobi optimizer:
 ```julia
 julia> using Gurobi
-julia> id_instance = 3
-julia> RSP.rspoptimize(pars, id_instance, optimizer_with_attributes(Gurobi.Optimizer,
+julia> symbolinstance = :berlin52
+julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit))
 ```

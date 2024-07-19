@@ -1,7 +1,7 @@
 name = "RingStarProblems"
 uuid = "bed4ad48-c7de-4cc5-bbc0-d98473e6c0f4"
 authors = ["jkhamphousone <research.khamphousone@gmail.com>"]
-version = "0.1.6+1"
+version = "0.1.7"
 
 [deps]
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
@@ -32,8 +32,8 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Aqua = "0.4.2, 0.5, 0.6, 0.7, 0.8"
 Cairo = "1"
 Combinatorics = "1"
-Dates = "1.10.4"
-DelimitedFiles = "1.9.1"
+Dates = "1.6"
+DelimitedFiles = "1.6.7"
 Distributions = "0.25"
 DocStringExtensions = "0.8, 0.9"
 Documenter = "0.26, 0.27, 1"
@@ -47,10 +47,10 @@ JuMP = "1.10"
 LiveServer = "0.8, 0.9, 1"
 MathOptInterface = "0.10, 1"
 Parameters = "0.10, 0.11, 0.12"
-Random = "1.10.4"
+Random = "0.1.6, 1"
 Suppressor = "0.2"
 Test = "1.7, 1.8, 1.9, 1.10"
-julia = "1.10"
+julia = "1.6"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"

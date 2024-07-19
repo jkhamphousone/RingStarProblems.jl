@@ -1,0 +1,123 @@
+<body><meta charset="utf-8"></body><pre>------------------------------------------------------------
+               α=3.0 —— TinyInstance_12_2 —— 12 nodes       
+------------------------------------------------------------
+ILP ——— 1 hubs —— 1
+total time           4.26 (TL 120)        gap                  100.0                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             853.5<=0             subtour              0.0                  
+connectivity cuts    1.0                  uc strategy          true                 
+uc tolerance         0.01                 tildeV               2:12                 
+2-opt strategy       0                                                              
+explored_nodes       -1                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 Euclidian()
+          s_ij                 Euclidian()
+                                                    <details><summary>Found solution</summary>
+RING NODES
+1
+
+RING
+
+STAR
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 0
+j★ = 0
+k★ = 0
+</details>
+BD  —— 1 hubs —— 1-1
+total time           6.93 (TL 120)        gap                  100.0                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             834.0<=0             Master/SP costs      0.0/0                
+Master time          6.93                 SP time              0.0                  
+subtour              4.0                  connectivity cuts    0.0                  
+uc strategy          true                 uc tolerance         0.01                 
+opt. cuts            0.0                  SP method            Poly()               
+tildeV               2:12                 inst transformation  2                    
+2-opt strategy       0                                                              
+explored nodes       0                    
+F                    183.0                
+                                          o_i                  0                    r_ij                 Euclidian()          
+s_ij                 Euclidian()          
+<details><summary>Found solution</summary>
+RING NODES
+1
+
+RING
+
+STAR
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 0
+j★ = 0
+k★ = 0
+</details>
+</details>       ILP ——— 1 hubs —— 1
+total time           0.15 (TL 120)        gap                  100.0                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1003.25<=0           subtour              0.0                  
+connectivity cuts    7.0                  uc strategy          true                 
+uc tolerance         0.01                 tildeV               2:12                 
+2-opt strategy       0                                                              
+explored_nodes       -1                   n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 Euclidian()
+          s_ij                 Euclidian()
+                                                    <details><summary>Found solution</summary>
+RING NODES
+1
+
+RING
+
+STAR
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 0
+j★ = 0
+k★ = 0
+</details>
+BD  —— 1 hubs —— 1-1
+total time           1.09 (TL 120)        gap                  100.0                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             834.0<=0             Master/SP costs      0.0/0                
+Master time          1.09                 SP time              0.0                  
+subtour              4.0                  connectivity cuts    0.0                  
+uc strategy          true                 uc tolerance         0.01                 
+opt. cuts            0.0                  SP method            Poly()               
+tildeV               2:12                 inst transformation  2                    
+2-opt strategy       0                                                              
+explored nodes       0                    
+F                    183.0                
+                                          o_i                  0                    r_ij                 Euclidian()          
+s_ij                 Euclidian()          
+<details><summary>Found solution</summary>
+RING NODES
+1
+
+RING
+
+STAR
+
+BACKUP RING
+
+BACKUP STAR
+
+B = 0.0
+i★ = 0
+j★ = 0
+k★ = 0
+</details>
+</details>
+</pre>

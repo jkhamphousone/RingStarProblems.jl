@@ -1,0 +1,219 @@
+<body><meta charset="utf-8"></body><pre>------------------------------------------------------------
+               α=3.0 —— TinyInstance_12_2 —— 12 nodes       
+------------------------------------------------------------
+ILP ——— 13 hubs —— 1—5—7—11—6—2—12—8—3—10—4—9—13
+total time           21.48                gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1379.22<=1379.22     subtour              4.0                  
+connectivity cuts    371.0                uc strategy          true                 
+uc tolerance         0.01                 tildeV               2:12                 
+2-opt strategy       0                                                              
+explored_nodes       -1                   n lazycuts edges     3.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 RingStarProblems.Options.Costs.Euclidian()
+s_ij                 RingStarProblems.Options.Costs.Euclidian()
+                                          <details><summary>Found solution</summary>
+RING NODES
+1—5—7—11—6—2—12—8—3—10—4—9—13
+
+RING
+1  ---  5 | cost [72.0]
+1  --- 13 | cost [0.0]
+2  ---  6 | cost [45.0]
+2  --- 12 | cost [42.0]
+3  ---  8 | cost [66.0]
+3  --- 10 | cost [48.0]
+4  ---  9 | cost [45.0]
+4  --- 10 | cost [24.0]
+5  ---  7 | cost [123.0]
+6  --- 11 | cost [9.0]
+7  --- 11 | cost [198.0]
+8  --- 12 | cost [114.0]
+9  --- 13 | cost [165.0]
+
+STAR
+
+BACKUP RING
+1  ---  7 | cost [1.92]
+2  ---  8 | cost [1.05]
+2  --- 11 | cost [0.45]
+3  ---  4 | cost [0.6900000000000001]
+3  --- 12 | cost [1.77]
+4  --- 13 | cost [1.8900000000000001]
+5  --- 11 | cost [2.34]
+6  ---  7 | cost [2.04]
+6  --- 12 | cost [0.78]
+8  --- 10 | cost [0.6]
+9  --- 10 | cost [0.6900000000000001]
+
+BACKUP STAR
+
+B = 2.34
+i★ = 5
+j★ = 7
+k★ = 11
+</details>
+BD  —— 13 hubs —— 1-5-4-10-3-8-12-11-2-6-7-9-13-1
+total time           124.63 (TL 120000)   gap                  0.358                
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1054.5<=1643.73      Master/SP costs      1221.0/422.73        
+Master time          120.31               SP time              4.32                 
+subtour              55.0                 connectivity cuts    66.0                 
+uc strategy          true                 uc tolerance         0.01                 
+opt. cuts            24477.0              SP method            RingStarProblems.Options.SPSolve.Poly()
+tildeV               2:12                 inst transformation  2                    
+2-opt strategy       0                                                              
+explored nodes       -1                   
+F                    183.0                
+                                          o_i                  0                    r_ij                 RingStarProblems.Options.Costs.Euclidian()
+s_ij                 RingStarProblems.Options.Costs.Euclidian()
+<details><summary>Found solution</summary>
+RING NODES
+1—5—4—10—3—8—12—11—2—6—7—9—13
+
+RING
+1  ---  5 | cost [72.0]
+1  --- 13 | cost [0.0]
+2  ---  6 | cost [45.0]
+2  --- 11 | cost [45.0]
+3  ---  8 | cost [66.0]
+3  --- 10 | cost [48.0]
+4  ---  5 | cost [171.0]
+4  --- 10 | cost [24.0]
+6  ---  7 | cost [204.0]
+7  ---  9 | cost [186.0]
+8  --- 12 | cost [114.0]
+9  --- 13 | cost [165.0]
+11 --- 12 | cost [81.0]
+
+STAR
+
+BACKUP RING
+1  ---  4 | cost [1.8900000000000001]
+2  ---  7 | cost [2.31]
+2  --- 12 | cost [0.42]
+3  ---  4 | cost [0.6900000000000001]
+3  --- 12 | cost [1.77]
+5  --- 10 | cost [1.8900000000000001]
+6  ---  9 | cost [1.56]
+6  --- 11 | cost [0.09]
+7  --- 13 | cost [1.92]
+8  --- 10 | cost [0.6]
+8  --- 11 | cost [1.3800000000000001]
+
+BACKUP STAR
+
+B = 2.31
+i★ = 2
+j★ = 6
+k★ = 7
+</details>
+</details>       ILP ——— 13 hubs —— 1—5—7—11—6—2—12—8—3—10—4—9—13
+total time           2.08                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1379.22<=1379.22     subtour              43.0                 
+connectivity cuts    53.0                 uc strategy          true                 
+uc tolerance         0.01                 tildeV               2:12                 
+2-opt strategy       0                                                              
+explored_nodes       432                  n lazycuts edges     0.0                  
+F                    183.0                post procedure       true                 
+o_i                  0                    r_ij                 RingStarProblems.Options.Costs.Euclidian()
+s_ij                 RingStarProblems.Options.Costs.Euclidian()
+                                          <details><summary>Found solution</summary>
+RING NODES
+1—5—7—11—6—2—12—8—3—10—4—9—13
+
+RING
+1  ---  5 | cost [72.0]
+1  --- 13 | cost [0.0]
+2  ---  6 | cost [45.0]
+2  --- 12 | cost [42.0]
+3  ---  8 | cost [66.0]
+3  --- 10 | cost [48.0]
+4  ---  9 | cost [45.0]
+4  --- 10 | cost [24.0]
+5  ---  7 | cost [123.0]
+6  --- 11 | cost [9.0]
+7  --- 11 | cost [198.0]
+8  --- 12 | cost [114.0]
+9  --- 13 | cost [165.0]
+
+STAR
+
+BACKUP RING
+1  ---  7 | cost [1.92]
+2  ---  8 | cost [1.05]
+2  --- 11 | cost [0.45]
+3  ---  4 | cost [0.6900000000000001]
+3  --- 12 | cost [1.77]
+4  --- 13 | cost [1.8900000000000001]
+5  --- 11 | cost [2.34]
+6  ---  7 | cost [2.04]
+6  --- 12 | cost [0.78]
+8  --- 10 | cost [0.6]
+9  --- 10 | cost [0.6900000000000001]
+
+BACKUP STAR
+
+B = 2.34
+i★ = 5
+j★ = 7
+k★ = 11
+</details>
+BD  —— 13 hubs —— 1-5-7-11-6-2-12-8-3-10-4-9-13-1
+total time           5.85                 gap                  0.0                  
+blossom time         0                    nb blossom           0.0                  
+LB <= UB             1379.22<=1379.22     Master/SP costs      951.0/428.22         
+Master time          5.79                 SP time              0.06                 
+subtour              213.0                connectivity cuts    266.0                
+uc strategy          true                 uc tolerance         0.01                 
+opt. cuts            256.0                SP method            RingStarProblems.Options.SPSolve.Poly()
+tildeV               2:12                 inst transformation  2                    
+2-opt strategy       0                                                              
+explored nodes       5498                 
+F                    183.0                
+                                          o_i                  0                    r_ij                 RingStarProblems.Options.Costs.Euclidian()
+s_ij                 RingStarProblems.Options.Costs.Euclidian()
+<details><summary>Found solution</summary>
+RING NODES
+1—5—7—11—6—2—12—8—3—10—4—9—13
+
+RING
+1  ---  5 | cost [72.0]
+1  --- 13 | cost [0.0]
+2  ---  6 | cost [45.0]
+2  --- 12 | cost [42.0]
+3  ---  8 | cost [66.0]
+3  --- 10 | cost [48.0]
+4  ---  9 | cost [45.0]
+4  --- 10 | cost [24.0]
+5  ---  7 | cost [123.0]
+6  --- 11 | cost [9.0]
+7  --- 11 | cost [198.0]
+8  --- 12 | cost [114.0]
+9  --- 13 | cost [165.0]
+
+STAR
+
+BACKUP RING
+1  ---  7 | cost [1.92]
+2  ---  8 | cost [1.05]
+2  --- 11 | cost [0.45]
+3  ---  4 | cost [0.6900000000000001]
+3  --- 12 | cost [1.77]
+4  --- 13 | cost [1.8900000000000001]
+5  --- 11 | cost [2.34]
+6  ---  7 | cost [2.04]
+6  --- 12 | cost [0.78]
+8  --- 10 | cost [0.6]
+9  --- 10 | cost [0.6900000000000001]
+
+BACKUP STAR
+
+B = 2.34
+i★ = 5
+j★ = 7
+k★ = 11
+</details>
+</details>
+</pre>
