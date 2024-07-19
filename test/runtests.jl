@@ -51,4 +51,18 @@ include("aqua.jl")
 			"msg_lev" => GLPK.GLP_MSG_ALL,
 			"tm_lim" => pars.timelimit),
 		true) == 0
+
+	pars.F = 0
+
+	@test rspoptimize(pars, :TinyInstance_12_2, optimizer_with_attributes(GLPK.Optimizer,
+		"msg_lev" => 2,
+		"tm_lim" => 10_000),
+	true) == 0
+	pars.sp_solve = LP()
+	pars.redirect_stdio = true
+	pars.nthreads = false
+	@test rspoptimize(pars, :eil51, optimizer_with_attributes(GLPK.Optimizer,
+		"msg_lev" => 2,
+		"tm_lim" => 10_000),
+	true) == 0
 end

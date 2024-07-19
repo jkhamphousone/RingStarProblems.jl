@@ -492,11 +492,9 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 							) +
 							sum(
 								sum(
-									minimum(
-										(
-											d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
-											init = 0
-										) - d′[i, j],
+									minimum((d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
+									init = 0)
+											- d′[i, j]
 									) * (x[mima(i, j)] + y[i, j] - y[j, j]) for
 									j in setdiff(V, i) if !ŷ[j, j] &&
 									minimum(
