@@ -1,0 +1,22 @@
+[ Info: α=3
+[ Info: Benders Solving F=0.0 ---  eil51  ---
+[ Info: Computed BSInf=0.18 in 0.00048s
+┌ Info: 3 hubs objective:
+└   bestobjval = Inf
+[ Info: ended
+┌ Info: Spent 3.6275s in Benders decomposition
+│ Spent 0.2821s in Master problem
+│ Spent 3.3454s in subproblem
+│ 0 Optimality Constraints created
+└ 0 Subtour Constraints created
+[ Info: Getting Node Count is not supported by GLPK
+[ Info: Objective : 1278.0
+[ Info: Best bound : 1278.0
+[ Info: B : 0.0
+[ Info: Blossom time : 0.0s
+[ Info: Nb blossom, Nb blossom pair : 0, 0
+[ Info: Getting Node Count is not supported by GLPK
+[ Info: ILP Solving F=0.0 ---  eil51  ---
+[ Info: Computed BSInf=0.18 in 0.0005s
+[ Info: Number of constraints in model is: 136427
+[ Info: Getting Node Count is not supported by GLPK
