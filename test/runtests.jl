@@ -16,7 +16,8 @@ include("aqua.jl")
 
 
 	pars = SolverParameters(
-		solve_mod = Both(),                 # ILP, B&BC or Both
+		solve_mod = BranchBendersCut(),     # ILP, or B&BC
+		F = 7,                              # total failing time F, see PhD manuscript
 		sp_solve = Poly(),
 		writeresults = false,               # output results locally, html or no output ""
 		o_i = 0,                            # opening costs
@@ -29,7 +30,6 @@ include("aqua.jl")
 		timelimit = 60_000,                 # Solver Time Limit
 		log_level = 1,                      # console output log_level
 		redirect_stdio = false,             # redirecting_stdio to output file
-		F = 7,                              # total failing time F, see PhD manuscript
 		use_blossom = false,                # use blossom inequalities (not functional yet)
 		alphas = [3],                       # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
 		nthreads = 4,                       # Number of threads used in GUROBI, set 0 for maximum number of available threads
@@ -55,14 +55,14 @@ include("aqua.jl")
 	pars.F = 0
 
 	@test rspoptimize(pars, :TinyInstance_12_2, optimizer_with_attributes(GLPK.Optimizer,
-		"msg_lev" => 2,
-		"tm_lim" => 10_000),
-	true) == 0
+			"msg_lev" => 2,
+			"tm_lim" => 10_000),
+		true) == 0
 	pars.sp_solve = LP()
 	pars.redirect_stdio = true
 	pars.nthreads = false
 	@test rspoptimize(pars, :eil51, optimizer_with_attributes(GLPK.Optimizer,
-		"msg_lev" => 2,
-		"tm_lim" => 10_000),
-	true) == 0
+			"msg_lev" => 2,
+			"tm_lim" => 10_000),
+		true) == 0
 end

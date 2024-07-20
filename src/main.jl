@@ -78,7 +78,7 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 				)
 			end
 
-			if pars.solve_mod in [BranchBendersCut(), Both()]
+			if pars.solve_mod == BranchBendersCut()
 				benders_table =
 					round!(rrspcreatebenders_modellazy(instdataname[1], inst, pars; optimizer))
 
@@ -93,7 +93,7 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 				nstr_random,
 				rand_inst_id,
 			)
-			if pars.solve_mod in [ILP(), Both()]
+			if pars.solve_mod == ILP()
 
 				ilp_table = round!(rrspcreate_ilplazy(instdataname[1], inst, pars, optimizer, solutionchecker))
 
@@ -105,10 +105,10 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 
 			#WARNING: DO NOT DELLETE TODO: to make functionnal
 			# if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
-			# 	if pars.solve_mod in [ILP(), Both()]
+			# 	if pars.solve_mod == ILP()
 			# 		plot_results_plan_run(pars, inst, filename, ilp_table, true)
 			# 	end
-			# 	if pars.solve_mod in [BranchBendersCut(), Both()]
+			# 	if pars.solve_mod == BranchBendersCut()
 			# 		plot_results_plan_run(pars, inst, filename, benders_table, false)
 			# 	end
 			# end
@@ -124,18 +124,6 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 					benders_table,
 					ilp_table,
 				)
-			end
-
-
-			if pars.solve_mod == Both() &&
-			   abs(benders_table.UB - ilp_table.UB) > 0.001 &&
-			   ilp_table.UB != Inf &&
-			   benders_table.UB != Inf &&
-			   benders_table.gap < 10e-5 &&
-			   ilp_table.gap < 10e-5
-				println("Benders opt: ", benders_table.UB)
-				println("ILP opt: ", ilp_table.UB)
-				pars.assert && @assert abs(benders_table.UB - ilp_table.UB) < 0.01
 			end
 		end
 		GC.gc()

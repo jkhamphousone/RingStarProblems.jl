@@ -3,7 +3,6 @@ module Options
 using Parameters
 
 module SolveMod
-	struct Both end
 	struct BranchBendersCut end
 	struct ILP end
 	struct NoOptimize end
@@ -11,10 +10,9 @@ module SolveMod
 	struct gFexploreonlyILP end
 	struct gFexploreonlyben end
 	const USolveMod =
-		Union{Both, BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben}
+		Union{BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben}
 
-	export Both,
-		BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
+	export BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
 end
 
 using .SolveMod
@@ -51,7 +49,7 @@ end
 using .Costs
 
 
-export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+export SolveMod, BranchBendersCut, ILP, USolveMod
 export SPSolve,
 	NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
 export WResults, WHTML, WLocal, UWriteResults

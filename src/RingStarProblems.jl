@@ -22,7 +22,7 @@ include("options.jl")
 include("instance.jl")
 include("solution.jl")
 
-export SolveMod, Both, BranchBendersCut, ILP, USolveMod
+export SolveMod, BranchBendersCut, ILP, USolveMod
 export SPSolve,
 	NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod, Poly, LP, USPSolve
 export WResults, WHTML, WLocal, UWriteResults

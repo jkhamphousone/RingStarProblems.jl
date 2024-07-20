@@ -73,7 +73,7 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 	if length(inst.tildeV) > 0
 		tildeV_string = "$(inst.tildeV[1]):$(inst.tildeV[end])"
 	end
-	if pars.solve_mod in [ILP(), Both()]
+	if pars.solve_mod == ILP()
 		########### ILP
 		print(output_file, "ILP ——— $(length(ilp_table.sol.hubs)) hubs —— ")
 		for hub in ilp_table.sol.hubs
@@ -181,7 +181,7 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 
 	end
 	########### Benders
-	if pars.solve_mod in [BranchBendersCut(), Both()]
+	if pars.solve_mod == BranchBendersCut()
 		print(output_file, "BD  —— $(length(benders_table.sol.hubs)) hubs —— ")
 		for hub in benders_table.sol.hubs
 			print(output_file, "$hub")
