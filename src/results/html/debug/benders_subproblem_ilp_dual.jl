@@ -9,7 +9,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level; optmizer)
     tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
 
     sp_m = Model(optmizer)
-    
+
 
     log_level <= 1 && set_silent(sp_m)
 

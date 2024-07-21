@@ -116,7 +116,11 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
 
 
 
-    @constraint(m, backup_or_regular_edge_10[i=V, j=i+1:n+1], 2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j])
+    @constraint(
+        m,
+        backup_or_regular_edge_10[i = V, j = i+1:n+1],
+        2(x[i, j] + x′[i, j]) <= y[i, i] + y[j, j]
+    )
 
     @constraint(
         m,
@@ -131,7 +135,11 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
         x[mima(i, j)] + y[i, j] + x′[mima(i, j)] + y′[i, j] <= y[j, j]
     )
 
-    @constraint(m, backup_or_regular_arc_12[i=V, j=V; i != j], y′[i, j] <= y[j, j] - y[i, j])
+    @constraint(
+        m,
+        backup_or_regular_arc_12[i = V, j = V; i != j],
+        y′[i, j] <= y[j, j] - y[i, j]
+    )
 
     @constraint(
         m,
@@ -412,15 +420,8 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
         if pars.ucstrat
-            max_current_value, con = createconnectivitycut(
-                cb_data,
-                x,
-                y,
-                V,
-                n,
-                nconnectivity_cuts,
-                pars,
-            )
+            max_current_value, con =
+                createconnectivitycut(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
         if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)

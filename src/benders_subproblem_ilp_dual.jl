@@ -7,7 +7,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, first_sp_m, optimizer)
     d′ = inst.d′
     c′ = inst.c′
 
-	sp_m = Model(optimizer)
+    sp_m = Model(optimizer)
     set_silent(sp_m)
 
     if first_sp_m

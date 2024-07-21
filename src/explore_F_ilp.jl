@@ -116,15 +116,8 @@ function ilp_st_optimize_explore!(
     function call_back_ilp_user_cuts(cb_data)
         max_current_value = -Inf
         if pars.ucstrat
-            max_current_value, con = createconnectivitycut(
-                cb_data,
-                x,
-                y,
-                V,
-                n,
-                nconnectivity_cuts,
-                pars,
-            )
+            max_current_value, con =
+                createconnectivitycut(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
         if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)

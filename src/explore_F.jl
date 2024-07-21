@@ -750,8 +750,7 @@ function create_S(
             end
         end
 
-        ŷ′_bool =
-            sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars; optimizer)[3]
+        ŷ′_bool = sp_optimize_ilp_primal(x̂_bool, ŷ_bool, inst, pars; optimizer)[3]
 
         ring = create_ring_edges_lazy(x̂_bool, n)
         ŷ′_postopt = ŷ′_bool

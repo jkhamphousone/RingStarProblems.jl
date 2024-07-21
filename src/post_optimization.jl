@@ -1,6 +1,6 @@
 function post_optimization_procedure(inst, x̂, ŷ, ring)
     n = inst.n
-    n_hubs = sum(ŷ[i, i] for i = 1:n)
+    n_hubs = sum(ŷ[i, i] for i ∈ 1:n)
     tildeV = inst.tildeV
     d′ = inst.d′
 
@@ -120,10 +120,10 @@ function compute_B_critical_triple(inst, x̂, ŷ)
     if inst.F == 0 || isempty(tildeV)
         return 0, 1, 1, 1
     end
-    adj = Vector{Int}[Int[] for _ = 1:n+1]
+    adj = Vector{Int}[Int[] for _ ∈ 1:n+1]
     V = 1:n
     for i in V
-        for j = i+1:n+1
+        for j ∈ i+1:n+1
             # if j < n+1 && x̂[i,j]
             if x̂[i, j]
                 push!(adj[j], i)
