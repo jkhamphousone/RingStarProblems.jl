@@ -70,9 +70,9 @@ using .Options
 	random: 0 if not a random instance
 			number of instance nodes otherwise
 	alphas: array of Labbé alphas values to test
-	writeresults: "html" writing results in html file
-				"local" writing longchapars folder
-				"" not writing results
+	writeresults: "WHTML()" writing results in html file
+				  "WLocal()" writing longchapars folder
+			      false not writing results
 	nrand: Number of nodes in random instances
 	o_i: "1", "0", "random" or "1:1000"
 """
@@ -110,7 +110,7 @@ using .Options
     @assert nb_runrand[2] in 1:10 || nrand == 0 && 1 <= nb_runrand[1] <= nb_runrand[2]
     two_opt = 0
     @assert two_opt in [0, 1, 2]
-    do_plot::Bool = true
+    plotting::Bool = true
     log_level = 1
     @assert log_level in Int[0, 1, 2]
     lp_relaxation::Bool = false

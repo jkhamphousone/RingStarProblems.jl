@@ -13,6 +13,8 @@ function rspoptimize(
     solutionchecker = false,
 )
 
+
+
     instancenames = generateinstancenames()
 
     instdataname = symbolinstance, instancenames[symbolinstance]
@@ -37,9 +39,9 @@ function rspoptimize(
 end
 
 
-
-
 function main(pars::SolverParameters, instdataname, optimizer, solutionchecker = false)
+
+    
 
     output_folder = joinpath(@__DIR__, "results", "solutions/")
     extension = ".txt"
@@ -116,12 +118,12 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
                 ilp_table = read_ilp_table(input_filepath, pars.plot_id)
             end
 
-            if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
+            if pars.plotting && pars.timelimit > 30 && pars.writeresults != ""
             	if pars.solve_mod == ILP()
-            		plot_results_plan_run(pars, inst, instdataname[1], ilp_table, true)
+            		perform_plot(pars, inst, instdataname[1], ilp_table, true)
             	end
             	if pars.solve_mod == BranchBendersCut()
-            		plot_results_plan_run(pars, inst, instdataname[1], benders_table, false)
+            		perform_plot(pars, inst, instdataname[1], benders_table, false)
             	end
             end
             if pars.writeresults != ""

@@ -2,5 +2,5 @@
 ./1-R-RSPSysImageEnv/1-R-RSPSysimage.so
 1-R-RSPSysimage.so
 ./src/debug/**
-./src/plots/results/**
+./ext/results/**
 

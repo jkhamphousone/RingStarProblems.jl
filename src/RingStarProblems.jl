@@ -15,9 +15,6 @@ using Parameters
 @info "Loading Cairo, Suppressor and Options"
 using Cairo, Suppressor
 using Dualization
-@info "Loading GraphPlots, Plots and Compose"
-using GraphPlot, Plots, Compose
-#TODO: add GraphPlot, Plots, Compose as package options
 
 @info "Loading .jl files $(lpad("0%",4))"
 
@@ -31,6 +28,9 @@ export SPSolve,
 export WResults, WHTML, WLocal, UWriteResults
 export Costs, Euclidian, RandomInterval, UCosts
 export rspoptimize, SolverParameters
+
+
+
 @info "Loading .jl files $(lpad("25%",4))"
 include("create_subtour_constraint.jl")
 include("ilp_rrsp.jl")
@@ -43,9 +43,10 @@ include("print.jl")
 include("three_four_rho_rsp.jl")
 @info "Loading .jl files $(lpad("75%",4))"
 include("utilities.jl")
-include("./plots/plots.jl")
 include("local_searches.jl")
 include("explore_F.jl")
+function perform_plot end
+
 include("main.jl")
 include("post_optimization.jl")
 include("read.jl")
@@ -54,9 +55,10 @@ include("create_blossom_ineaqulities.jl")
 include("../test/solutionchecker.jl")
 
 
+
+
 @info "Loading .jl files $(lpad("100%",4))"
 @info "Took $(round(time()-a, digits=1))s to load RingStarProblems.jl"
-
 
 
 end

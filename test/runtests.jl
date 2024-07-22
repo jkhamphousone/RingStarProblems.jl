@@ -4,6 +4,7 @@ using JET
 using JuMP
 using GLPK
 using Gurobi
+using GraphPlot, Compose, Colors
 
 include("aqua.jl")
 
@@ -24,7 +25,7 @@ include("aqua.jl")
         s_ij = Euclidian(),                 # star costs
         r_ij = Euclidian(),                 # ring costs
         backup_factor = 0.01,               # backup_factor c'=0.01c and d'=0.01c
-        do_plot = false,                    # plot_results (to debug)
+        plotting = false,                    # plot_results (to debug)
         two_opt = 0,                        # use two_opt heuristic (not functional yet)
         tildeV = 100,                       # uncertain nodes set
         timelimit = 60_000,                 # Solver Time Limit
@@ -67,6 +68,7 @@ include("aqua.jl")
     ) == 0
 
     pars.F = 0
+    pars.plotting = true
 
     @test rspoptimize(
         pars,
