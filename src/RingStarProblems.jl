@@ -12,9 +12,12 @@ using Distributions
 using Graphs, GraphsFlows
 @info "Loading Parameters and Formatting"
 using Parameters
-@info "Loading, Cairo, Suppressor and Options"
+@info "Loading Cairo, Suppressor and Options"
 using Cairo, Suppressor
 using Dualization
+@info "Loading GraphPlots, Plots and Compose"
+using GraphPlot, Plots, Compose
+#TODO: add GraphPlot, Plots, Compose as package options
 
 @info "Loading .jl files $(lpad("0%",4))"
 
@@ -40,7 +43,7 @@ include("print.jl")
 include("three_four_rho_rsp.jl")
 @info "Loading .jl files $(lpad("75%",4))"
 include("utilities.jl")
-# TODO: make functional include("./plots/plots.jl")
+include("./plots/plots.jl")
 include("local_searches.jl")
 include("explore_F.jl")
 include("main.jl")

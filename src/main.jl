@@ -116,15 +116,14 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
                 ilp_table = read_ilp_table(input_filepath, pars.plot_id)
             end
 
-            #WARNING: DO NOT DELLETE TODO: to make functionnal
-            # if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
-            # 	if pars.solve_mod == ILP()
-            # 		plot_results_plan_run(pars, inst, filename, ilp_table, true)
-            # 	end
-            # 	if pars.solve_mod == BranchBendersCut()
-            # 		plot_results_plan_run(pars, inst, filename, benders_table, false)
-            # 	end
-            # end
+            if pars.do_plot && pars.timelimit > 30 && pars.writeresults != ""
+            	if pars.solve_mod == ILP()
+            		plot_results_plan_run(pars, inst, instdataname[1], ilp_table, true)
+            	end
+            	if pars.solve_mod == BranchBendersCut()
+            		plot_results_plan_run(pars, inst, instdataname[1], benders_table, false)
+            	end
+            end
             if pars.writeresults != ""
                 write_solution_to_file(
                     input_filepath,

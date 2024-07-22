@@ -10,7 +10,7 @@ struct gF end
 struct gFexploreonlyILP end
 struct gFexploreonlyben end
 const USolveMod =
-    Union{BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}
+    Union{BranchBendersCut,ILP,NoOptimize,gF, gFexploreonlyILP, gFexploreonlyben}
 
 export BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
 end
@@ -79,7 +79,7 @@ using .Options
 @with_kw mutable struct SolverParameters
     @deftype Int
     solve_mod::USolveMod
-    sp_solve::USPSolve
+    sp_solve::USPSolve = Poly()
     tildeV = 0
     @assert 0 ≤ tildeV ≤ 100
     alphas::Vector{Int} = Int[5]

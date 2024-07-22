@@ -341,6 +341,7 @@ function createinstance_rrsp(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
+
         return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
     end
 end
@@ -352,7 +353,7 @@ end
 """
 function readcoordinates(data)
 
-    n_start = 1
+    n_start = 2
     x_coors = Float64[]
     y_coors = Float64[]
     while length(x_coors) == 0
@@ -366,7 +367,7 @@ function readcoordinates(data)
             n_start += 1
         end
     end
-    n_start = 1
+    n_start = 2
     while length(y_coors) == 0
         try
             if data[end, 2] == ""
@@ -379,108 +380,4 @@ function readcoordinates(data)
         end
     end
     return x_coors, y_coors
-end
-
-
-function instance_transform(inst, inst_trans)
-    if inst_trans == 0
-        return inst.c, inst.c, inst.s, 0.0
-    end
-    V = inst.V
-    tildeV = inst.tildeV
-    n = inst.n
-    offset = sum(minimum(inst.d[i, k] for k in V if k != i) for i in V)
-    c = copy(inst.c)
-    c′ = copy(inst.c)
-    d = copy(inst.d)
-    minedgecost = minimum(c[l, h] for l in V, h in V if l < h)
-    for i in V
-        if i in tildeV
-            o[i] -= minimum(inst.d[i, k] for k in V if k != i) - minedgecost
-        else
-            o[i] -= minimum(inst.d[i, k] for k in V if k != i)
-        end
-        for j in V
-            if i < j
-                c[i, j] -= minedgecost
-            end
-            if j in tildeV && i != j
-                d[i, j] -= 0.5minimum(inst.d[i, k] for k in V if k != i)
-            elseif i != j
-                d[i, j] -= minimum(inst.d[i, k] for k in V if k != i)
-            end
-        end
-    end
-    # println("transformation 1")
-    # @show s
-    return o, c, c′, d, offset
-end
-
-function instance_transform_improved(inst, inst_trans)
-    if inst_trans <= 1
-        return instance_transform(inst, inst_trans)
-    end
-    n = inst.n
-    V = inst.V
-    tildeV = inst.tildeV
-    offset = zeros(Float64, n)
-    ε = zeros(Float64, n)
-    o = copy(inst.o)
-
-    r = copy(inst.r)
-    r′ = copy(inst.r)
-    s = copy(inst.s)
-
-    for i in V
-        fst_min = Inf
-        snd_min = Inf
-        for k in V
-            if k in tildeV && k != i && snd_min > s[i, k]
-                snd_min = s[i, k]
-            elseif k != i && !(k in tildeV) && fst_min > s[i, k]
-                fst_min = s[i, k]
-            end
-        end
-        offset[i] = min(fst_min, 2snd_min)
-
-        fst_min = Inf
-        snd_min = Inf
-        for k ∈ 1:i-1
-            if fst_min > r′[k, i]
-                fst_min = r′[k, i]
-            end
-        end
-        for k ∈ i+1:n
-            if snd_min > r′[i, k]
-                snd_min = r′[i, k]
-            end
-        end
-        ε[i] = min(fst_min, snd_min)
-    end
-    bar_offset = sum(offset)
-    for i in V
-        o[i] -= offset[i]
-        for j in V
-            if i < j
-                if i in tildeV
-                    if j in setdiff(V, tildeV)
-                        r[i, j] += 0.5ε[j]
-                    else
-                        r[i, j] += 0.5(ε[i] + ε[j])
-                    end
-                elseif j in tildeV
-                    r[i, j] += 0.5ε[i]
-                end
-                r′[i, j] -= 0.5(ε[i] + ε[j])
-            end
-            if j in setdiff(tildeV, i)
-                s[i, j] -= 0.5offset[i]
-            elseif j != i
-                s[i, j] -= offset[i]
-            end
-        end
-    end
-
-
-    return o, r, r′, s, bar_offset
 end

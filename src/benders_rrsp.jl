@@ -223,7 +223,7 @@ function rrspcreatebenders_modellazy(filename, inst, pars; optimizer)
         ring = create_ring_edges_lazy(x̂_bool, n)
         @show ring
         hubs = get_ring_nodes_lazy(ring, 1)
-        @show hubs
+        pop!(hubs) # delete t (from s-t chain)
         x̂′_postopt, ŷ′_postopt = x̂′_bool, ŷ′_bool
         if pars.post_procedure
             x̂′_postopt, ŷ′_postopt =
