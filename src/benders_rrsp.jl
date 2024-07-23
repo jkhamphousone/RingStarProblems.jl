@@ -1,5 +1,5 @@
 """
-Branch & Benders Cut result table
+    Branch & Benders Cut result table
 """
 @with_kw mutable struct BDtable
     @deftype Float64

@@ -95,7 +95,7 @@ using .Options
     uctolerance::Float64 = 0.01
     @assert uctolerance ≥ 0
     timelimit = 3600
-    @assert timelimit ≥ 0 # timelimit in seconds, timelimit = 0 means infinity
+    @assert timelimit ≥ 0 # timelimit in seconds or milliseconds, depends on the solver, timelimit = 0 means infinity
     nthreads = 8
     @assert nthreads >= 0
     writeresults::UWriteResults
