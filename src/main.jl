@@ -41,7 +41,7 @@ end
 
 function main(pars::SolverParameters, instdataname, optimizer, solutionchecker = false)
 
-    
+
 
     output_folder = joinpath(@__DIR__, "results", "solutions/")
     extension = ".txt"
@@ -119,12 +119,12 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
             end
 
             if pars.plotting && pars.timelimit > 30 && pars.writeresults != ""
-            	if pars.solve_mod == ILP()
-            		perform_plot(pars, inst, instdataname[1], ilp_table, true)
-            	end
-            	if pars.solve_mod == BranchBendersCut()
-            		perform_plot(pars, inst, instdataname[1], benders_table, false)
-            	end
+                if pars.solve_mod == ILP()
+                    perform_plot(pars, inst, instdataname[1], ilp_table, true)
+                end
+                if pars.solve_mod == BranchBendersCut()
+                    perform_plot(pars, inst, instdataname[1], benders_table, false)
+                end
             end
             if pars.writeresults != ""
                 write_solution_to_file(

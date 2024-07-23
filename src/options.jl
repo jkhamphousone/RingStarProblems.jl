@@ -10,7 +10,7 @@ struct gF end
 struct gFexploreonlyILP end
 struct gFexploreonlyben end
 const USolveMod =
-    Union{BranchBendersCut,ILP,NoOptimize,gF, gFexploreonlyILP, gFexploreonlyben}
+    Union{BranchBendersCut,ILP,NoOptimize,gF,gFexploreonlyILP,gFexploreonlyben}
 
 export BranchBendersCut, ILP, NoOptimize, gF, gFexploreonlyILP, gFexploreonlyben, USolveMod
 end
