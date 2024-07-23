@@ -1,4 +1,4 @@
-function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, sp_m, first_sp_m)
+function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, first_sp_m, optimizer)
     n = length(inst.V)
     tildeV = inst.tildeV
     V = inst.V
@@ -6,6 +6,9 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level, sp_m, first_sp_m)
     tildeJ = Set([(i, j, k) for i in V, j in tildeV, k in V′ if i != j && j != k && i < k])
     d′ = inst.d′
     c′ = inst.c′
+
+    sp_m = Model(optimizer)
+    set_silent(sp_m)
 
     if first_sp_m
 

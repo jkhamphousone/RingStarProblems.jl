@@ -121,10 +121,8 @@ function benders_st_optimize_explore!(
                         sum(
                             sum(
                                 minimum(
-                                    (
-                                        d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k]; init =
-                                            0
-                                    ) - d′[i, j],
+                                    (d′[i, k] for k in setdiff(V, i, j★) if ŷ[k, k];
+                                    init = 0) - d′[i, j],
                                 ) * (x[mima(i, j)] + y[i, j] - y[j, j]) for
                                 j in setdiff(V, i) if !ŷ[j, j] &&
                                 minimum(
@@ -149,15 +147,8 @@ function benders_st_optimize_explore!(
     function call_back_user_cuts(cb_data)
         max_current_value = -Inf
         if pars.ucstrat
-            max_current_value, con = createconnectivitycut(
-                cb_data,
-                x,
-                y,
-                V,
-                n,
-                nconnectivity_cuts,
-                pars,
-            )
+            max_current_value, con =
+                createconnectivitycut(cb_data, x, y, V, n, nconnectivity_cuts, pars)
         end
         if max_current_value > pars.uctolerance
             MOI.submit(m, MOI.UserCut(cb_data), con)
@@ -629,7 +620,7 @@ function rrspcreate_ilplazy(
 
 
 
-    
+
     m_ilp = Model(Gurobi.Optimizer())
 
     if pars.log_level == 0

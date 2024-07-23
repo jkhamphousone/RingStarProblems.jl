@@ -2,7 +2,7 @@
 
 julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "3397223ff14d980d21432b35b5c9eedaf3f635fc"
+project_hash = "42e3dbcebc234b34c43f82447e79f21f8ee90b4e"
 
 [[deps.AliasTables]]
 deps = ["PtrArrays", "Random"]
@@ -774,9 +774,9 @@ deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TranscodingStreams]]
-git-tree-sha1 = "60df3f8126263c0d6b357b9a1017bb94f53e3582"
+git-tree-sha1 = "96612ac5365777520c3c5396314c8cf7408f436a"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.11.0"
+version = "0.11.1"
 weakdeps = ["Random", "Test"]
 
     [deps.TranscodingStreams.extensions]

@@ -13,7 +13,6 @@ Introduce the Resilient Ring Star Problem (called 1-R-RSP).
 The package can solve 1-R-RSP thanks to:
  - A Branch-and-Benders-cut algorithm (refered to as B&BC)
  - An Integer Linear Programming model (ILP)
- - Both, sequentially
 
 ## Ring Star Problem
 
@@ -27,7 +26,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can safely use CPLEX, GLPK, Gurobi, Xpress as [solver-independent Lazy Constraints callback support is restricted to these ones](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can use CPLEX, GLPK, Gurobi, Xpress or any [solver that supports Lazy Constraints callback in JuMP](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia
@@ -35,30 +34,32 @@ julia> import Pkg ; Pkg.add("RingStarProblems")
 ```
 
 # Usage
+
 ```julia
 julia> import RingStarProblems as RSP
 julia> using JuMP
 julia> pars = RSP.SolverParameters(
-        solve_mod      = RSP.Both(),          # ILP, B&BC or Both
-        sp_solve       = RSP.Poly(),
-        writeresults   = RSP.WHTML(),         # output results locally, html or no output ""
-        o_i            = 0,                   # opening costs
-        s_ij           = RSP.Euclidian(),     # star costs
-        r_ij           = RSP.Euclidian(),     # ring costs
-        backup_factor  = 0.01,                # backup_factor c'=0.01c and d'=0.01c
-        do_plot        = false,               # plot_results (to debug)
-        two_opt        = 0,                   # use two_opt heuristic (not functional yet)
-        tildeV         = 100,                 # uncertain nodes set
-        timelimit      = 120_000,             # timelimit 
-        log_level      = 1,                   # console output log_level
-        redirect_stdio = false,               # redirecting_stdio to output file
-        F              = 7,                   # total failing time F, see PhD manuscript
-        use_blossom    = false,               # use blossom inequalities (not functional yet)
-        alphas         = [3],                 # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
-        nthreads       = 4                    # Number of threads used in GUROBI, set 0 for maximum number of available threads
+        solve_mod      = RSP.BranchBendersCut(),   # ILP() or B&BC()
+        F              = 7,                        # total failing time F, see [`PhD manuscript`](https://theses.hal.science/tel-04319443)
+        writeresults   = RSP.WHTML(),              # output results locally, WLocal(), WHTML() or no output false
+        o_i            = 0,                        # opening costs
+        s_ij           = RSP.Euclidian(),          # star costs
+        r_ij           = RSP.Euclidian(),          # ring costs
+        backup_factor  = 0.01,                     # backup_factor c'=0.01c and d'=0.01c
+        plotting        = false,                    # plot results to subfolder src/plots/results/
+        two_opt        = 0,                        # use two_opt heuristic (not functional yet)
+        tildeV         = 100,                      # uncertain nodes set
+        timelimit      = 120_000,                  # timelimit 
+        log_level      = 1,                        # console output log_level
+        redirect_stdio = false,                    # redirecting_stdio to output file
+        use_blossom    = false,                    # use blossom inequalities (not functional yet)
+        alphas         = [3],                      # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
+        nthreads       = 4                         # Number of threads used in GUROBI, set 0 for maximum number of available threads
        )
 ```
-### GLPK
+
+## GLPK
+
 To use GLPK optimizer:
 ```julia
 julia> using GLPK
@@ -69,7 +70,8 @@ julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(GLPK.Opti
 	)
 ```
 
-### Gurobi
+## Gurobi
+
 To use Gurobi optimizer:
 ```julia
 julia> using Gurobi
@@ -77,3 +79,17 @@ julia> symbolinstance = :berlin52
 julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(Gurobi.Optimizer,
 		"TimeLimit" => pars.timelimit))
 ```
+
+## Plotting
+
+To plot the solutions in the folder ext/results
+```julia
+julia> using GraphPlot, Compose, Colors
+julia> pars.plotting = true
+```
+
+Then call `rspoptimize` again
+
+
+
+

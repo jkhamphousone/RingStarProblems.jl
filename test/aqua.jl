@@ -1,5 +1,5 @@
 using RingStarProblems
-using Aqua:Aqua
+using Aqua: Aqua
 
 
 @testset "aqua deps compat" begin
@@ -34,5 +34,5 @@ end
 end
 
 @testset "aqua state deps" begin
-    Aqua.test_stale_deps(RingStarProblems; ignore=[:GLPK, :Gurobi, :LiveServer])
+    Aqua.test_stale_deps(RingStarProblems; ignore = [:GLPK, :Gurobi, :LiveServer])
 end
