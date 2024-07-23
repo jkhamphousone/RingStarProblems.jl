@@ -25,7 +25,7 @@ include("aqua.jl")
         s_ij = Euclidian(),                 # star costs
         r_ij = Euclidian(),                 # ring costs
         backup_factor = 0.01,               # backup_factor c'=0.01c and d'=0.01c
-        plotting = false,                    # plot_results (to debug)
+        plotting = false,                   # plot_results (to debug)
         two_opt = 0,                        # use two_opt heuristic (not functional yet)
         tildeV = 100,                       # uncertain nodes set
         timelimit = 60_000,                 # Solver Time Limit
@@ -33,7 +33,7 @@ include("aqua.jl")
         redirect_stdio = false,             # redirecting_stdio to output file
         use_blossom = false,                # use blossom inequalities (not functional yet)
         alphas = [3],                       # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
-        nthreads = 4,                       # Number of threads used in GUROBI, set 0 for maximum number of available threads
+        nthreads = 4,                       # Number of threads used in Gurobi, set 0 for maximum number of available threads
         ucstrat = true,                     # use user cut
     )
 
