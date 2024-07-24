@@ -69,7 +69,7 @@ using .Options
 	poly: "poly" or "hybrid"
 	random: 0 if not a random instance
 			number of instance nodes otherwise
-	alphas: array of Labbé alphas values to test
+	alpha: Labbé alpha value to test
 	writeresults: "WHTML()" writing results in html file
 				  "WLocal()" writing longchapars folder
 			      false not writing results
@@ -77,12 +77,12 @@ using .Options
 	o_i: "1", "0", "random" or "1:1000"
 """
 @with_kw mutable struct SolverParameters
-    @deftype Int
+    @deftype UInt
     solve_mod::USolveMod
     sp_solve::USPSolve = Poly()
     tildeV = 0
     @assert 0 ≤ tildeV ≤ 100
-    alphas::Vector{Int} = Int[5]
+    alpha = 5
     F::Float64 = 0.0
     @assert F ≥ 0
     warm_start::Vector{Int} = Int[]
@@ -94,10 +94,6 @@ using .Options
     @assert ucstrat_limit ≥ 0
     uctolerance::Float64 = 0.01
     @assert uctolerance ≥ 0
-    timelimit = 3600
-    @assert timelimit ≥ 0 # timelimit in seconds or milliseconds, depends on the solver, timelimit = 0 means infinity
-    nthreads = 8
-    @assert nthreads >= 0
     writeresults::UWriteResults
     nrand = 0
     @assert nrand >= 0

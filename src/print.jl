@@ -10,7 +10,7 @@ function get_input_filepath(
     α_str = pars.nrand == 0 ? "_α=$(inst.α)" : ""
     main_folder_path = "$(output_folder)$(filename[1])$α_str/"
     mkpath(main_folder_path)
-    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_TL=$(pars.timelimit)$(pars.o_i == "" ? "" : "_oi=$(pars.o_i)_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
+    return "$main_folder_path$(filename[1])$(nstr_random)$(α_str)_$(pars.o_i == "" ? "" : "_oi=$(pars.o_i)_nrand-$(rand_inst_id)")$(pars.two_opt >= 1 ? "_2-opt" : "")_tildeV=$(pars.tildeV)_F=$(inst.F)$extension"
 end
 
 function write_solution_to_file(
@@ -85,7 +85,7 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
         println(output_file)
         TL_ilp = ""
         if ilp_table.TL_reached > 0
-            TL_ilp = " (TL $(pars.timelimit))"
+            TL_ilp = " (TL)"
         end
         println(
             output_file,
@@ -194,7 +194,7 @@ function writeresultsults(output_file, n, inst, benders_table, ilp_table, pars)
 
         TL_benders = ""
         if benders_table.TL_reached > 0
-            TL_benders = " (TL $(pars.timelimit))"
+            TL_benders = " (TL)"
         end
         println(
             output_file,

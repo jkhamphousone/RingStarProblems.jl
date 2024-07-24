@@ -26,7 +26,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can use CPLEX, GLPK, Gurobi, Xpress or any [solver that supports Lazy Constraints callback in JuMP](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can use CPLEX, GLPK, Gurobi, Xpress or any [solver that MOI.supports Lazy Constraints callback in JuMP](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia
@@ -39,22 +39,18 @@ julia> import Pkg ; Pkg.add("RingStarProblems")
 julia> import RingStarProblems as RSP
 julia> using JuMP
 julia> pars = RSP.SolverParameters(
-        solve_mod      = RSP.BranchBendersCut(),   # ILP() or B&BC()
-        F              = 7,                        # total failing time F, see [`PhD manuscript`](https://theses.hal.science/tel-04319443)
-        writeresults   = RSP.WHTML(),              # output results locally, WLocal(), WHTML() or no output false
+        solve_mod      = RSP.BranchBendersCut(),   # ILP() or BranchBendersCut()
+        F              = 7,                        # total failing time F in days per year, see [`PhD manuscript`](https://theses.hal.science/tel-04319443)
         o_i            = 0,                        # opening costs
         s_ij           = RSP.Euclidian(),          # star costs
         r_ij           = RSP.Euclidian(),          # ring costs
         backup_factor  = 0.01,                     # backup_factor c'=0.01c and d'=0.01c
+        alpha         = 3,                         # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
+        writeresults   = RSP.WHTML(),              # output results locally, WLocal(), WHTML() or no output false
         plotting       = false,                    # plot results to subfolder src/plots/results/
-        two_opt        = 0,                        # use two_opt heuristic (not functional yet)
         tildeV         = 100,                      # uncertain nodes set
-        timelimit      = 120_000,                  # timelimit, either seconds or milliseconds depending on your solver
         log_level      = 1,                        # console output log_level
         redirect_stdio = false,                    # redirecting_stdio to output file
-        use_blossom    = false,                    # use blossom inequalities (not functional yet)
-        alphas         = [3],                      # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
-        nthreads       = 4                         # Number of threads used in Gurobi, set 0 for maximum number of available threads
        )
 ```
 
@@ -65,9 +61,8 @@ To use GLPK optimizer:
 julia> using GLPK
 julia> symbolinstance = :TinyInstance_12_2
 julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(GLPK.Optimizer,
-			"msg_lev" => GLPK.GLP_MSG_ALL,
-			"tm_lim" => pars.timelimit)
-	)
+			"msg_lev" => GLPK.GLP_MSG_ALL
+	))
 ```
 
 ## Gurobi
@@ -76,8 +71,7 @@ To use Gurobi optimizer:
 ```julia
 julia> using Gurobi
 julia> symbolinstance = :berlin52
-julia> RSP.rspoptimize(pars, symbolinstance, optimizer_with_attributes(Gurobi.Optimizer,
-		"TimeLimit" => pars.timelimit))
+julia> RSP.rspoptimize(pars, symbolinstance, Gurobi.Optimizer)
 ```
 
 ## Plotting

@@ -85,7 +85,7 @@ function RingStarProblems.perform_plot(pars, inst, filename, result_table, is_il
 
     pdfpath =
         eval(@__DIR__) *
-        "/results/$alpha_or_nrand/$(alpha_or_nrand)_TL-$(pars.timelimit)$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))).pdf"
+        "/results/$alpha_or_nrand/$(alpha_or_nrand)_$(two_opt_string)_F=$(inst.F)_UB=$(round(result_table.UB))).pdf"
     draw(
         PDF(pdfpath),
         gplot(
