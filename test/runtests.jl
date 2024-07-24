@@ -3,7 +3,6 @@ using Test
 using JET
 using JuMP
 using GLPK
-using Gurobi
 using GraphPlot, Compose, Colors
 
 include("aqua.jl")

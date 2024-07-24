@@ -1,7 +1,7 @@
 name = "RingStarProblems"
 uuid = "bed4ad48-c7de-4cc5-bbc0-d98473e6c0f4"
 authors = ["jkhamphousone <research.khamphousone@gmail.com>"]
-version = "0.1.8"
+version = "0.1.9"
 
 [deps]
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
@@ -29,7 +29,6 @@ DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
 GraphPlot = "a2cc645c-3eea-5389-862e-a155d0052231"
-Gurobi = "2e9cd046-0924-5485-92f1-d5272153d98b"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
@@ -52,7 +51,6 @@ GLPK = "0.15, 1"
 GraphPlot = "0.4.1, 0.5, 0.6"
 Graphs = "1.4"
 GraphsFlows = "0.1"
-Gurobi = "0.10, 0.11, 1"
 JET = "0.7, 0.8, 0.9"
 JuMP = "1.10"
 LiveServer = "0.8, 0.9, 1"
@@ -68,9 +66,8 @@ Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
-Gurobi = "2e9cd046-0924-5485-92f1-d5272153d98b"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "Aqua", "GLPK", "Gurobi", "JET", "Colors", "Compose", "GraphPlot"]
+test = ["Test", "Aqua", "GLPK", "JET", "Colors", "Compose", "GraphPlot"]
