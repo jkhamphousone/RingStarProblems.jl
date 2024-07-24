@@ -51,7 +51,7 @@ include("aqua.jl")
 	@test rspoptimize(
 		pars,
 		:eil51,
-		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lm" => 60_000),
 		true,
 	) == 0
 
@@ -69,7 +69,7 @@ include("aqua.jl")
 	@test rspoptimize(
 		pars,
 		:eil51, 
-        optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+        optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lm" => 60_000),
 		true,
 	) == 0
 end
