@@ -45,10 +45,10 @@ julia> pars = RSP.SolverParameters(
         s_ij           = RSP.Euclidian(),          # star costs
         r_ij           = RSP.Euclidian(),          # ring costs
         backup_factor  = 0.01,                     # backup_factor c'=0.01c and d'=0.01c
-        alpha         = 3,                         # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
+        alpha          = 3,                         # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
+        tildeV         = 100,                      # uncertain nodes set
         writeresults   = RSP.WHTML(),              # output results locally, WLocal(), WHTML() or no output false
         plotting       = false,                    # plot results to subfolder src/plots/results/
-        tildeV         = 100,                      # uncertain nodes set
         log_level      = 1,                        # console output log_level
         redirect_stdio = false,                    # redirecting_stdio to output file
        )
