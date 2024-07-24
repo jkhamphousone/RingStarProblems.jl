@@ -61,6 +61,7 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
 
     m = Model(optimizer)
 
+
     if pars.log_level == 0
         set_silent(m)
     end
@@ -442,8 +443,20 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
         end
     end
 
-    set_attribute(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
-    set_attribute(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
+
+
+    try
+        set_attribute(m, MOI.LazyConstraintCallback(), call_back_ilp_lazy)
+    catch
+        error("Your solver doesn't support Lazy Constraints Callback")
+    end
+    try
+        set_attribute(m, MOI.UserCutCallback(), call_back_ilp_user_cuts)
+    catch
+        error("Your solver doesn't support UserCut Constraints Callback")
+    end
+
+
     optimize!(m)
     total_time = time() - total_time
     ilp_time = round(total_time, digits = 3)

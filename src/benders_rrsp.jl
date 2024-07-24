@@ -80,6 +80,7 @@ function rrspcreatebenders_modellazy(filename, inst, pars; optimizer)
 
 
 
+
     pars.log_level == 0 && set_silent(m)
 
 
@@ -626,10 +627,23 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
     end
 
 
-
-    set_attribute(m, MOI.LazyConstraintCallback(), call_back_benders_lazy)
-    set_attribute(m, MOI.HeuristicCallback(), call_back_benders_heuristic)
-    set_attribute(m, MOI.UserCutCallback(), call_back_user_cuts)
+    try
+        set_attribute(m, MOI.LazyConstraintCallback(), call_back_benders_lazy)
+    catch
+        error("Your solver doesn't support Lazy Constraints Callback")
+    end
+    try
+        set_attribute(m, MOI.HeuristicCallback(), call_back_benders_heuristic)
+    catch
+        error("Your solver doesn't support Heuristic Constraints Callback")
+    end
+    try
+        set_attribute(m, MOI.UserCutCallback(), call_back_user_cuts)
+    catch
+        error("Your solver doesn't support UserCut Constraints Callback")
+    end
+    
+    
 
 
     optimize!(m)
