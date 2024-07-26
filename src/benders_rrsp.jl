@@ -221,7 +221,6 @@ function rrspcreatebenders_modellazy(filename, inst, pars; optimizer)
 
 
         ring = create_ring_edges_lazy(x̂_bool, n)
-        @show ring
         hubs = get_ring_nodes_lazy(ring, 1)
         pop!(hubs) # delete t (from s-t chain)
         x̂′_postopt, ŷ′_postopt = x̂′_bool, ŷ′_bool
@@ -706,12 +705,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
     @info "B : $(value(B))"
     @info "Blossom time : $(blossom_time)s"
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
-    nodecount = -1
-    try
-        nodecount = MOI.get(m, MOI.NodeCount())
-    catch e
-        @info "Getting Node Count is not supported by GLPK"
-    end
+
     return (
         m,
         t_time,

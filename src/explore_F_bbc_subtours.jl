@@ -239,13 +239,6 @@ function benders_st_optimize_explore!(
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
 
 
-    nodecount = -1
-    try
-        nodecount = MOI.get(m, MOI.NodeCount())
-    catch e
-        @info "Getting Node Count is not supported by GLPK"
-    end
-
     return (
         m,
         t_time,

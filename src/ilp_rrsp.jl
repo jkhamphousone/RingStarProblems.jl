@@ -497,12 +497,7 @@ function ilp_st_optimize_lazy!(m, x, y, x′, y′, f, V, n, r, pars, start_time
     @info "Nb blossom, Nb blossom pair : $(nblossom), $(nblossom_pair_inequality)"
     println("Objective : $(objective_value(m))")
 
-    nodecount = -1
-    try
-        nodecount = MOI.get(m, MOI.NodeCount())
-    catch e
-        @info "Getting Node Count is not supported by GLPK"
-    end
+
 
     return (
         m,
