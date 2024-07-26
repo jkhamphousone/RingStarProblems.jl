@@ -27,7 +27,6 @@ include("aqua.jl")
 		tildeV = 100,                       # uncertain nodes set
 		writeresults = false,               # output results locally, html or no output ""
 		plotting = false,                   # plot_results (to debug)
-		tildeV = 100,                       # uncertain nodes set
 		log_level = 1,                      # console output log_level
 		redirect_stdio = false,             # redirecting_stdio to output file
 		use_blossom = false,                # use blossom inequalities (not functional yet)
