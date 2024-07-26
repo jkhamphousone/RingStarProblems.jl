@@ -24,6 +24,7 @@ include("aqua.jl")
 		r_ij = Euclidian(),                 # ring costs
 		alpha = 3,                          # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
 		backup_factor = 0.01,               # backup_factor c'=0.01c and d'=0.01c
+		tildeV = 100,                       # uncertain nodes set
 		writeresults = false,               # output results locally, html or no output ""
 		plotting = false,                   # plot_results (to debug)
 		tildeV = 100,                       # uncertain nodes set
@@ -70,6 +71,22 @@ include("aqua.jl")
 		pars,
 		:eil51, 
         optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 15_000),
+		true,
+	) == 0
+
+	pars.tildeV = 50
+	@test rspoptimize(
+		pars,
+		:TinyInstance_10_3,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 1_000),
+		true,
+	) == 0
+
+	pars.tildeV = 0
+	@test rspoptimize(
+		pars,
+		:TinyInstance_10_3,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 1_000),
 		true,
 	) == 0
 end
