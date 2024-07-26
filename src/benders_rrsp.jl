@@ -73,7 +73,6 @@ function rrspcreatebenders_modellazy(filename, inst, pars; optimizer)
     d = inst.d
     start_time = time()
 
-    # o, r, rp, s, bar_offset = instance_transform_improved(inst, pars.inst_trans)
 
 
     m = Model(optimizer)
@@ -396,7 +395,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 
                     x′, sp_cost = compute_sp_res(x̂, ŷ, V, n, tildeV, rp, s)[[1, 3]] # TODO create simpler functions that do only compute backup ring cost and ring cost
                     hubs, master_ring_cost =
-                        compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
+                        compute_master_hubs_and_cost(x̂, V, n, o, r)
                     x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(
                         x̂,
                         x′,
@@ -520,7 +519,7 @@ function benders_st_optimize_lazy!(m, x, y, f, F, B, inst, pars, start_time; opt
 
                         x′, sp_cost = compute_sp_res(x̂, ŷ, V, n, tildeV, rp, s)[[1, 3]] # TODO create simpler functions that do only compute backup ring cost and ring cost
                         hubs, master_ring_cost =
-                            compute_master_hubs_and_cost(x̂, V, n, tildeV, o, r)
+                            compute_master_hubs_and_cost(x̂, V, n, o, r)
                         x_two_opt, x′_two_opt, two_opt_cost = run_two_opt_wiki(
                             x̂,
                             x′,
@@ -844,8 +843,7 @@ function compute_sp_res(x̂, ŷ, V, n, tildeV, r, s)
     return x′, y_sp, sp_cost
 end
 
-function compute_master_hubs_and_cost(x_opt, V, n, tildeV, o, r)
-    # TODO supprimer tildeV
+function compute_master_hubs_and_cost(x_opt, V, n, o, r)
     master_cost = 0.0
     H = Int[]
     for i in V

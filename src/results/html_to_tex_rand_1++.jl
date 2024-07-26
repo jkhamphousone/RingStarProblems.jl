@@ -32,9 +32,7 @@ function html_to_tex_both_TL(str, nrand, instance_name, ilp_here)
     end
 
     idx_shift_ben = idx_shift_ILP + 23 + 8
-    # if data_str[37+19][1] == '*'
-    #     idx_shift_ben = 7+19
-    # end
+
     @show data_str[42+idx_shift_ben]
     rBen = parse(Int, data_str[42+idx_shift_ben])
     Ben_time = parse(Float64, data_str[48+idx_shift_ben])

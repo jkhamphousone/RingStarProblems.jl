@@ -79,7 +79,7 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
             F_odd = 0
         end
         if length(δU) > 0
-            βU, F = compute_βU(δU, c_m, c′_m, F_odd) # This function returns beta(U) as in (10) in the paper of Letchford and Theis, "Odd minimum cut sets and b-matching revisited", see page 1484. It also returns F, the associated subset of edges.
+            βU, F = compute_βU(δU, c_m, c′_m, F_odd) # 
             if βU < r
                 best_F = F
                 best_U = U
@@ -98,10 +98,7 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
                 2 + 2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) -
                 floor((length(best_F) - 1) / 2.0)
             )
-            # @show "type 1"
-            # @show con
-            # @show best_U
-            # @show best_F
+
         elseif !(1 in best_U) && !(n + 1 in best_U)
             con = @build_constraint(
                 sum(sum(x[i, j] for i in best_U if i < j) for j in best_U) +
@@ -109,10 +106,7 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
                 2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) -
                 floor((length(best_F) - 1) / 2.0)
             )
-            # @show "type 2"
-            #     @show con
-            #     @show best_U
-            #     @show best_F
+
         else # either s or t is in best_U, but not both of them, this is a blossom pair inequality
             nblossom_pair_inequality += 1
             con = @build_constraint(
@@ -120,10 +114,7 @@ function create_blossom_inequalities(cb_data, x, y, n, nblossom_pair_inequality)
                 sum(x[mima(f[1], f[2])] for f in best_F) <=
                 2sum(y[i, i] for i in setdiff(best_U, 1, n + 1)) - div(length(best_F), 2)
             )
-            # @show "type 3 (blossom pair)"
-            #     @show con
-            #     @show best_U
-            #     @show best_F
+
         end
         return con, nblossom_pair_inequality
     end
@@ -134,6 +125,7 @@ end
     compute_βU(δU, c_m, c′_m, F_odd)
     
 This is step 5 of Algorithm 2
+Returns beta(U) as in (10) in the paper of Letchford and Theis, "Odd minimum cut sets and b-matching revisited", see page 1484. It also returns F, the associated subset of edges.
 """
 function compute_βU(δU, c_m, c′_m, F_odd)
     F = Tuple{Int,Int}[]
@@ -186,26 +178,17 @@ function create_cut_part_one(G, E_T, edge, n)
     incidence_matrix[edge[1], edge[2]] = 0 # Removing edge
     incidence_matrix[edge[2], edge[1]] = 0
 
-    # for i in 1:n+1
-    #     for j in 1:n+1
-    #         if incidence_matrix[i,j] == 1
-    #             @show i,j
-    #         end
-    #     end
-    # end
+
     g = SimpleGraph(incidence_matrix)
     X = connected_components(g)
     if length(X) > 2
         @show X
         println("Cut tree")
         @show E_T
-        # println()
     end
     for i in X[1]
         for j in X[2]
-            # if has_edge(G, i, j)
             push!(δU, (i, j))
-            # end
         end
     end
     return δU, X[1]
@@ -214,14 +197,7 @@ end
 
 function compute_cut_tree(n, G, c_min_m)
     p = ones(Int, n + 1)
-    # for i in 1:n+1
-    #     for j in i+1:n+1
-    #         if capacity_matrix[i,j] > 0
-    #             println("$i => $j [$(capacity_matrix[i,j])] ; ")
-    #         end
-    #     end
-    #     println()
-    # end
+
 
 
     fl = zeros(Float64, n + 1)
@@ -229,9 +205,7 @@ function compute_cut_tree(n, G, c_min_m)
     for s = 2:n+1
         t = p[s]
         part1, part2, flow = GraphsFlows.mincut(G, s, t, c_min_m, EdmondsKarpAlgorithm())
-        # @show part1
-        # @show part2
-        # @show flow
+
         X = s in part1 ? part1 : part2
         fl[s] = flow
         for i = 1:n+1
@@ -247,12 +221,9 @@ function compute_cut_tree(n, G, c_min_m)
             fl[t] = flow
         end
     end
-    # println("Cut tree")
     E_T = Tuple{Int,Int}[]
     for i = 2:n+1
         push!(E_T, (i, p[i]))
-        # print("$i => $(p[i]) [$(fl[i])],\n")
     end
-    # println()
     return E_T, fl
 end

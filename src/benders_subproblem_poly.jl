@@ -125,35 +125,7 @@ function debug_RingStarProblems(
             println()
         end
     end
-    # for i in V
-    #     for j in tildeV
-    #         for k in i+1:n+1
-    #             if i != j && j != k
-    #                 if β[i,j,k] > 0 || β_poly[i,j,k] > 0
-    #                     println("β[$i, $j, $k] = $(β[i,j,k]), β_poly[$i, $j, $k] = $(β_poly[i,j,k])")
-    #                 end
-    #             end
-    #         end
-    #     end
-    # end
-    # for i in V
-    #     for j in setdiff(tildeV, i)
-    #         if γ[i,j] > 0 || γ_poly[i,j] > 0
-    #             println("γ[$i, $j] = $(γ[i,j]), γ_poly[$i,$j] = $(γ_poly[i,j])")
-    #         end
-    #     end
-    # end
-    # for i in V
-    #     for j in tildeV
-    #         for k in i+1:n+1
-    #             if i != j && j != k
-    #                 if δ[i,j,k] > 0 || δ_poly[i,j,k] > 0 && !(i == 1 && k == n+1)
-    #                     println("δ[$i, $j, $k] = $(δ[i,j,k]), δ_poly[$i, $j, $k] = $(δ_poly[i,j,k]) cost[$(inst.d′[i,k == n+1 ? 1 : k])]")
-    #                 end
-    #             end
-    #         end
-    #     end
-    # end
+    
     for i in V
         for j in setdiff(V, i)
             if ζ[i, j] > 0 || ζ_poly[i, j] > 0

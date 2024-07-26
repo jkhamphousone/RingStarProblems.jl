@@ -142,6 +142,7 @@ function write_tikz_list_Fm_Sm(
 
 
 
+    # TODO: determine if the following should be removed 
     # str *= raw"\begin{figure}[ht!]
     # \begin{center}
     # \begin{tikzpicture}[scale=.2cm, xscale=2cm]

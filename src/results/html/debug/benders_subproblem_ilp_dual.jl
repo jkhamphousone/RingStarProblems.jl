@@ -67,11 +67,7 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level; optmizer)
         end
     end
 
-    # @show "λα: ", λα
-    # @show "λβ: ", λβ
-    # @show "λγ: ", λγ
-    # @show "λδ: ", λδ
-    # @show "λζ: ", λζ
+
 
 
     @show "test 3 b"
@@ -100,10 +96,8 @@ function sp_optimize_ilp_dual(x̂, ŷ, inst, log_level; optmizer)
         y′ij[i = V, j = tildeV; i != j],
         α[i] - d′[i, j]sum(γ[i, k] for k in setdiff(tildeV, i, j)) - ζ[i, j] <= 0
     )
-    # @constraint(sp_m, y′ij[i=V, j=setdiff(V,tildeV) ; i != j], α[i] - sum(d′[i,k]γ[i,k] for k in setdiff(tildeV, i, j)) - ζ[i,j] <= 0)
 
     @show "test 3 b.3"
-    # @constraint(sp_m, y′ij_bis[i=V, j=setdiff(V,tildeV, i)], α[i] - sum(d′[i,k]γ[i,k] for k in setdiff(V, tildeV, i, j)) - ζ[i,j] <= 0)
 
     @show "test 3 b.4"
     @constraint(

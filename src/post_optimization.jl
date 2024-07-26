@@ -124,13 +124,10 @@ function compute_B_critical_triple(inst, x̂, ŷ)
     V = 1:n
     for i in V
         for j ∈ i+1:n+1
-            # if j < n+1 && x̂[i,j]
             if x̂[i, j]
                 push!(adj[j], i)
                 push!(adj[i], j)
-                # elseif j == n+1 && x̂[i,j]
-                #     push!(adj[1], i)
-                #     push!(adj[i], 1)
+
             end
         end
     end

@@ -66,13 +66,9 @@ function run_two_opt_wiki(x_opt, x′, hubs, previous_cost, pars, n, r, rp, tild
                     improved_x_opt[mima(R[i], R[i_next])...] = false
                     pars.assert && @assert improved_x_opt[mima(R[j], R[j_next])...]
                     improved_x_opt[mima(R[j], R[j_next])...] = false
-                    # @assert improved_x′[mima(R[i_prev], R[i_next])...]
                     improved_x′[mima(R[i_prev], R[i_next])...] = false
-                    # @assert improved_x′[mima(R[i], R[i_nenext])...]
                     improved_x′[mima(R[i], R[i_nenext])...] = false
-                    # @assert improved_x′[mima(R[j_prev], R[j_next])...]
                     improved_x′[mima(R[j_prev], R[j_next])...] = false
-                    # @assert improved_x′[mima(R[j], R[j_nenext])...]
                     improved_x′[mima(R[j], R[j_nenext])...] = false
 
 
@@ -95,7 +91,6 @@ function run_two_opt_wiki(x_opt, x′, hubs, previous_cost, pars, n, r, rp, tild
                     end
                     start_swap = i_next
                     end_swap = j
-                    # @show div(nb_swap, 2), nb_swap
                     for _ = 1:div(nb_swap, 2)
                         R[start_swap], R[end_swap] = R[end_swap], R[start_swap]
                         start_swap += 1
@@ -109,7 +104,6 @@ function run_two_opt_wiki(x_opt, x′, hubs, previous_cost, pars, n, r, rp, tild
                     end
 
                     improving = true
-                    # @goto escape_label
                 end
 
                 j += 1
@@ -118,7 +112,6 @@ function run_two_opt_wiki(x_opt, x′, hubs, previous_cost, pars, n, r, rp, tild
                 end
             end
         end
-        # @label escape_label
     end
 
     pars.assert && @assert improved_cost <= previous_cost

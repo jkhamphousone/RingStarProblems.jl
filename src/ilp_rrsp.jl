@@ -80,8 +80,7 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
     @variable(m, B >= 0)
 
 
-    # @constraint(m, x′[1,n+1] == 0)
-    # @constraint(m, x[1,n+1] == 1)
+
     @constraint(m, number_hubs_1, sum(y[i, i] for i in V) >= 4)
 
 
@@ -102,7 +101,6 @@ function rrspcreate_ilplazy(filename, inst, pars, optimizer, solutionchecker = f
 
     @constraint(m, hub_or_star_7[i = V], sum(y[i, j] for j in V) == 1)
 
-    # @constraint(m, arc_or_edge_8[i=V,j=V; i != j], y[i,j] <= y[j,j] - x[mima(i,j)])
 
 
     for i in V

@@ -81,8 +81,6 @@ function benders_st_optimize_explore!(
             if nsubtour_cons[1] == nsubtour_cons_before
                 B_cb = callback_value(cb_data, B) * F
 
-                # B_cb = callback_value(cb_data, B)
-
                 start_time_sp = time()
 
                 B_val, α, β, γ, δ, ζ = sp_optimize_poly(x̂, ŷ, F, B_cb, inst)
@@ -94,7 +92,6 @@ function benders_st_optimize_explore!(
                 if B_cb < B_val
 
                     B_computed, i★, j★, k★ = compute_B_critical_tripletexplore(inst, x̂, ŷ)
-                    # @show i★, j★, k★
                     tildeJ = Set([
                         (i, j, k) for
                         i in V, j in tildeV, k in V′ if i != j && j != k && i < k
@@ -272,6 +269,11 @@ function benders_st_optimize_explore!(
     )
 end
 
+
+"""
+    Function to add Labbe subtour elimination constraints by lazy constraints
+    Caution, y is a 2-dimensional matrix, as x
+"""
 function createsubtour_constraintexplore!(
     m::Model,
     subtourlazy_cons,
@@ -283,8 +285,7 @@ function createsubtour_constraintexplore!(
     nsubtour_cons;
     is_ilp = false,
 )
-    # function to add Labbe subtour elimination constraints by lazy constraints
-    # caution, y is a 2-dimensional matrix, as x
+
     visited = falses(n + 1) # visited[i] = true iff i is a hub reachable from the depot
     N = [[] for i = 1:n+1]
     active_nodes = Set(Int[]) # Set of all hubs
@@ -523,13 +524,10 @@ function compute_B_critical_tripletexplore(inst, x̂, ŷ)
     V = 1:n
     for i in V
         for j = i+1:n+1
-            # if j < n+1 && x̂[i,j]
             if x̂[i, j] > 0.5
                 push!(adj[j], i)
                 push!(adj[i], j)
-                # elseif j == n+1 && x̂[i,j]
-                #     push!(adj[1], i)
-                #     push!(adj[i], 1)
+
             end
         end
     end
@@ -658,7 +656,6 @@ function rrspcreate_ilplazy(
         for k = i+1:n+1
             for j in tildeV
                 if j != i && j != k
-                    # @constraint(m_ilp, x_milp[mima(i, j)] + x_milp[mima(j, k)] <= y_milp[j, j] + x′_milp[mima(i, k)])
                     @constraint(
                         m_ilp,
                         x_milp[mima(i, j)] + x_milp[mima(j, k)] <= 1 + x′_milp[mima(i, k)]
@@ -717,9 +714,7 @@ function rrspcreate_ilplazy(
         y_milp[j, j]
     )
 
-    # if pars.ilpseparatingcons_method[1] == "with constraints (12)"
-    #     @constraint(m_ilp, backup_or_regular_arc_12[i=V, j=V; i != j], y′_milp[i, j] <= y_milp[j, j] - y_milp[i, j])
-    # end
+
 
     @constraint(
         m_ilp,
@@ -738,13 +733,6 @@ function rrspcreate_ilplazy(
     @show BSInf
 
 
-
-    # if pars.ilpseparatingcons_method[1] == "y_ij <= y_jj no constraint on the fly"
-    #     @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j])
-    # elseif pars.ilpseparatingcons_method[1] == "y_ij <= y_jj - x_ij no constraint on the fly"
-    #     @constraint(m_ilp, terminal_to_hub[i=V, j=setdiff(V, i)], y_milp[i, j] <= y_milp[j, j] - x_milp[mima(i, j)])
-    # end
-
     @info "Number of constraints in model is: $(num_constraints(m_ilp, AffExpr, MOI.GreaterThan{Float64}) + num_constraints(m_ilp, AffExpr, MOI.LessThan{Float64}))"
 
 
@@ -756,7 +744,6 @@ function rrspcreate_ilplazy(
     end
 
 
-    # @constraint(m_ilp, f_ilp(x_milp, y_milp) ≥ KSl)
 
     m_ilp,
     UB,
@@ -964,14 +951,12 @@ function ilp_st_optimize_lazyexplore!(
                 println("x[$j,$i)]=true")
                 set_start_value(x_milp[i, j], true)
             else
-                # println("x[$i,$j)]=false")
                 set_start_value(x_milp[i, j], false)
             end
             if (i, j) in ring_backup || (j, i) in ring_backup
                 println("x'[$(mima(i,j)[1]),$(mima(i,j)[2])]=true")
                 set_start_value(x′_milp[mima(i, j)], true)
             else
-                # println("x[$i,$j]=false")
                 set_start_value(x′_milp[mima(i, j)], false)
             end
         end

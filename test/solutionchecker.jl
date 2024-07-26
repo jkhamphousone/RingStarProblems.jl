@@ -3,7 +3,6 @@ function log_assert(filename, left_hs, operator, right_hs, error_str = "")
         @assert operator(left_hs, right_hs)
         println(error_str)
         println("filename: ", filename)
-        # @assert operator(left_hs, right_hs)
     end
 end
 
