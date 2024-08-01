@@ -155,12 +155,20 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 			ilp_table = read_ilp_table(input_filepath, pars.plot_id)
 		end
 
-		if pars.plotting && pars.writeresults != ""
+		if pars.plotting && pars.writeresults
 			if pars.solve_mod == ILP()
-				perform_plot(pars, inst, instdataname[1], ilp_table, true)
+				if ilp_table.sol.n != 0
+					perform_plot(pars, inst, instdataname[1], ilp_table, true)
+				else
+					@info "No feasible solution has been found by ILP within the solving time, can not perform plotting"
+				end
 			end
 			if pars.solve_mod == BranchBendersCut()
-				perform_plot(pars, inst, instdataname[1], benders_table, false)
+				if benders_table.sol.n != 0
+					perform_plot(pars, inst, instdataname[1], benders_table, false)
+				else
+					@info "No feasible solution has been found by B&BC within the solving time, can not perform plotting"
+				end
 			end
 		end
 		if pars.writeresults != ""

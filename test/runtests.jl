@@ -16,7 +16,7 @@ include("aqua.jl")
 
 
 	pars = SolverParameters(
-		solve_mod = BranchBendersCut(),     # ILP, or BranchBendersCut
+		solve_mod = BranchBendersCut(),     # ILP(), or BranchBendersCut()
 		F = 7,                              # total failing time F in days per year, see [`PhD manuscript`](https://theses.hal.science/tel-04319443)
 		sp_solve = Poly(),
 		o_i = 1,                            # opening costs
@@ -106,6 +106,14 @@ include("aqua.jl")
 
 	pars.tildeV = 0
 	pars.o_i = 0
+	@test rspoptimize(
+		pars,
+		:TinyInstance_10_3,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 1_000),
+		true,
+	) == 0
+
+	pars.solve_mod = ILP()
 	@test rspoptimize(
 		pars,
 		:TinyInstance_10_3,
