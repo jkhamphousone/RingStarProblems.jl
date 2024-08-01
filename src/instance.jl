@@ -175,8 +175,8 @@ function createinstance_rrsp(filename, α, pars)
         o = zeros(Float64, n)
         if pars.o_i == RandomInterval
             o = rand(RandomInterval.a:RandomInterval.b, n)
-        elseif pars.o_i == 1
-            o = ones(Float64, n)
+        elseif typeof(pars.o_i) == UInt
+            o = pars.o_i*ones(Float64, n)
         end
 
         open(random_filepath, "w") do f
@@ -211,7 +211,6 @@ function createinstance_rrsp(filename, α, pars)
 
         data = readdlm(filename[1])
         n = filename[2]
-        @assert α != 0
 
         V = 1:n
         tildeV = 2:Int(ceil(n * pars.tildeV / 100))
@@ -224,8 +223,8 @@ function createinstance_rrsp(filename, α, pars)
         o = zeros(Float64, n)
         if pars.o_i == RandomInterval
             o = rand(RandomInterval.a:RandomInterval.b, n)
-        elseif pars.o_i == 1
-            o = ones(Float64, n)
+        elseif typeof(pars.o_i) == UInt
+            o = pars.o_i*ones(Float64, n)
         end
 
         if filename[1][end-12:end] == "brazil58.tsp2"
@@ -270,7 +269,6 @@ function createinstance_rrsp(filename, α, pars)
             if filename[1][end-7:end] == "120.tsp2"
                 shift_n = 414 - 7
             end
-            succesfullread = true
 
             x_coors, y_coors = readcoordinates(data)
 
@@ -347,8 +345,74 @@ function createinstance_rrsp(filename, α, pars)
 end
 
 """
+    createinstance_rrsp(xycoordinates, α, pars)
+    `x` and `y` are coordinates of points
+
+    Return an RRSPInstance
+"""
+function createinstance_rrsp(xycoordinates::Vector{Tuple{Int, Int}}, α, pars)
+    n = length(xycoordinates)
+
+    x_coors, y_coors = first.(xycoordinates), last.(xycoordinates)
+
+    V = 1:n
+    tildeV = 2:Int(ceil(n * pars.tildeV / 100))
+    E = [(i, j) for i in V, j in V if i < j]
+    A = [(i, j) for i in V, j in V]
+    Ac = [(i, j) for i in V, j in V if i != j]
+
+    o = zeros(Float64, n)
+    if pars.o_i == RandomInterval
+        o = rand(RandomInterval.a:RandomInterval.b, n)
+    elseif typeof(pars.o_i) == UInt
+        o = pars.o_i*ones(Float64, n)
+    end
+
+    c = Dict(
+        (e[1], e[2]) => ceil_labbe(
+            distance(
+                [x_coors[e[1]], y_coors[e[1]]],
+                [x_coors[e[2]], y_coors[e[2]]],
+            ) * (α),
+        ) for e in E
+    )
+
+
+    for i ∈ 2:n
+        c[i, n+1] = c[1, i]
+    end
+    c[1, n+1] = 0
+
+
+    d = Dict(
+        (a[1], a[2]) => ceil_labbe(
+            distance(
+                [x_coors[a[1]], y_coors[a[1]]],
+                [x_coors[a[2]], y_coors[a[2]]],
+            ) * (10 - α),
+        ) for a in A
+    )
+
+    c′ = Dict{Tuple{Int,Int},Float64}()
+    d′ = Dict{Tuple{Int,Int},Float64}()
+    for kv in c
+        c′[kv[1]] = c[kv[1]] * pars.backup_factor
+    end
+    for kv in d
+        d′[kv[1]] = d[kv[1]] * pars.backup_factor
+    end
+    return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
+end
+
+
+
+
+
+
+"""
     readcoordinates(data)
 
+    first line and column of data contains the number of nodes and is ignored
     Return two vectors of coordinates read from data
 """
 function readcoordinates(data)

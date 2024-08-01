@@ -45,7 +45,7 @@ julia> pars = RSP.SolverParameters(
         s_ij           = RSP.Euclidian(),          # star costs
         r_ij           = RSP.Euclidian(),          # ring costs
         backup_factor  = 0.01,                     # backup_factor c'=0.01c and d'=0.01c
-        alpha          = 3,                         # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
+        alpha          = 3,                        # See [`Labbé et al., 2004`](ttps://doi.org/10.1002/net.10114)
         tildeV         = 100,                      # uncertain nodes set
         writeresults   = RSP.WHTML(),              # output results locally, WLocal(), WHTML() or no output false
         plotting       = false,                    # plot results to subfolder src/plots/results/
@@ -73,6 +73,23 @@ julia> using Gurobi
 julia> symbolinstance = :berlin52
 julia> RSP.rspoptimize(pars, symbolinstance, Gurobi.Optimizer)
 ```
+
+## Solving with nodes coordinates
+
+Either:
+```julia
+julia> x = 1:10
+julia> y = rand(1:10, 10)
+julia> RSP.rspoptimize(pars, x, y, Gurobi.Optimizer)
+```
+
+Or:
+```julia
+julia> xycoors = tuple.(1:10, rand(1:10, 10))
+julia> RSP.rspoptimize(pars, xycoors, Gurobi.Optimizer)
+```
+
+
 
 ## Plotting
 

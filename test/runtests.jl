@@ -36,6 +36,27 @@ include("aqua.jl")
 
 	include("solutionchecker.jl")
 
+	xycoordinates = tuple.(1:10, rand(1:10, 10))
+
+
+	@test rspoptimize(
+		pars,
+		xycoordinates,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+		true,
+	) == 0
+
+
+	x = 1:10
+	y = rand(1:10, 10)
+	@test rspoptimize(
+		pars,
+		x,
+		y,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+		true,
+	) == 0
+
 	@test rspoptimize(
 		pars,
 		:TinyInstance_10_3,
