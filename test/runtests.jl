@@ -19,7 +19,7 @@ include("aqua.jl")
 		solve_mod = BranchBendersCut(),     # ILP, or BranchBendersCut
 		F = 7,                              # total failing time F in days per year, see [`PhD manuscript`](https://theses.hal.science/tel-04319443)
 		sp_solve = Poly(),
-		o_i = 0,                            # opening costs
+		o_i = 1,                            # opening costs
 		s_ij = Euclidian(),                 # star costs
 		r_ij = Euclidian(),                 # ring costs
 		alpha = 3,                          # See [Labbé et al., 2004](ttps://doi.org/10.1002/net.10114)
@@ -63,12 +63,14 @@ include("aqua.jl")
 		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
 		true,
 	) == 0
+
 	@test rspoptimize(
 		pars,
 		:Instance_15_1_0_3_1,
-		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2), 
-        true,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+		true,
 	) == 0
+
 	@test rspoptimize(
 		pars,
 		:eil51,
@@ -81,16 +83,16 @@ include("aqua.jl")
 
 	@test rspoptimize(
 		pars,
-		:TinyInstance_12_2, 
-        optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
+		:TinyInstance_12_2,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
 		true,
 	) == 0
 	pars.sp_solve = LP()
 	pars.redirect_stdio = true
 	@test rspoptimize(
 		pars,
-		:eil51, 
-        optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 15_000),
+		:eil51,
+		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2, "tm_lim" => 15_000),
 		true,
 	) == 0
 
@@ -103,6 +105,7 @@ include("aqua.jl")
 	) == 0
 
 	pars.tildeV = 0
+	pars.o_i = 0
 	@test rspoptimize(
 		pars,
 		:TinyInstance_10_3,

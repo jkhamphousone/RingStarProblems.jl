@@ -11,7 +11,7 @@ The references:
 Introduce the Resilient Ring Star Problem (called 1-R-RSP).
 
 The package can solve 1-R-RSP thanks to:
- - A Branch-and-Benders-cut algorithm (refered to as B&BC)
+ - A Branch-and-Benders-cut algorithm (referred to as B&BC)
  - An Integer Linear Programming model (ILP)
 
 ## Ring Star Problem
@@ -26,7 +26,7 @@ When setting `backup_factor=0` or `tildeV=0`, 1-R-RSP reduces to RSP
 
 # Requirements
 
-[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can use CPLEX, GLPK, Gurobi, Xpress or any [solver that MOI.supports Lazy Constraints callback in JuMP](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
+[JuMP.jl](https://github.com/jump-dev/JuMP.jl) must be installed. You can use CPLEX, GLPK, Gurobi, Xpress or any [solver that supports Lazy Constraints callback in JuMP](https://jump.dev/JuMP.jl/stable/manual/callbacks/#Available-solvers).
 
 # Installation
 ```julia

@@ -127,8 +127,9 @@ function printinst(inst::RRSPInstance, pars)
 end
 
 function createinstance_rrsp(filename, α, pars)
+    
     random_filepath =
-        eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$(filename[1]).dat"
+        eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$(filename[2]).dat"
     if pars.nrand > 0 && !isfile(random_filepath)
         n = pars.nrand
         data = [1:1000 rand(1:1000, 1000) rand(1:1000, 1000)]
@@ -211,7 +212,6 @@ function createinstance_rrsp(filename, α, pars)
 
         data = readdlm(filename[1])
         n = filename[2]
-
         V = 1:n
         tildeV = 2:Int(ceil(n * pars.tildeV / 100))
         E = [(i, j) for i in V, j in V if i < j]
@@ -350,10 +350,10 @@ end
 
     Return an RRSPInstance
 """
-function createinstance_rrsp(xycoordinates::Vector{Tuple{Int, Int}}, α, pars)
-    n = length(xycoordinates)
+function createinstance_rrsp(instdataname::Tuple{Vector{Tuple{Int, Int}},Int}, α, pars)
+    n = length(instdataname[2])
 
-    x_coors, y_coors = first.(xycoordinates), last.(xycoordinates)
+    x_coors, y_coors = first.(instdataname[1]), last.(instdataname[1])
 
     V = 1:n
     tildeV = 2:Int(ceil(n * pars.tildeV / 100))
