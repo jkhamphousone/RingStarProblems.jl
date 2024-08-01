@@ -4,7 +4,7 @@
 """
 	rspoptimize(pars::SolverParameters, symbolinstance::Symbol, optimizer, solutionchecker = false)
 
-Return exit code 0
+Return exit succesful code 0
 """
 function rspoptimize(
 	pars::SolverParameters,
@@ -39,6 +39,43 @@ function rspoptimize(
 end
 
 
+
+
+"""
+	rspoptimize(pars::SolverParameters, xycoordinates::Vector{Tuple{Int,Int}}, optimizer, solutionchecker = false)
+
+	Return exit succesful code 0
+"""
+function rspoptimize(
+	pars::SolverParameters,
+	xycoordinates::Vector{Tuple{Int,Int}},
+	optimizer,
+	solutionchecker = false,
+)
+
+	instdataname = "xycoordinates_$(length(xycoordinates))", (xycoordinates, length(xycoordinates))
+
+	if pars.redirect_stdio
+		# redirect terminal outputs/stdio txycoordinateso file
+		now_file = Dates.format(Dates.now(), "yyyy-mm-dd_HHhMM")
+		now_folder = Dates.format(Dates.now(), "yyyy-mm-dd")
+		output_path = joinpath(@__DIR__, "debug", "stdio", "$now_folder")
+		mkpath(output_path)
+		redirect_stdio(
+			stdout = "$output_path/stdout_$(symbolinstance)_$now_file.txt",
+			stderr = "$output_path/stderr_$(symbolinstance)_$now_file.txt",
+		) do
+			main(pars, instdataname, optimizer, solutionchecker)
+			GC.gc()
+		end
+	end
+	main(pars, instdataname, optimizer, solutionchecker)
+	GC.gc()
+	return 0
+end
+
+
+
 function main(pars::SolverParameters, instdataname, optimizer, solutionchecker = false)
 
 
@@ -58,13 +95,13 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 		nstr_random = pars.nrand > 0 ? "_" * "$(pars.nrand)" : ""
 
 		if instdataname[1] == :RandomInstance
-			instdataname[2] = "$(instdataname[1])$(nstr_random)_o=$(replace(pars.o_i,":"=>"-"))_$(pars.r_ij)_s($(pars.s_ij))_ID$(rand_inst_id)"
+			instdataname[2][1] = "$(instdataname[1])$(nstr_random)_o=$(replace(pars.o_i,":"=>"-"))_$(pars.r_ij)_s($(pars.s_ij))_ID$(rand_inst_id)"
 			if pars.r_ij == pars.s_ij
-				instdataname[2] = "$(instdataname[1])$(nstr_random)_o$(replace(pars.o_i,":"=>"-"))_rs=l_ij_ID$(rand_inst_id)"
+				instdataname[2][1] = "$(instdataname[1])$(nstr_random)_o$(replace(pars.o_i,":"=>"-"))_rs=l_ij_ID$(rand_inst_id)"
 			end
 		end
 
-
+		
 		inst = createinstance_rrsp(instdataname[2], α, pars)
 
 		println("\nInstance: ", "$(instdataname[1])")
@@ -118,12 +155,20 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 			ilp_table = read_ilp_table(input_filepath, pars.plot_id)
 		end
 
-		if pars.plotting && pars.writeresults != ""
+		if pars.plotting && pars.writeresults
 			if pars.solve_mod == ILP()
-				perform_plot(pars, inst, instdataname[1], ilp_table, true)
+				if ilp_table.sol.n != 0
+					perform_plot(pars, inst, instdataname[1], ilp_table, true)
+				else
+					@info "No feasible solution has been found by ILP within the solving time, can not perform plotting"
+				end
 			end
 			if pars.solve_mod == BranchBendersCut()
-				perform_plot(pars, inst, instdataname[1], benders_table, false)
+				if benders_table.sol.n != 0
+					perform_plot(pars, inst, instdataname[1], benders_table, false)
+				else
+					@info "No feasible solution has been found by B&BC within the solving time, can not perform plotting"
+				end
 			end
 		end
 		if pars.writeresults != ""
@@ -143,3 +188,20 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 	GC.gc()
 	return 0
 end
+
+"""
+	rspoptimize(pars::SolverParameters, x::Vector{Int}, y::Vector{Int}, optimizer, solutionchecker = false)
+
+	Return exit succesful code 0
+"""
+rspoptimize(
+	pars::SolverParameters,
+	x, y,
+	optimizer,
+	solutionchecker,
+) = rspoptimize(
+	pars,
+	tuple.(x, y),
+	optimizer,
+	solutionchecker,
+)

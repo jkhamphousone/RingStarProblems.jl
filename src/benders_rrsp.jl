@@ -123,10 +123,10 @@ function rrspcreatebenders_modellazy(filename, inst, pars; optimizer)
 
     function f(x, y)
 
-        sum(sum(c[i, j] * x[i, j] for j in V if i < j; init = 0) for i in V) +
-        sum(c[1, i] * x[i, n+1] for i ∈ 2:n) +
-        sum(sum(d[i, j] * y[i, j] for j in V if i != j) for i in V) +
-        sum(o[i] * y[i, i] for i in V)
+        sum(sum(c[i, j] * x[i, j] for j in V if i < j; init = 0) for i in V; init = 0) +
+        sum(c[1, i] * x[i, n+1] for i ∈ 2:n ; init = 0) +
+        sum(sum(d[i, j] * y[i, j] for j in V if i != j; init = 0) for i in V; init = 0) +
+        sum(o[i] * y[i, i] for i in V; init = 0)
     end
 
     bestsol, bestobjval = three(inst.n, inst.o, inst.c, inst.d, tildeV)

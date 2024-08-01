@@ -127,8 +127,9 @@ function printinst(inst::RRSPInstance, pars)
 end
 
 function createinstance_rrsp(filename, α, pars)
+    
     random_filepath =
-        eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$(filename[1]).dat"
+        eval(@__DIR__) * "/instances/Instances_journal_article/RAND/$(filename[2]).dat"
     if pars.nrand > 0 && !isfile(random_filepath)
         n = pars.nrand
         data = [1:1000 rand(1:1000, 1000) rand(1:1000, 1000)]
@@ -142,47 +143,21 @@ function createinstance_rrsp(filename, α, pars)
         if α == 0
             error("Please define α")
         end
-        x_coors = data[1:n, 2]
-        y_coors = data[1:n, 3]
-        @assert pars.r_ij isa Euclidian
-        c = Dict(
-            (e[1], e[2]) => ceil_labbe(
-                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]),
-            ) for e in E
-        )
-
-
-        d = Dict(
-            (a[1], a[2]) =>
-                a[1] == a[2] ? 0 : round(1 / rand(Uniform(n / 2, 3n / 2)), digits = 5)
-            for a in A
-        )
-        if pars.s_ij isa Euclidian
-            d = Dict(
-                (a[1], a[2]) => ceil_labbe(
-                    distance(
-                        [x_coors[a[1]], y_coors[a[1]]],
-                        [x_coors[a[2]], y_coors[a[2]]],
-                    ),
-                ) for a in A
-            )
-        end
-        for i ∈ 2:n
-            c[i, n+1] = c[1, i]
-        end
-        c[1, n+1] = 0
+        xs = data[1:n, 2]
+        ys = data[1:n, 3]
+        c, d = createweights(xs, ys, A, pars.r_ij, pars.s_ij)
 
         o = zeros(Float64, n)
         if pars.o_i == RandomInterval
             o = rand(RandomInterval.a:RandomInterval.b, n)
-        elseif pars.o_i == 1
-            o = ones(Float64, n)
+        elseif typeof(pars.o_i) == UInt
+            o = pars.o_i*ones(Float64, n)
         end
 
         open(random_filepath, "w") do f
             println(f, "$n 0.0 $α")
             for i ∈ 1:n
-                println(f, "$i $(x_coors[i]) $(y_coors[i])")
+                println(f, "$i $(xs[i]) $(ys[i])")
             end
             println(f, "opening costs")
             for i ∈ 1:n
@@ -205,14 +180,12 @@ function createinstance_rrsp(filename, α, pars)
         for kv in d
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
-        return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
+        return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, xs, ys)
 
     elseif pars.nrand == 0
 
         data = readdlm(filename[1])
         n = filename[2]
-        @assert α != 0
-
         V = 1:n
         tildeV = 2:Int(ceil(n * pars.tildeV / 100))
         E = [(i, j) for i in V, j in V if i < j]
@@ -224,8 +197,8 @@ function createinstance_rrsp(filename, α, pars)
         o = zeros(Float64, n)
         if pars.o_i == RandomInterval
             o = rand(RandomInterval.a:RandomInterval.b, n)
-        elseif pars.o_i == 1
-            o = ones(Float64, n)
+        elseif typeof(pars.o_i) == UInt
+            o = pars.o_i*ones(Float64, n)
         end
 
         if filename[1][end-12:end] == "brazil58.tsp2"
@@ -270,15 +243,14 @@ function createinstance_rrsp(filename, α, pars)
             if filename[1][end-7:end] == "120.tsp2"
                 shift_n = 414 - 7
             end
-            succesfullread = true
 
-            x_coors, y_coors = readcoordinates(data)
+            xs, ys = readcoordinates(data)
 
             c = Dict(
                 (e[1], e[2]) => ceil_labbe(
                     distance(
-                        [x_coors[e[1]], y_coors[e[1]]],
-                        [x_coors[e[2]], y_coors[e[2]]],
+                        [xs[e[1]], ys[e[1]]],
+                        [xs[e[2]], ys[e[2]]],
                     ) * (α),
                 ) for e in E
             )
@@ -293,8 +265,8 @@ function createinstance_rrsp(filename, α, pars)
             d = Dict(
                 (a[1], a[2]) => ceil_labbe(
                     distance(
-                        [x_coors[a[1]], y_coors[a[1]]],
-                        [x_coors[a[2]], y_coors[a[2]]],
+                        [xs[a[1]], ys[a[1]]],
+                        [xs[a[2]], ys[a[2]]],
                     ) * (10 - α),
                 ) for a in A
             )
@@ -307,7 +279,7 @@ function createinstance_rrsp(filename, α, pars)
             for kv in d
                 d′[kv[1]] = d[kv[1]] * pars.backup_factor
             end
-            return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
+            return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, xs, ys)
         end
 
     else
@@ -318,19 +290,11 @@ function createinstance_rrsp(filename, α, pars)
         E = [(i, j) for i in V, j in V if i < j]
         A = [(i, j) for i in V, j in V]
         Ac = [(i, j) for i in V, j in V if i != j]
-        x_coors, y_coors = readcoordinates(data)
+        xs, ys = readcoordinates(data)
         o = data[n+3, 1:n]
-        @assert pars.r_ij isa Euclidian
-        c = Dict(
-            (e[1], e[2]) => ceil_labbe(
-                distance([x_coors[e[1]], y_coors[e[1]]], [x_coors[e[2]], y_coors[e[2]]]),
-            ) for e in E
-        )
 
-        for i ∈ 2:n
-            c[i, n+1] = c[1, i]
-        end
-        c[1, n+1] = 0
+        c, d = createweights(xs, ys, A, pars.r_ij, pars.s_ij)
+
         d_data = data[n+5:2n+4, 1:n]
         d = Dict((a[1], a[2]) => d_data[a[1], a[2]] for a in A)
         c′ = Dict{Tuple{Int,Int},Float64}()
@@ -342,42 +306,152 @@ function createinstance_rrsp(filename, α, pars)
             d′[kv[1]] = d[kv[1]] * pars.backup_factor
         end
 
-        return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, x_coors, y_coors)
+        return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, xs, ys)
     end
 end
 
 """
+    createinstance_rrsp(xycoordinates, α, pars)
+    `x` and `y` are coordinates of points
+
+    Return an RRSPInstance
+"""
+function createinstance_rrsp(instdataname::Tuple{Vector{Tuple{Int, Int}},Int}, α, pars)
+    n = length(instdataname[2])
+
+    xs, ys = first.(instdataname[1]), last.(instdataname[1])
+
+    V = 1:n
+    tildeV = 2:Int(ceil(n * pars.tildeV / 100))
+    E = [(i, j) for i in V, j in V if i < j]
+    A = [(i, j) for i in V, j in V]
+    Ac = [(i, j) for i in V, j in V if i != j]
+
+    o = zeros(Float64, n)
+    if pars.o_i == RandomInterval
+        o = rand(RandomInterval.a:RandomInterval.b, n)
+    elseif typeof(pars.o_i) == UInt
+        o = pars.o_i*ones(Float64, n)
+    end
+
+    c = Dict(
+        (e[1], e[2]) => ceil_labbe(
+            distance(
+                [xs[e[1]], ys[e[1]]],
+                [xs[e[2]], ys[e[2]]],
+            ) * (α),
+        ) for e in E
+    )
+
+
+    for i ∈ 2:n
+        c[i, n+1] = c[1, i]
+    end
+    c[1, n+1] = 0
+
+
+    d = Dict(
+        (a[1], a[2]) => ceil_labbe(
+            distance(
+                [xs[a[1]], ys[a[1]]],
+                [xs[a[2]], ys[a[2]]],
+            ) * (10 - α),
+        ) for a in A
+    )
+
+    c′ = Dict{Tuple{Int,Int},Float64}()
+    d′ = Dict{Tuple{Int,Int},Float64}()
+    for kv in c
+        c′[kv[1]] = c[kv[1]] * pars.backup_factor
+    end
+    for kv in d
+        d′[kv[1]] = d[kv[1]] * pars.backup_factor
+    end
+    return RRSPInstance(n, V, tildeV, pars.F, o, α, c, c′, d, d′, xs, ys)
+end
+
+
+
+
+
+
+"""
     readcoordinates(data)
 
+    first line and column of data contains the number of nodes and is ignored
     Return two vectors of coordinates read from data
 """
 function readcoordinates(data)
 
     n_start = 2
-    x_coors = Float64[]
-    y_coors = Float64[]
-    while length(x_coors) == 0
+    xs = Float64[]
+    ys = Float64[]
+    while length(xs) == 0
         try
             if data[end, 2] == ""
-                x_coors = Float64.(data[n_start:end-1, 2])
+                xs = Float64.(data[n_start:end-1, 2])
             else
-                x_coors = Float64.(data[n_start:end, 2])
+                xs = Float64.(data[n_start:end, 2])
             end
         catch
             n_start += 1
         end
     end
     n_start = 2
-    while length(y_coors) == 0
+    while length(ys) == 0
         try
             if data[end, 2] == ""
-                y_coors = Float64.(data[n_start:end-1, 3])
+                ys = Float64.(data[n_start:end-1, 3])
             else
-                y_coors = Float64.(data[n_start:end, 3])
+                ys = Float64.(data[n_start:end, 3])
             end
         catch
             n_start += 1
         end
     end
-    return x_coors, y_coors
+    return xs, ys
+end
+
+
+function createweights(xs, ys, A, r_ij, s_ij)
+    if r_ij isa RandomInterval
+        c = Dict(
+            (a[1], a[2]) =>
+                a[1] == a[2] ? 0 : rand(pars.r_ij[1]:pars.r_ij[2])
+            for a in A
+        )
+    end
+    if r_ij isa Euclidian
+        c = Dict(
+            (e[1], e[2]) => ceil_labbe(
+                distance([xs[e[1]], ys[e[1]]], [xs[e[2]], ys[e[2]]]),
+            ) for e in E
+        )
+    end
+
+    if s_ij isa RandomInterval
+        d = Dict(
+            (a[1], a[2]) =>
+                a[1] == a[2] ? 0 : rand(pars.r_ij[1]:pars.r_ij[2])
+            for a in A
+        )
+    end
+    if s_ij isa Euclidian
+        d = Dict(
+            (a[1], a[2]) => ceil_labbe(
+                distance(
+                    [xs[a[1]], ys[a[1]]],
+                    [xs[a[2]], ys[a[2]]],
+                ),
+            ) for a in A
+        )
+    end
+    
+    for i ∈ 2:n
+        c[i, n+1] = c[1, i]
+    end
+    c[1, n+1] = 0
+
+
+    return c, d
 end
