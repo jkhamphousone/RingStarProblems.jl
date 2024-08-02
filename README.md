@@ -76,20 +76,11 @@ julia> RSP.rspoptimize(pars, symbolinstance, Gurobi.Optimizer)
 
 ## Solving with nodes coordinates
 
-Either:
-```julia
-julia> x = 1:10
-julia> y = rand(1:10, 10)
-julia> RSP.rspoptimize(pars, x, y, Gurobi.Optimizer)
-```
 
-Or:
 ```julia
 julia> xycoors = tuple.(1:10, rand(1:10, 10))
-julia> RSP.rspoptimize(pars, xycoors, Gurobi.Optimizer)
+julia> RSP.rspoptimize(pars, xycoors, GLPK.Optimizer)
 ```
-
-
 
 ## Plotting
 

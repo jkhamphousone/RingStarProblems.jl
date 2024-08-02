@@ -316,7 +316,7 @@ end
 
     Return an RRSPInstance
 """
-function createinstance_rrsp(instdataname::Tuple{Vector{Tuple{Int, Int}},Int}, α, pars)
+function createinstance_rrsp(instdataname::Tuple{AbstractVector{Tuple{T, U}},Int}, α, pars) where {T<:Real, U<:Real}
     n = length(instdataname[2])
 
     xs, ys = first.(instdataname[1]), last.(instdataname[1])

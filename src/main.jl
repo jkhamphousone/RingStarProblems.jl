@@ -42,16 +42,16 @@ end
 
 
 """
-	rspoptimize(pars::SolverParameters, xycoordinates::Vector{Tuple{Int,Int}}, optimizer, solutionchecker = false)
+	rspoptimize(pars::SolverParameters, xycoordinates::AbstractVector{Tuple{T,T}}, optimizer, solutionchecker = false) where {T <: Real}
 
 	Return exit succesful code 0
 """
 function rspoptimize(
 	pars::SolverParameters,
-	xycoordinates::Vector{Tuple{Int,Int}},
+	xycoordinates::AbstractVector{Tuple{T,U}},
 	optimizer,
 	solutionchecker = false,
-)
+) where {T <: Real, U <: Real}
 
 	instdataname = "xycoordinates_$(length(xycoordinates))", (xycoordinates, length(xycoordinates))
 
@@ -155,7 +155,7 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 			ilp_table = read_ilp_table(input_filepath, pars.plot_id)
 		end
 
-		if pars.plotting && pars.writeresults
+		if pars.plotting && pars.writeresults != false
 			if pars.solve_mod == ILP()
 				if ilp_table.sol.n != 0
 					perform_plot(pars, inst, instdataname[1], ilp_table, true)
@@ -188,20 +188,3 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 	GC.gc()
 	return 0
 end
-
-"""
-	rspoptimize(pars::SolverParameters, x::Vector{Int}, y::Vector{Int}, optimizer, solutionchecker = false)
-
-	Return exit succesful code 0
-"""
-rspoptimize(
-	pars::SolverParameters,
-	x, y,
-	optimizer,
-	solutionchecker,
-) = rspoptimize(
-	pars,
-	tuple.(x, y),
-	optimizer,
-	solutionchecker,
-)

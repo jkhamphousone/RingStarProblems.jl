@@ -36,7 +36,7 @@ include("aqua.jl")
 
 	include("solutionchecker.jl")
 
-	xycoordinates = tuple.(1:10, rand(1:10, 10))
+	xycoordinates = tuple.(vcat(1:9,1/3), rand(1:10, 10))
 
 
 	@test rspoptimize(
@@ -46,16 +46,6 @@ include("aqua.jl")
 		true,
 	) == 0
 
-
-	x = 1:10
-	y = rand(1:10, 10)
-	@test rspoptimize(
-		pars,
-		x,
-		y,
-		optimizer_with_attributes(GLPK.Optimizer, "msg_lev" => 2),
-		true,
-	) == 0
 
 	@test rspoptimize(
 		pars,
