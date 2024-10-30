@@ -30,11 +30,11 @@ function rspoptimize(
 			stderr = "$output_path/stderr_$(symbolinstance)_$now_file.txt",
 		) do
 			main(pars, instdataname, optimizer, solutionchecker)
-			GC.gc()
+			# GC.gc()
 		end
 	end
 	main(pars, instdataname, optimizer, solutionchecker)
-	GC.gc()
+	# GC.gc()
 	return 0
 end
 
@@ -66,11 +66,11 @@ function rspoptimize(
 			stderr = "$output_path/stderr_$(symbolinstance)_$now_file.txt",
 		) do
 			main(pars, instdataname, optimizer, solutionchecker)
-			GC.gc()
+			# GC.gc()
 		end
 	end
 	main(pars, instdataname, optimizer, solutionchecker)
-	GC.gc()
+	# GC.gc()
 	return 0
 end
 
@@ -185,7 +185,7 @@ function main(pars::SolverParameters, instdataname, optimizer, solutionchecker =
 			)
 		end
 	end
-	GC.gc()
+	# GC.gc()
 	return 0
 end
 

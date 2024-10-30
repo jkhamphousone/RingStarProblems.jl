@@ -29,7 +29,7 @@ using .SPSolve
 module WResults
 struct WHTML end
 struct WLocal end
-const UWriteResults = Union{WHTML,WLocal,Bool}
+const UWriteResults = Union{WHTML,WLocal,Bool,String}
 export WHTML, WLocal, UWriteResults
 end
 using .WResults

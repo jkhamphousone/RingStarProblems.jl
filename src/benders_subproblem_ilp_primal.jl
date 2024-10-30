@@ -10,7 +10,7 @@ function sp_optimize_ilp_primal(x̂, ŷ, inst, pars; optimizer)
 
     sp_m = Model(optimizer)
     if pars.log_level <= 0
-        set_silent(m)
+        set_silent(sp_m)
     end
 
     @variable(sp_m, x′[i = V, j = V′; i < j] >= 0)
